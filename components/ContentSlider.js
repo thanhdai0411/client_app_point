@@ -11,9 +11,10 @@ import {
 import React from 'react';
 import Swiper from 'react-native-swiper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Coin from '../components/Coin';
+import { box_shadow } from './GlobalStyles';
 
 const { width, height } = Dimensions.get('window');
-
 let dataContent = [
     {
         img: require('../assets/img/b1.jpg'),
@@ -35,15 +36,25 @@ const ContentSlider = ({
     autoplay = false,
     onPressShowAll,
     onPressImg,
+    isCoin = true,
+    isTitle = true,
+    backgroundColorContainer = '#fff',
+    containerMarginTop = 10,
 }) => {
     return (
-        <View style={styles.container}>
-            <View style={styles.title}>
-                <Text style={styles.title_left}>{title_left}</Text>
-                <Text style={styles.title_right} onPress={onPressShowAll}>
-                    Tất cả
-                </Text>
-            </View>
+        <View
+            style={{
+                marginTop: containerMarginTop,
+                backgroundColor: backgroundColorContainer,
+            }}>
+            {isTitle && (
+                <View style={styles.title}>
+                    <Text style={styles.title_left}>{title_left}</Text>
+                    <Text style={styles.title_right} onPress={onPressShowAll}>
+                        Tất cả
+                    </Text>
+                </View>
+            )}
 
             <Swiper
                 style={styles.wrapper}
@@ -52,34 +63,25 @@ const ContentSlider = ({
                 autoplayTimeout={timePlay}>
                 {data.map((item, index) => (
                     <TouchableOpacity
+                        key={index}
                         activeOpacity={0.5}
                         accessible={true}
                         onPress={onPressImg}>
-                        <View style={styles.slide1}>
+                        <View style={{ ...styles.slide1, ...box_shadow }}>
                             <Image
                                 source={item.img}
                                 style={styles.slide_img}
                                 resizeMode="stretch"
                             />
-                            <View style={styles.icon_coin}>
-                                <FontAwesome5
-                                    name="coins"
-                                    size="23"
-                                    color="yellow"
-                                    // style={styles.header_number_icon}
+                            {isCoin && (
+                                <Coin
+                                    top={-50}
+                                    left={-120}
+                                    paddingHorizontal={20}
+                                    marginBottom={-20}
+                                    width={90}
                                 />
-                                <Text
-                                    style={{
-                                        color: '#fff',
-                                        fontWeight: 'bold',
-                                        fontSize: 20,
-                                    }}>
-                                    {' '}
-                                    100
-                                </Text>
-                            </View>
-                            <Image />
-                            {/* <Text style={styles.text}>Hello Swiper</Text> */}
+                            )}
                         </View>
                     </TouchableOpacity>
                 ))}
@@ -91,10 +93,7 @@ let primary_color = '#006db6';
 
 const styles = StyleSheet.create({
     container: {
-        // marginHorizontal: 20
         marginTop: 10,
-        // marginBottom: 20,
-        // paddingBottom: 20,
         backgroundColor: '#fff',
     },
     title: {
@@ -114,9 +113,6 @@ const styles = StyleSheet.create({
         color: 'red',
     },
     wrapper: {
-        // top: 20,
-        // width: width,
-        // height: 200,
         marginTop: 3,
         height: 190,
     },
@@ -124,35 +120,18 @@ const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 3,
     },
     slide_img: {
-        overflow: 'hidden',
-        shadowColor: 'red',
-        shadowRadius: 10,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: '#ddd',
         width: '95%',
         height: 170,
         borderRadius: 20,
-    },
-    icon_coin: {
-        backgroundColor: primary_color,
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: 'white',
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        top: -50,
-        left: -120,
-        justifyContent: 'center',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    text: {
-        color: '#fff',
-        fontSize: 30,
-        fontWeight: 'bold',
     },
 });
 

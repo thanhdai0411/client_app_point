@@ -31,7 +31,15 @@ const Login = () => {
                 />
             </View>
 
-            <ButtonCustom name="Tiếp tục" />
+            <ButtonCustom
+                name="Tiếp tục"
+                sizeText={20}
+                weightText="bold"
+                backgroundColor={'orange'}
+                borderWidth={2}
+                borderColor="pink"
+                marginTop={30}
+            />
         </View>
     );
 };
@@ -57,7 +65,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     login_info_number: {
-        marginHorizontal: 10,
+        marginHorizontal: 25,
     },
     login_number: {
         fontSize: 25,

@@ -1,31 +1,41 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const ButtonCustom = ({ name, onPress, ...styleBtn }) => {
+let primary_color = '#006db6';
+const ButtonCustom = ({
+    name,
+    onPress,
+    iconBtn = null,
+    opacityBtn = 0.5,
+    colorText = 'white',
+    sizeText = 17,
+    weightText = '500',
+    ...styleProp
+}) => {
+    const {} = styleProp;
     return (
-        <TouchableOpacity onPress={onPress} style={styles.intro_btn}>
-            <Text style={styles.intro_text_btn}>{name}</Text>
+        <TouchableOpacity
+            activeOpacity={opacityBtn}
+            onPress={onPress}
+            style={{
+                alignItems: 'center',
+                backgroundColor: primary_color,
+                padding: 15,
+                textAlign: 'center',
+                marginHorizontal: 100,
+                borderRadius: 100,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                ...styleProp,
+            }}>
+            {iconBtn}
+            <Text
+                style={{ color: colorText, fontSize: sizeText, fontWeight: weightText }}>
+                {name}
+            </Text>
         </TouchableOpacity>
     );
 };
-let primary_color = '#006db6';
-
-const styles = StyleSheet.create({
-    intro_btn: {
-        alignItems: 'center',
-        backgroundColor: primary_color,
-        padding: 15,
-        textAlign: 'center',
-        marginHorizontal: 100,
-        borderRadius: 100,
-        marginTop: 50,
-        outline: 'none',
-    },
-    intro_text_btn: {
-        color: 'white',
-        fontSize: 17,
-        fontWeight: 'bold',
-    },
-});
 
 export default ButtonCustom;

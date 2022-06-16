@@ -4,6 +4,8 @@ import AppLoading from 'expo-app-loading';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import Coin from '../../../components/Coin';
 import {
     useFonts,
     Poppins_300Light,
@@ -11,6 +13,7 @@ import {
     Poppins_500Medium,
     Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
+import { box_shadow } from '../../../components/GlobalStyles';
 
 export default function HomeHeader() {
     let [fontsLoaded] = useFonts({
@@ -31,15 +34,7 @@ export default function HomeHeader() {
                     <Text style={styles.header_name}>
                         Thanh Dai<Text> ơi !</Text>
                     </Text>
-                    <View style={styles.header_coin}>
-                        <FontAwesome5
-                            name="coins"
-                            size="20"
-                            color="yellow"
-                            style={styles.header_number_icon}
-                        />
-                        <Text style={styles.header_number_coins}> 100</Text>
-                    </View>
+                    <Coin count={100} width={90} />
                     <Image />
                 </View>
                 <View>
@@ -50,7 +45,7 @@ export default function HomeHeader() {
                 </View>
             </View>
             {/* Category */}
-            <View style={styles.header_category}>
+            <View style={{ ...styles.header_category, ...box_shadow }}>
                 <View style={styles.header_category_container}>
                     <View style={styles.header_category_item}>
                         <Ionicons name="barcode" size="40" color="orange" />

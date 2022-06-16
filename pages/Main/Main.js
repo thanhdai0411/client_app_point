@@ -1,17 +1,17 @@
-import { View, Tex, TouchableOpacity, Animated, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, Button } from 'react-native';
 import React, { useRef } from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Home from './HomePage/Home';
-import Info from './Info';
+import Shopping from './ShoppingPage/Shopping';
 import Notify from './Notify';
-import Account from './Account';
+import Account from './AccountPage/Account';
 import Accumulate from './Accumulate';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,31 +46,63 @@ const Main = ({ navigation }) => {
                 }}
             />
             <Tab.Screen
-                name="Thông tin"
-                component={Info}
+                name="Mua sắm"
+                component={Shopping}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <TouchableOpacity
                             activeOpacity={0.5}
-                            onPress={() => navigation.navigate('Thông tin')}>
+                            onPress={() => navigation.navigate('Mua sắm')}>
                             <View
                                 style={{
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}>
-                                <MaterialCommunityIcons
-                                    name="information-outline"
+                                <AntDesign
+                                    name="shoppingcart"
                                     size={30}
                                     color={focused ? 'red' : 'black'}
                                 />
                             </View>
                         </TouchableOpacity>
                     ),
-                    tabBarLabel: 'Thông tin',
+                    tabBarLabel: 'Mua sắm',
                     tabBarLabelStyle: { fontSize: 13, fontWeight: '400' },
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',
-                    title: 'Thông tin liên hệ',
+                    title: 'Mua sắm tiện lợi',
+                    headerTitleStyle: {
+                        fontSize: 20,
+                        // marginTop: 20
+                    },
+                    headerStyle: {
+                        height: 100,
+                    },
+                    headerRight: () => (
+                        <>
+                            <AntDesign
+                                name="shoppingcart"
+                                size={35}
+                                color={'black'}
+                                style={{ marginRight: 35, marginTop: 20 }}
+                            />
+                            <View
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    backgroundColor: 'orange',
+                                    top: -45,
+                                    right: 20,
+                                    borderRadius: 50,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <Text style={{ color: 'white', fontWeight: 'bold' }}>
+                                    2
+                                </Text>
+                            </View>
+                        </>
+                    ),
                 }}
             />
 
@@ -136,12 +168,17 @@ const Main = ({ navigation }) => {
                     tabBarLabelStyle: { fontSize: 13, fontWeight: '400' },
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',
+                    headerTitleStyle: {
+                        fontSize: 25,
+                        // marginTop: 20
+                    },
                 }}
             />
             <Tab.Screen
                 name="Tài khoản"
                 component={Account}
                 options={{
+                    headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <TouchableOpacity
                             activeOpacity={0.5}

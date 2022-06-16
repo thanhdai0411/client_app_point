@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import React, { useRef, useState } from 'react';
+import ButtonCustom from '../components/Button';
 
 // width , height display device
 const { width, height } = Dimensions.get('window');
@@ -63,7 +64,7 @@ const Introduce = ({ navigation }) => {
         scrollView.current.scrollTo({ x: width * count, y: height, animated: true });
         if (count == 3) count = 0;
     };
-   
+
     const handlePressBtnStart = () => {
         navigation.navigate('Login');
     };
@@ -111,24 +112,22 @@ const Introduce = ({ navigation }) => {
                                 imgActive == index
                                     ? styles.intro_dotActive
                                     : styles.intro_dot
-                            }>
-                            
-                            </View>
+                            }></View>
                     ))}
                 </View>
 
                 {imgActive >= dataBanner.length - 1 ? (
-                    <TouchableOpacity
+                    <ButtonCustom
                         onPress={handlePressBtnStart}
-                        style={styles.intro_btn}>
-                        <Text style={styles.intro_text_btn}>Bắt Đầu</Text>
-                    </TouchableOpacity>
+                        name="Bắt Đầu"
+                        marginTop={50}
+                    />
                 ) : (
-                    <TouchableOpacity
+                    <ButtonCustom
                         onPress={handlePressBtnContinue}
-                        style={styles.intro_btn}>
-                        <Text style={styles.intro_text_btn}>Tiếp Tục</Text>
-                    </TouchableOpacity>
+                        name="Tiếp tục"
+                        marginTop={50}
+                    />
                 )}
             </View>
         </SafeAreaView>

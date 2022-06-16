@@ -16,23 +16,6 @@ import ContentSlider from '../../../components/ContentSlider';
 
 const HomeBody = () => {
     const [imgActive, setImgActive] = useState(0);
-    const [autoScroll, setAutoScroll] = useState(0);
-    const scrollView = useRef();
-
-    const dataBanner = [
-        {
-            img: require('../../../assets/img/img_6.jpg'),
-        },
-        {
-            img: require('../../../assets/img/tich_diem.jpg'),
-        },
-        {
-            img: require('../../../assets/img/img_7.png'),
-        },
-        {
-            img: require('../../../assets/img/img_4.jpg'),
-        },
-    ];
 
     const dataType = [
         {
@@ -94,54 +77,29 @@ const HomeBody = () => {
             img: require('../../../assets/img/tich_diem.jpg'),
         },
     ];
-    const handleScroll = ({ nativeEvent }) => {
-        const active = Math.ceil(
-            nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width
-        );
-
-        if (active > dataBanner.length - 1) {
-            setImgActive(dataBanner.length - 1);
-        } else {
-            setImgActive(active);
-        }
-    };
 
     return (
         <View style={styles.home_body}>
             {/* Banner */}
-            {/* <View>
-                <ScrollView
-                    horizontal
-                    onScroll={handleScroll}
-                    pagingEnabled
-                    showsHorizontalScrollIndicator={false}
-                    scrollEventThrottle={0}
-                    automaticallyAdjustContentInsets
-                    style={styles.home_body_wrap}
-                    ref={scrollView}>
-                    {dataBanner.map((item, index) => (
-                        <View style={styles.home_body_wrap_img} key={index}>
-                            <Image
-                                source={item.img}
-                                resizeMode="stretch"
-                                style={styles.home_body_img}
-                            />
-                        </View>
-                    ))}
-                </ScrollView>
-
-                <View style={styles.home_body_wrap_dots}>
-                    {dataBanner.map((item, index) => (
-                        <View
-                            key={index}
-                            style={
-                                imgActive == index
-                                    ? styles.home_body_dotActive
-                                    : styles.home_body_dot
-                            }></View>
-                    ))}
-                </View>
-            </View> */}
+            <ContentSlider
+                isCoin={false}
+                data={[
+                    {
+                        img: require('../../../assets/img/b2.png'),
+                    },
+                    {
+                        img: require('../../../assets/img/b3.jpg'),
+                    },
+                    {
+                        img: require('../../../assets/img/b4.jpg'),
+                    },
+                ]}
+                autoplay={true}
+                timePlay={8}
+                isTitle={false}
+                backgroundColorContainer={null}
+                containerMarginTop={70}
+            />
             {/* end Banner */}
 
             {/* type */}
@@ -165,10 +123,15 @@ const HomeBody = () => {
                 autoplay={false}
                 title_left={'Có không đổi hết đừng buồn 😆'}
             />
+
             <ContentSlider
-                data={dataContent}
+                data={[
+                    {
+                        img: require('../../../assets/img/b4.jpg'),
+                    },
+                ]}
                 autoplay={false}
-                title_left={'Hẹn ở đâu đây 😆'}
+                title_left={'Hốt ngay thôi 🔥'}
             />
 
             {/* end slider content */}
@@ -178,7 +141,7 @@ const HomeBody = () => {
 
 let primary_color = '#006db6';
 let header_color = '#ff9300';
-let body_color = '#ddd';
+let body_color = '#eee';
 
 const styles = StyleSheet.create({
     home_body: {
@@ -237,7 +200,7 @@ const styles = StyleSheet.create({
     },
     body_type_wrap: {
         backgroundColor: '#fff',
-        marginTop: 70,
+        marginTop: -2,
         paddingHorizontal: 8,
         paddingVertical: 15,
     },
