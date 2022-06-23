@@ -50,9 +50,9 @@ const ContentSlider = ({
             {isTitle && (
                 <View style={styles.title}>
                     <Text style={styles.title_left}>{title_left}</Text>
-                    <Text style={styles.title_right} onPress={onPressShowAll}>
-                        Tất cả
-                    </Text>
+                    <TouchableOpacity onPress={onPressShowAll} activeOpacity={0.3}>
+                        <Text style={styles.title_right}>Tất cả</Text>
+                    </TouchableOpacity>
                 </View>
             )}
 

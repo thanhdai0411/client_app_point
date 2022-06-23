@@ -14,55 +14,53 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ContentSlider from '../../../components/ContentSlider';
 
-const HomeBody = () => {
-    const [imgActive, setImgActive] = useState(0);
-
+const HomeBody = ({ navigation }) => {
     const dataType = [
         {
-            icon: <Ionicons name="fast-food-outline" size="50" color="#FCDA05" />,
+            icon: <Ionicons name="fast-food-outline" size={50} color="#FCDA05" />,
             description: 'Ẩm thực',
         },
         {
-            icon: <Ionicons name="game-controller-outline" size="50" color="#EC9B3B" />,
+            icon: <Ionicons name="game-controller-outline" size={50} color="#EC9B3B" />,
             description: 'Giải trí',
         },
         {
             icon: (
                 <MaterialCommunityIcons
                     name="face-woman-shimmer-outline"
-                    size="50"
+                    size={50}
                     color="#F4BFBF"
                 />
             ),
             description: 'Làm đẹp',
         },
         {
-            icon: <AntDesign name="skin" size="50" color="#14C38E" />,
+            icon: <AntDesign name="skin" size={50} color="#14C38E" />,
             description: 'Thời trang',
         },
         {
             icon: (
                 <MaterialCommunityIcons
                     name="lightbulb-on-outline"
-                    size="50"
+                    size={50}
                     color="#FF1F5A"
                 />
             ),
             description: 'Tiện ích',
         },
         {
-            icon: <AntDesign name="book" size="50" color="#6088BB" />,
+            icon: <AntDesign name="book" size={50} color="#6088BB" />,
             description: 'Giáo dục',
         },
         {
-            icon: <AntDesign name="shoppingcart" size="50" color="#9D2503" />,
+            icon: <AntDesign name="shoppingcart" size={50} color="#9D2503" />,
             description: 'Mua sắm',
         },
         {
             icon: (
                 <MaterialCommunityIcons
                     name="collapse-all-outline"
-                    size="50"
+                    size={50}
                     color="#AD8C45"
                 />
             ),
@@ -94,44 +92,29 @@ const HomeBody = () => {
                         img: require('../../../assets/img/b4.jpg'),
                     },
                 ]}
-                autoplay={true}
-                timePlay={8}
+                autoplay={false}
                 isTitle={false}
                 backgroundColorContainer={null}
                 containerMarginTop={70}
             />
             {/* end Banner */}
 
-            {/* type */}
-            <View style={styles.body_type_wrap}>
-                <Text style={styles.body_type_title}>Danh mục ưu đãi 😍</Text>
-                <View style={styles.body_type}>
-                    {dataType.map((item, index) => (
-                        <View style={styles.type_item}>
-                            {item.icon}
-                            <Text style={styles.type_name}>{item.description}</Text>
-                        </View>
-                    ))}
-                </View>
-            </View>
-            {/* end type */}
-
             {/* slider contennt */}
-            <ContentSlider />
+            <ContentSlider
+                onPressShowAll={() =>
+                    navigation.navigate('ShowAllSlider', { title: 'Ưu đãi mới nhất 🤤' })
+                }
+                onPressImg={() => navigation.navigate('DetailSlider', { idSlide: 1 })}
+            />
             <ContentSlider
                 data={dataContent}
-                autoplay={false}
                 title_left={'Có không đổi hết đừng buồn 😆'}
-            />
-
-            <ContentSlider
-                data={[
-                    {
-                        img: require('../../../assets/img/b4.jpg'),
-                    },
-                ]}
-                autoplay={false}
-                title_left={'Hốt ngay thôi 🔥'}
+                onPressShowAll={() =>
+                    navigation.navigate('ShowAllSlider', {
+                        title: 'Có không đổi hết đừng buồn 😆',
+                    })
+                }
+                onPressImg={() => navigation.navigate('DetailSlider', { idSlide: 1 })}
             />
 
             {/* end slider content */}

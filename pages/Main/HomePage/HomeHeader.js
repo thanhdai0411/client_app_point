@@ -6,27 +6,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Coin from '../../../components/Coin';
-import {
-    useFonts,
-    Poppins_300Light,
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_600SemiBold,
-} from '@expo-google-fonts/poppins';
+
 import { box_shadow } from '../../../components/GlobalStyles';
 
 export default function HomeHeader() {
-    let [fontsLoaded] = useFonts({
-        Poppins_300Light,
-        Poppins_400Regular,
-        Poppins_500Medium,
-        Poppins_600SemiBold,
-    });
-
-    if (!fontsLoaded) {
-        return <AppLoading />;
-    }
-
     return (
         <>
             <View style={styles.home_header}>
@@ -48,21 +31,21 @@ export default function HomeHeader() {
             <View style={{ ...styles.header_category, ...box_shadow }}>
                 <View style={styles.header_category_container}>
                     <View style={styles.header_category_item}>
-                        <Ionicons name="barcode" size="40" color="orange" />
+                        <Ionicons name="barcode" size={40} color="orange" />
                         <Text style={styles.header_category_name}>Thành viên</Text>
                     </View>
                     <View style={styles.header_category_item}>
-                        <Ionicons name="gift-outline" size="40" color="red" />
+                        <Ionicons name="gift-outline" size={40} color="red" />
                         <Text style={styles.header_category_name}>Ưu đãi</Text>
                     </View>
                     <View style={styles.header_category_item}>
-                        <Ionicons name="trophy-outline" size="40" color="green" />
+                        <Ionicons name="trophy-outline" size={40} color="green" />
                         <Text style={styles.header_category_name}>Thử thách</Text>
                     </View>
                     <View style={styles.header_category_item}>
                         <MaterialCommunityIcons
                             name="inbox-full-outline"
-                            size="42"
+                            size={42}
                             color="blue"
                         />
                         <Text style={styles.header_category_name}>Hộp thư </Text>
@@ -94,7 +77,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
         color: '#F9F9F9',
         fontSize: 20,
-        fontFamily: 'Poppins_600SemiBold',
+        marginBottom: 5,
+        fontWeight: '500',
     },
     header_coin: {
         marginTop: 10,

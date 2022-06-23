@@ -1,16 +1,17 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import Coin from './Coin';
-import { box_shadow } from '../components/GlobalStyles';
+import { box_shadow } from './GlobalStyles';
 
 const CardItem = ({
     nameCompany = 'AWACO',
     title = 'FreeSip cho đơn hàng đầu tiên',
     imageLink = require('../assets/img/sp1.png'),
     coinNumber = 5,
+    onPress,
 }) => {
     return (
-        <TouchableOpacity activeOpacity={0.6}>
+        <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
             <View style={{ ...styles.container, ...box_shadow }}>
                 <View style={styles.name}>
                     <Text style={styles.name_company}>{nameCompany}</Text>
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     name: {
-        width: '65%',
+        flex: 3,
         height: '100%',
         paddingRight: 10,
     },
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     img_item: {
-        width: '35%',
+        flex: 2,
     },
     img: {
         width: 120,

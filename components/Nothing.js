@@ -1,7 +1,9 @@
 import { View, Text, Image } from 'react-native';
 import React from 'react';
+import CustomButton from './Button';
 
-const Nothing = ({ text = 'Nothing' }) => {
+let buttonDefault = false;
+const Nothing = ({ text = 'Nothing', button = buttonDefault, ...styleProps }) => {
     return (
         <View
             style={{
@@ -9,12 +11,16 @@ const Nothing = ({ text = 'Nothing' }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: '#fff',
+                ...styleProps,
             }}>
             <Image
                 source={require('../assets/img/nothing.jpg')}
                 style={{ width: 160, height: 160 }}
             />
-            <Text style={{ fontSize: 20, marginTop: 10 }}>{text}</Text>
+            <Text style={{ fontSize: 20, marginTop: 10, textAlign: 'center' }}>
+                {text}
+            </Text>
+            {button}
         </View>
     );
 };

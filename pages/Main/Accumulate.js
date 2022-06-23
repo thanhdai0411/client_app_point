@@ -22,7 +22,6 @@ const Accumulate = () => {
     const askPermissionCamera = () => {
         (async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync();
-            console.log(status);
             setHasPermission(status === 'granted');
         })();
     };
@@ -33,7 +32,6 @@ const Accumulate = () => {
 
     const handleBarCodeScanned = ({ type, data, bounds }) => {
         const { size, origin } = bounds;
-        console.log(bounds);
         setScanned(true);
         setTextScan(data);
         console.log(`Bar code with type ${type} and data ${data} has been scanned!`);

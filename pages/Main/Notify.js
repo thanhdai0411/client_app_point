@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import Nothing from '../../components/Nothing';
 const Notify = () => {
-    return <Nothing text="Bạn chưa có thông báo nào !" />;
+    return <Nothing text="Bạn chưa có thông báo nào !" button={false} />;
 };
 
 export default Notify;

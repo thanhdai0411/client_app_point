@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     Text,
     View,
@@ -16,13 +16,20 @@ const { width, height } = Dimensions.get('window');
 import HomeHeader from './HomeHeader';
 import HomeBody from './HomeBody';
 
-function Home() {
+//
+//
+
+function Home({ navigation }) {
+    //
+
+    //
+
     return (
         <SafeAreaView style={styles.home_container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.home_wrap}>
                     <HomeHeader />
-                    <HomeBody />
+                    <HomeBody navigation={navigation} />
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -21,7 +21,7 @@ const Coin = ({ backgroundColor = primary_color, count = 100, ...styleProp }) =>
             }}>
             <FontAwesome5
                 name="coins"
-                size="23"
+                size={23}
                 color="yellow"
                 // style={styles.header_number_icon}
             />

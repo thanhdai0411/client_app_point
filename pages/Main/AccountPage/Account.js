@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import React from 'react';
 import AccountHeader from './AccountHeader';
 import AccountBody from './AccountBody';
+
 const Account = () => {
     return (
         <SafeAreaView style={styles.account_container}>

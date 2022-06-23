@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Animated, Button } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -49,10 +49,13 @@ const Main = ({ navigation }) => {
                 name="Mua sắm"
                 component={Shopping}
                 options={{
+                    headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <TouchableOpacity
                             activeOpacity={0.5}
-                            onPress={() => navigation.navigate('Mua sắm')}>
+                            onPress={() => {
+                                navigation.navigate('Mua sắm');
+                            }}>
                             <View
                                 style={{
                                     justifyContent: 'center',
@@ -70,39 +73,6 @@ const Main = ({ navigation }) => {
                     tabBarLabelStyle: { fontSize: 13, fontWeight: '400' },
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',
-                    title: 'Mua sắm tiện lợi',
-                    headerTitleStyle: {
-                        fontSize: 20,
-                        // marginTop: 20
-                    },
-                    headerStyle: {
-                        height: 100,
-                    },
-                    headerRight: () => (
-                        <>
-                            <AntDesign
-                                name="shoppingcart"
-                                size={35}
-                                color={'black'}
-                                style={{ marginRight: 35, marginTop: 20 }}
-                            />
-                            <View
-                                style={{
-                                    width: 25,
-                                    height: 25,
-                                    backgroundColor: 'orange',
-                                    top: -45,
-                                    right: 20,
-                                    borderRadius: 50,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                <Text style={{ color: 'white', fontWeight: 'bold' }}>
-                                    2
-                                </Text>
-                            </View>
-                        </>
-                    ),
                 }}
             />
 

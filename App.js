@@ -1,80 +1,109 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text } from 'react-native';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const { Navigator, Screen } = createNativeStackNavigator();
-import * as SplashScreen from 'expo-splash-screen';
 
 import Introduce from './pages/Introduce';
 import Login from './pages/Authentication/Login';
 import Main from './pages/Main/Main';
+import ProductDetail from './pages/Main/ProductDetail/ProducDetail';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import InfoShop from './pages/Main/InfoShop';
+import ShowAllSlider from './pages/Main/AllSlider';
+import DetailSlide from './pages/Main/DetailSlide';
+import OrderProduct from './pages/Main/Cart/OrderProduct';
+import InfoOrder from './pages/Main/InfoOrder/InfoOrder';
+
+//
+//
 
 export default function App() {
-    const [appIsReady, setAppIsReady] = useState(false);
     let isLoginSuccess = true;
+    let isDealerLogin = false;
 
-    useEffect(() => {
-        async function prepare() {
-            try {
-                // Keep the splash screen visible while we fetch resources
-                await SplashScreen.preventAutoHideAsync();
-                // Pre-load fonts, make any API calls you need to do here
-                // Artificially delay for two seconds to simulate a slow loading
-                // experience. Please remove this if you copy and paste the code!
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-            } catch (e) {
-                console.warn(e);
-            } finally {
-                // Tell the application to render
-                setAppIsReady(true);
-            }
-        }
-
-        prepare();
-    }, []);
-
-    const onLayoutRootView = useCallback(async () => {
-        if (appIsReady) {
-            // This tells the splash screen to hide immediately! If we call this after
-            // `setAppIsReady`, then we may see a blank screen while the app is
-            // loading its initial state and rendering its first pixels. So instead,
-            // we hide the splash screen once we know the root view has already
-            // performed layout.
-            await SplashScreen.hideAsync();
-        }
-    }, [appIsReady]);
-
-    if (!appIsReady) {
-        return null;
-    }
+    //==================
 
     return (
-        <NavigationContainer onLayout={onLayoutRootView}>
-            <Navigator>
-                {isLoginSuccess ? (
-                    <Screen
-                        name="Main"
-                        component={Main}
-                        options={{ headerShown: false }}
-                    />
-                ) : (
-                    <>
-                        <Screen
-                            name="Introduce"
-                            component={Introduce}
-                            options={{
-                                headerShown: false,
-                            }}
-                        />
-                        <Screen
-                            name="Login"
-                            component={Login}
-                            options={{ headerShown: false }}
-                        />
-                    </>
-                )}
-            </Navigator>
-        </NavigationContainer>
+        <Provider store={store}>
+            <NavigationContainer>
+                <Navigator>
+                    {isLoginSuccess ? (
+                        <>
+                            {/* <Screen
+                                name="Main"
+                                component={Main}
+                                options={{ headerShown: false }}
+                            />
+                            <Screen
+                                name="ProductDetail"
+                                component={ProductDetail}
+                                options={{ headerShown: false }}
+                            />
+                            <Screen
+                                name="InfoShop"
+                                component={InfoShop}
+                                options={{
+                                    title: 'Thông tin cửa hàng',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                        // marginTop: 20
+                                    },
+                                }}
+                            />
+                            <Screen
+                                name="ShowAllSlider"
+                                component={ShowAllSlider}
+                                options={{
+                                    headerShown: false,
+                                }}
+                            />
+                            <Screen
+                                name="DetailSlider"
+                                component={DetailSlide}
+                                options={{
+                                    title: 'Chi tiết đổi thưởng',
+                                    headerTitleStyle: {
+                                        fontSize: 18,
+                                    },
+                                }}
+                            />
+                            <Screen
+                                name="OrderProduct"
+                                component={OrderProduct}
+                                options={{
+                                    headerShown: false,
+                                }}
+                            /> */}
+                            <Screen
+                                name="InfoOrder"
+                                component={InfoOrder}
+                                options={{
+                                    title:"ĐdAI chi",
+                                }}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Screen
+                                name="Introduce"
+                                component={Introduce}
+                                options={{
+                                    headerShown: false,
+                                }}
+                            />
+                            <Screen
+                                name="Login"
+                                component={Login}
+                                options={{ headerShown: false }}
+                            />
+                        </>
+                    )}
+                </Navigator>
+            </NavigationContainer>
+        </Provider>
     );
 }

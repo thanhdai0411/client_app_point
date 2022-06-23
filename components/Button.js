@@ -1,16 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-let primary_color = '#006db6';
 const ButtonCustom = ({
-    name,
+    name = 'Button',
     onPress,
     iconBtn = null,
     opacityBtn = 0.5,
     colorText = 'white',
     sizeText = 17,
     weightText = '500',
+    primary_color = '#006db6',
     ...styleProp
 }) => {
     const {} = styleProp;

@@ -17,9 +17,12 @@
         "@react-navigation/material-bottom-tabs": "^6.2.1",
         "@react-navigation/native": "^6.0.10",
         "@react-navigation/native-stack": "^6.6.2",
+        "@reduxjs/toolkit": "^1.8.2",
+        "axios": "^0.27.2",
         "expo": "~45.0.0",
         "expo-app-loading": "~2.0.0",
         "expo-barcode-scanner": "~11.3.0",
+        "expo-checkbox": "~2.1.0",
         "expo-firebase-recaptcha": "~2.2.0",
         "expo-font": "~10.1.0",
         "expo-splash-screen": "~0.15.1",
@@ -33,7 +36,8 @@
         "react-native-swiper": "^1.6.0",
         "react-native-vector-icons": "^9.1.0",
         "react-native-web": "0.17.7",
-        "react-native-webview": "11.18.1"
+        "react-native-webview": "11.18.1",
+        "react-redux": "^8.0.2"
     },
     "devDependencies": {
         "@babel/core": "^7.12.9"
