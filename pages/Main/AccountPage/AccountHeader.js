@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 5,
         fontWeight: '500',
+        color: 'white',
     },
     ac_info: {
         marginTop: 5,

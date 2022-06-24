@@ -40,12 +40,25 @@ const ContentSlider = ({
     isTitle = true,
     backgroundColorContainer = '#fff',
     containerMarginTop = 10,
+    topContainer = null,
+    marginTopSwiper = 3,
+    borderRadiusImg = 20,
+    heightImg = 170,
+    heightSwiper = heightImg + 20,
+    widthImg = '95%',
+    borderImg = 1,
+    resizeModeImg = 'stretch',
+    position = null,
+    activeOpacity = 0.5,
+    ...styleContainer
 }) => {
     return (
         <View
             style={{
                 marginTop: containerMarginTop,
                 backgroundColor: backgroundColorContainer,
+                position: position,
+                ...styleContainer,
             }}>
             {isTitle && (
                 <View style={styles.title}>
@@ -57,21 +70,30 @@ const ContentSlider = ({
             )}
 
             <Swiper
-                style={styles.wrapper}
+                style={{
+                    marginTop: marginTopSwiper,
+                    height: heightSwiper,
+                }}
                 showsButtons={false}
                 autoplay={autoplay}
                 autoplayTimeout={timePlay}>
                 {data.map((item, index) => (
                     <TouchableOpacity
                         key={index}
-                        activeOpacity={0.5}
+                        activeOpacity={activeOpacity}
                         accessible={true}
                         onPress={onPressImg}>
                         <View style={{ ...styles.slide1, ...box_shadow }}>
                             <Image
                                 source={item.img}
-                                style={styles.slide_img}
-                                resizeMode="stretch"
+                                style={{
+                                    borderWidth: borderImg,
+                                    borderColor: '#ddd',
+                                    width: widthImg,
+                                    height: heightImg,
+                                    borderRadius: borderRadiusImg,
+                                }}
+                                resizeMode={resizeModeImg}
                             />
                             {isCoin && (
                                 <Coin
@@ -120,18 +142,6 @@ const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        elevation: 3,
-    },
-    slide_img: {
-        borderWidth: 1,
-        borderColor: '#ddd',
-        width: '95%',
-        height: 170,
-        borderRadius: 20,
     },
 });
 

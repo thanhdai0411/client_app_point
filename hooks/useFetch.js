@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function useFetch(url) {
     const [isLoading, setIsLoading] = useState(false);
+    const [fetched, setFetched] = useState(false);
     const [isError, setIsError] = useState(false);
     const [dataFetch, setDataFetch] = useState([]);
 
@@ -26,6 +27,9 @@ function useFetch(url) {
             }
         };
         fetchData();
+        return () => {
+            setDataFetch([]);
+        };
     }, [url]);
 
     return { dataFetch, isLoading, isError };

@@ -190,12 +190,12 @@ const OrderProduct = ({ navigation }) => {
                         </Text>
                     </View>
                     <ButtonCustom
-                        onPress={() => navigation.navigate("InfoOrder")}
+                        onPress={() => navigation.navigate('InfoOrder')}
                         name={'Đặt hàng'}
                         marginHorizontal={null}
                         borderRadius={0}
                         sizeText={18}
-                        flex={1}
+                        flex={1.5}
                         top={-2}
                     />
                 </View>

@@ -63,11 +63,11 @@ const ProductDetail = ({ route, navigation }) => {
             nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width
         );
         if (dataFetch.image.length > 1)
-            if (index > imageLink.length - 1) {k
-                setImgIndex(imageLink.length - 1);``
+            if (index > imageLink.length - 1) {
+                setImgIndex(imageLink.length - 1);
             } else {
                 setImgIndex(index);
-            }   
+            }
     };
 
     // handle press add into cart
@@ -79,7 +79,6 @@ const ProductDetail = ({ route, navigation }) => {
         }, 1000);
     };
     // handle press buy product
-    const handlePressBuyProduct = () => {};
 
     // loading fetch api
     if (isLoading) {
@@ -101,7 +100,7 @@ const ProductDetail = ({ route, navigation }) => {
             </View>
         );
     }
-    return (    
+    return (
         <SafeAreaView style={styles.container}>
             {/* header */}
             <CustomHeader
@@ -239,7 +238,10 @@ const ProductDetail = ({ route, navigation }) => {
                                 </Text>
                             </View>
                             <Text style={{ color: '#aaa' }}>
-                                Thương hiệu: <Text style={{ color: 'blue' }}>Awaco</Text>
+                                Phân loại:{' '}
+                                <Text style={{ color: 'blue' }}>
+                                    {dataFetch.category}
+                                </Text>
                             </Text>
                         </View>
                         {/* <View style={styles.detail_info}>
@@ -317,7 +319,10 @@ const ProductDetail = ({ route, navigation }) => {
                     {/* end description product */}
 
                     {/* san pham lien quan */}
-                    <ProductRelated navigation={navigation} />
+                    <ProductRelated
+                        navigation={navigation}
+                        relateProduct={dataFetch.category}
+                    />
                     {/* end san pham lien quan */}
                 </View>
             </ScrollView>
@@ -341,7 +346,7 @@ const ProductDetail = ({ route, navigation }) => {
                     marginHorizontal={null}
                     borderRadius={0}
                     flex={1}
-                    onPress={handlePressBuyProduct}
+                    onPress={() => navigation.navigate('InfoOrder')}
                 />
             </View>
             {/* end btn bottom */}

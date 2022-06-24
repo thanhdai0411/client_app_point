@@ -11,7 +11,7 @@ const Loading = () => {
                 backgroundColor: 'white',
             }}>
             <Image
-                source={require('../assets/img/Loading_2.gif')}
+                source={require('../assets/img/loading_icon.gif')}
                 style={{
                     width: 200,
                     height: 200,

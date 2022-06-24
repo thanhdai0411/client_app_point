@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+} from 'react-native';
 import React from 'react';
 import AppLoading from 'expo-app-loading';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -9,24 +16,43 @@ import Coin from '../../../components/Coin';
 
 import { box_shadow } from '../../../components/GlobalStyles';
 
-export default function HomeHeader() {
+export default function HomeHeader({ navigation }) {
     return (
         <>
+            {/* <ImageBackground source={require('../../../assets/img/wall.jpg')}> */}
             <View style={styles.home_header}>
-                <View>
+                <View style={{ marginLeft: 10 }}>
                     <Text style={styles.header_name}>
                         Thanh Dai<Text> ơi !</Text>
                     </Text>
                     <Coin count={100} width={90} />
                     <Image />
                 </View>
-                <View>
-                    <Image
-                        source={require('../../../assets/img/pikachu_1.png')}
-                        style={styles.header_logo}
-                    />
+
+                <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() => navigation.navigate('Thông báo')}
+                    style={{ marginRight: 10 }}>
+                    <Ionicons name="ios-notifications-outline" size={35} color="white" />
+                </TouchableOpacity>
+                <View
+                    style={{
+                        backgroundColor: 'red',
+                        width: 25,
+                        height: 25,
+                        position: 'absolute',
+                        borderRadius: 50,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        top: 40,
+                        right: 15,
+                        borderWidth: 1,
+                        borderColor: 'white',
+                    }}>
+                    <Text style={{ color: 'white', fontWeight: '500' }}>0</Text>
                 </View>
             </View>
+            {/* </ImageBackground> */}
             {/* Category */}
             <View style={{ ...styles.header_category, ...box_shadow }}>
                 <View style={styles.header_category_container}>
@@ -59,23 +85,23 @@ export default function HomeHeader() {
 }
 
 let primary_color = '#006db6';
-let header_color = '#FFC54D';
+let header_color = '#178dde';
 let header_category = 'white';
 
 const styles = StyleSheet.create({
     home_header: {
         // flex: 1,
         width: '100%',
-        height: 170,
+        height: 200,
         backgroundColor: header_color,
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 10,
         position: 'relative',
+        paddingTop: 50,
     },
     header_name: {
-        marginTop: 20,
-        color: '#F9F9F9',
+        color: 'white',
         fontSize: 20,
         marginBottom: 5,
         fontWeight: '500',
@@ -109,7 +135,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         position: 'absolute',
         // top: '10%',
-        marginTop: 135,
+        marginTop: 150,
         zIndex: 1,
         left: 0,
         right: 0,

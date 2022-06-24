@@ -11,17 +11,19 @@ import Introduce from './pages/Introduce';
 import Login from './pages/Authentication/Login';
 import Main from './pages/Main/Main';
 import ProductDetail from './pages/Main/ProductDetail/ProducDetail';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import InfoShop from './pages/Main/InfoShop';
 import ShowAllSlider from './pages/Main/AllSlider';
 import DetailSlide from './pages/Main/DetailSlide';
 import OrderProduct from './pages/Main/Cart/OrderProduct';
 import InfoOrder from './pages/Main/InfoOrder/InfoOrder';
-
-//
-//
+import AllProduct from './pages/Main/ProductDetail/AllProduct';
+import Notify from './pages/Main/Notify';
+import InfoUser from './pages/Main/AccountPage/InfoUser';
+import InviteCode from './pages/Main/AccountPage/InviteCode';
 
 export default function App() {
+    let header_color = '#178dde';
+
     let isLoginSuccess = true;
     let isDealerLogin = false;
 
@@ -33,7 +35,7 @@ export default function App() {
                 <Navigator>
                     {isLoginSuccess ? (
                         <>
-                            {/* <Screen
+                            <Screen
                                 name="Main"
                                 component={Main}
                                 options={{ headerShown: false }}
@@ -69,6 +71,7 @@ export default function App() {
                                     headerTitleStyle: {
                                         fontSize: 18,
                                     },
+                                    headerTintColor: 'black',
                                 }}
                             />
                             <Screen
@@ -77,12 +80,65 @@ export default function App() {
                                 options={{
                                     headerShown: false,
                                 }}
-                            /> */}
+                            />
                             <Screen
                                 name="InfoOrder"
                                 component={InfoOrder}
                                 options={{
-                                    title:"ĐdAI chi",
+                                    title: 'Địa chỉ giao hàng',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="AllProduct"
+                                component={AllProduct}
+                                options={{
+                                    title: 'Tất cả sản phẩm',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="Thông báo"
+                                component={Notify}
+                                options={{
+                                    title: 'Thông báo',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="InfoUser"
+                                component={InfoUser}
+                                options={{
+                                    headerShown: true,
+                                    title: 'Thông tin cá nhân',
+                                    headerShadowVisible: false,
+                                    headerStyle: {
+                                        backgroundColor: header_color,
+                                    },
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'white',
+                                }}
+                            />
+                            <Screen
+                                name="InviteCode"
+                                component={InviteCode}
+                                options={{
+                                    title: 'Nhập mã giớ thiệu',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
                                 }}
                             />
                         </>

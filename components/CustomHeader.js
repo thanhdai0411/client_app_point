@@ -11,6 +11,13 @@ const CustomHeader = ({
     onPressLeft = null,
     onPressRight,
     marginVertical = 15,
+    styleIconLeft = {
+        left: 10,
+        position: 'absolute',
+        fontWeight: 'bold',
+    },
+    textColor,
+    ...styleHeader
 }) => {
     const handelBackScreen = () => {
         navigation.goBack();
@@ -25,15 +32,10 @@ const CustomHeader = ({
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
+                ...styleHeader,
             }}>
             {iconLeft && (
-                <TouchableOpacity
-                    onPress={onPressIconLeft}
-                    style={{
-                        left: 10,
-                        position: 'absolute',
-                        fontWeight: 'bold',
-                    }}>
+                <TouchableOpacity onPress={onPressIconLeft} style={styleIconLeft}>
                     {iconLeft}
                 </TouchableOpacity>
             )}
@@ -44,6 +46,7 @@ const CustomHeader = ({
                     marginVertical: marginVertical,
                     fontWeight: '500',
                     justifyContent: 'center',
+                    color: textColor,
                 }}>
                 {title}
             </Text>

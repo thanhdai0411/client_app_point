@@ -12,6 +12,7 @@ import {
     ScrollViewBase,
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
+import CustomStatusBar from '../../../components/CustomStatusBar';
 
 import HomeHeader from './HomeHeader';
 import HomeBody from './HomeBody';
@@ -25,19 +26,19 @@ function Home({ navigation }) {
     //
 
     return (
-        <SafeAreaView style={styles.home_container}>
+        <View style={styles.home_container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.home_wrap}>
-                    <HomeHeader />
+                    <HomeHeader navigation={navigation} />
                     <HomeBody navigation={navigation} />
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }
 
-let primary_color = '#006db6';
-let header_color = '#FFC54D';
+let primary_color = '#178dde';
+let header_color = '#178dde';
 
 const styles = StyleSheet.create({
     home_container: {

@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Category = () => {
+const Category = ({ title = false, titleColor = 'black', marginTop = -2 }) => {
     const dataType = [
         {
             icon: <Ionicons name="fast-food-outline" size={40} color="#FCDA05" />,
@@ -58,9 +58,35 @@ const Category = () => {
         },
     ];
     return (
-        <View style={styles.body_type_wrap}>
-            <Text style={styles.body_type_title}>DANH MỤC</Text>
-            <View style={styles.body_type}>
+        <View
+            style={{
+                backgroundColor: '#fff',
+                marginTop: marginTop,
+                paddingHorizontal: 8,
+                paddingVertical: 15,
+            }}>
+            {title && (
+                <Text
+                    style={{
+                        fontSize: 18,
+                        fontWeight: '500',
+                        marginBottom: 13,
+                        marginLeft: 10,
+                        color: titleColor,
+                    }}>
+                    DANH MỤC
+                </Text>
+            )}
+
+            <View
+                style={{
+                    flexWrap: 'wrap',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // marginHorizontal: 15,
+                    borderRadius: 20,
+                }}>
                 {dataType.map((item, index) => (
                     <View style={styles.type_item} key={index}>
                         {item.icon}
@@ -86,6 +112,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // marginHorizontal: 15,
         borderRadius: 20,
+        marginTop: 100,
     },
     type_item: {
         width: '25%',

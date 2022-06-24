@@ -95,7 +95,7 @@ const HomeBody = ({ navigation }) => {
                 autoplay={false}
                 isTitle={false}
                 backgroundColorContainer={null}
-                containerMarginTop={70}
+                containerMarginTop={55}
             />
             {/* end Banner */}
 
@@ -105,6 +105,7 @@ const HomeBody = ({ navigation }) => {
                     navigation.navigate('ShowAllSlider', { title: 'Ưu đãi mới nhất 🤤' })
                 }
                 onPressImg={() => navigation.navigate('DetailSlider', { idSlide: 1 })}
+                containerMarginTop={-5}
             />
             <ContentSlider
                 data={dataContent}

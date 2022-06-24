@@ -11,6 +11,8 @@ import Shopping from './ShoppingPage/Shopping';
 import Notify from './Notify';
 import Account from './AccountPage/Account';
 import Accumulate from './Accumulate';
+import HistoryPoint from './History/HistoryPoint';
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -118,16 +120,16 @@ const Main = ({ navigation }) => {
                 }}
             />
             <Tab.Screen
-                name="Thông báo"
-                component={Notify}
+                name="Lịch sử"
+                component={HistoryPoint}
                 options={{
                     tabBarIcon: ({ focused, color }) => (
                         <TouchableOpacity
                             activeOpacity={0.5}
-                            onPress={() => navigation.navigate('Thông báo')}>
+                            onPress={() => navigation.navigate('Lịch sử')}>
                             <View>
-                                <Ionicons
-                                    name="notifications-outline"
+                                <MaterialCommunityIcons
+                                    name="clock-outline"
                                     size={30}
                                     color={focused ? 'red' : 'black'}
                                 />

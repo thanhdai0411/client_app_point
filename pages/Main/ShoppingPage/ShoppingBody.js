@@ -1,10 +1,21 @@
-import { View, Text, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Alert,
+    Image,
+    TouchableOpacity,
+    Dimensions,
+} from 'react-native';
+
+// import
 import React, { Fragment } from 'react';
 import CardVertical from '../../../components/CardVertical';
 import ProductDetail from '../ProductDetail/ProducDetail';
 import useFetch from '../../../hooks/useFetch';
 import Loading from '../../../components/Loading';
 
+const { widthS, heightS } = Dimensions.get('window');
 const ShoppingBody = ({ navigation }) => {
     const { dataFetch, isLoading, isError } = useFetch(
         'https://fakestoreapi.com/products'
@@ -12,12 +23,35 @@ const ShoppingBody = ({ navigation }) => {
 
     if (isLoading) {
         return (
-            <Text style={{ textAlign: 'center', fontSize: 20 , marginTop: 10}}>Vui lòng chờ ...</Text>
+            <View
+                style={{
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: widthS,
+                }}>
+                <Image
+                    source={require('../../../assets/img/loading_icon.gif')}
+                    style={{ width: 100, height: 100 }}
+                />
+            </View>
         );
     }
     ``;
     return (
-        <View>
+        <View style={{ backgroundColor: '#fff', marginTop: 10, paddingBottom: 10 }}>
+            <View>
+                <Text
+                    style={{
+                        fontSize: 18,
+                        fontWeight: '500',
+                        marginVertical: 13,
+                        marginLeft: 15,
+                        color: 'red',
+                    }}>
+                    DÀNH RIÊNG CHO BẠN
+                </Text>
+            </View>
             <View style={styles.shopping_body}>
                 {dataFetch.map((item) => (
                     <Fragment key={item.id}>

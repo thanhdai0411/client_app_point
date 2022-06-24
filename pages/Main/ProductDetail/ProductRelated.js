@@ -1,12 +1,20 @@
 import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useRef, Fragment } from 'react';
 import CardVertical from '../../../components/CardVertical';
+import useFetch from '../../../hooks/useFetch';
+import Loading from '../../../components/Loading';
 
 const { width, height } = Dimensions.get('window');
-const ProductRelated = ({ navigation }) => {
+const ProductRelated = ({ relateProduct, navigation }) => {
     const handleShowAllProduct = () => {
-        navigation.goBack();
+        navigation.navigate('AllProduct');
     };
+    const { dataFetch, isLoading, isError } = useFetch(
+        'https://fakestoreapi.com/products'
+    );
+    if (isLoading) {
+        return <Loading />;
+    }
     return (
         <View
             style={{
@@ -44,12 +52,29 @@ const ProductRelated = ({ navigation }) => {
                         justifyContent: 'center',
                         flexDirection: 'row',
                     }}>
+                    {dataFetch.map((item) => (
+                        <Fragment key={item.id}>
+                            {item.category == relateProduct && (
+                                <CardVertical
+                                    width={width / 2}
+                                    paddingItem={4}
+                                    imgFetch={item.image}
+                                    typeProduct={item.category}
+                                    title={item.title}
+                                    price_origin={item.price}
+                                    disCount={20}
+                                    imageLink={null}
+                                    onPress={() => navigation.goBack()}
+                                />
+                            )}
+                        </Fragment>
+                    ))}
+                    {/* <CardVertical width={width / 2} paddingItem={4} />
                     <CardVertical width={width / 2} paddingItem={4} />
                     <CardVertical width={width / 2} paddingItem={4} />
                     <CardVertical width={width / 2} paddingItem={4} />
                     <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} />
+                    <CardVertical width={width / 2} paddingItem={4} /> */}
 
                     {/* <CardVertical /> */}
                     {/* <CardVertical /> */}
