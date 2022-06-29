@@ -20,6 +20,11 @@ import AllProduct from './pages/Main/ProductDetail/AllProduct';
 import Notify from './pages/Main/Notify';
 import InfoUser from './pages/Main/AccountPage/InfoUser';
 import InviteCode from './pages/Main/AccountPage/InviteCode';
+import Contact from './pages/Main/AccountPage/Contact';
+import HowPoint from './pages/Main/AccountPage/HowPoint';
+import Terms from './pages/Main/AccountPage/Terms';
+import Security from './pages/Main/AccountPage/Security';
+import RegisterDealer from './pages/Main/AccountPage/RegisterDealer';
 
 export default function App() {
     let header_color = '#178dde';
@@ -134,7 +139,62 @@ export default function App() {
                                 name="InviteCode"
                                 component={InviteCode}
                                 options={{
-                                    title: 'Nhập mã giớ thiệu',
+                                    title: 'Nhập mã giới thiệu',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="Contact"
+                                component={Contact}
+                                options={{
+                                    title: 'Thông tin liên hệ',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="HowPoint"
+                                component={HowPoint}
+                                options={{
+                                    title: 'Cách tích điểm',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="RegisterDealer"
+                                component={RegisterDealer}
+                                options={{
+                                    title: 'Đăng kí làm đại lý',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="Security"
+                                component={Security}
+                                options={{
+                                    title: 'Chính sách bảo mật',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="Terms"
+                                component={Terms}
+                                options={{
+                                    title: 'Điều khoản sử dụng',
                                     headerTitleStyle: {
                                         fontSize: 20,
                                     },

@@ -6,18 +6,20 @@ import {
     ScrollView,
     TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import CustomInput from '../../../components/CustomInput';
 import CustomLabelInput from '../../../components/CustomLabelInput';
 import { useForm, Controller } from 'react-hook-form';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import ButtonCustom from '../../../components/Button';
 import CustomHeader from '../../../components/CustomHeader';
+import UploadImg from '../../../components/UploadImg';
 
 let header_color = '#178dde';
 
 const { width, height } = Dimensions.get('window');
 const InfoUser = ({ navigation }) => {
+    const [imageUpload, setImageUpload] = useState(null);
     const { control, handleSubmit } = useForm();
 
     const submitForm = (data) => {
@@ -49,18 +51,34 @@ const InfoUser = ({ navigation }) => {
                             alignItems: 'center',
                             top: -60,
                         }}>
-                        <Image
-                            source={require('../../../assets/img/see.jpg')}
-                            style={{
-                                width: 150,
-                                height: 150,
-                                borderRadius: 100,
-                                borderWidth: 3,
-                                borderColor: 'white',
-                                marginHorizontal: 'auto',
-                            }}
-                            resizeMode="cover"
-                        />
+                        {imageUpload ? (
+                            <Image
+                                source={{ uri: imageUpload }}
+                                style={{
+                                    width: 150,
+                                    height: 150,
+                                    borderRadius: 100,
+                                    borderWidth: 3,
+                                    borderColor: '#eee',
+                                    marginHorizontal: 'auto',
+                                }}
+                                resizeMode="cover"
+                            />
+                        ) : (
+                            <Image
+                                source={require('../../../assets/img/see.jpg')}
+                                style={{
+                                    width: 150,
+                                    height: 150,
+                                    borderRadius: 100,
+                                    borderWidth: 3,
+                                    borderColor: 'white',
+                                    marginHorizontal: 'auto',
+                                }}
+                                resizeMode="cover"
+                            />
+                        )}
+
                         <Text style={{ marginTop: 10, fontSize: 25 }}>Thanh Dai</Text>
                     </View>
                     {/* update info */}
@@ -166,6 +184,16 @@ const InfoUser = ({ navigation }) => {
                                     <EvilIcons name="pencil" size={35} color="#aaa" />
                                 }
                             />
+                            {/* avatar user */}
+                            <UploadImg
+                                label="Thay đổi hình đại diện"
+                                requireLabel={false}
+                                paddingHorizontal={null}
+                                marginTopWrap={8}
+                                getImgUpload={(image) => {
+                                    setImageUpload(image);
+                                }}
+                            />
                         </View>
                     </View>
                 </View>
@@ -185,7 +213,7 @@ const InfoUser = ({ navigation }) => {
                 }}>
                 <ButtonCustom
                     sizeText={18}
-                    name={'Hoàn thành'}
+                    name={'Cập nhật thông tin'}
                     marginHorizontal={null}
                     borderRadius={10}
                     flex={1}

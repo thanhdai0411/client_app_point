@@ -1,8 +1,9 @@
 import { View, Text } from 'react-native';
 import React from 'react';
+let primary_color = '#006db6';
 
 const Label = ({
-    label_discount_color = '#ffd839',
+    label_discount_color = '#ffbd0b',
     rate_discount = 50,
     status = 'GIẢM',
     position = 'absolute',

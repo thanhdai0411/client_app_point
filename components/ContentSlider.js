@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     TouchableHighlight,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Coin from '../components/Coin';
@@ -52,6 +52,8 @@ const ContentSlider = ({
     activeOpacity = 0.5,
     ...styleContainer
 }) => {
+    const [imgLoad, setImgLoad] = useState(false);
+
     return (
         <View
             style={{

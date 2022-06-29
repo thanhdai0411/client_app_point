@@ -26,14 +26,17 @@ function Home({ navigation }) {
     //
 
     return (
-        <View style={styles.home_container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.home_wrap}>
-                    <HomeHeader navigation={navigation} />
-                    <HomeBody navigation={navigation} />
-                </View>
-            </ScrollView>
-        </View>
+        <>
+            <CustomStatusBar barStyle="light-content" />
+            <View style={styles.home_container}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View style={styles.home_wrap}>
+                        <HomeHeader navigation={navigation} />
+                        <HomeBody navigation={navigation} />
+                    </View>
+                </ScrollView>
+            </View>
+        </>
     );
 }
 

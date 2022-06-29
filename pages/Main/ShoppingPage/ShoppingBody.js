@@ -15,29 +15,11 @@ import ProductDetail from '../ProductDetail/ProducDetail';
 import useFetch from '../../../hooks/useFetch';
 import Loading from '../../../components/Loading';
 
-const { widthS, heightS } = Dimensions.get('window');
 const ShoppingBody = ({ navigation }) => {
     const { dataFetch, isLoading, isError } = useFetch(
         'https://fakestoreapi.com/products'
     );
 
-    if (isLoading) {
-        return (
-            <View
-                style={{
-                    backgroundColor: 'white',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: widthS,
-                }}>
-                <Image
-                    source={require('../../../assets/img/loading_icon.gif')}
-                    style={{ width: 100, height: 100 }}
-                />
-            </View>
-        );
-    }
-    ``;
     return (
         <View style={{ backgroundColor: '#fff', marginTop: 10, paddingBottom: 10 }}>
             <View>
@@ -52,25 +34,39 @@ const ShoppingBody = ({ navigation }) => {
                     DÀNH RIÊNG CHO BẠN
                 </Text>
             </View>
-            <View style={styles.shopping_body}>
-                {dataFetch.map((item) => (
-                    <Fragment key={item.id}>
-                        <CardVertical
-                            imgFetch={item.image}
-                            typeProduct={item.category}
-                            title={item.title}
-                            price_origin={item.price}
-                            disCount={20}
-                            imageLink={null}
-                            onPress={() =>
-                                navigation.navigate('ProductDetail', {
-                                    idProduct: item.id,
-                                })
-                            }
-                        />
-                    </Fragment>
-                ))}
-            </View>
+            {isLoading ? (
+                <View
+                    style={{
+                        // backgroundColor: 'white',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                    <Image
+                        source={require('../../../assets/img/loading_icon.gif')}
+                        style={{ width: 100, height: 100 }}
+                    />
+                </View>
+            ) : (
+                <View style={styles.shopping_body}>
+                    {dataFetch.map((item) => (
+                        <Fragment key={item.id}>
+                            <CardVertical
+                                imgFetch={item.image}
+                                typeProduct={item.category}
+                                title={item.title}
+                                price_origin={item.price}
+                                disCount={20}
+                                imageLink={null}
+                                onPress={() =>
+                                    navigation.navigate('ProductDetail', {
+                                        idProduct: item.id,
+                                    })
+                                }
+                            />
+                        </Fragment>
+                    ))}
+                </View>
+            )}
         </View>
     );
 };

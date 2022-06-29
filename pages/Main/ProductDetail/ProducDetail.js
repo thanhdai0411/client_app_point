@@ -37,11 +37,6 @@ const ProductDetail = ({ route, navigation }) => {
     const [imgIndex, setImgIndex] = useState(0);
     const [clickAdd, setClickAdd] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    //
-
-    const [visible, setVisible] = React.useState(false);
-
-    const hideDialog = () => setVisible(false);
 
     //
 
@@ -319,10 +314,7 @@ const ProductDetail = ({ route, navigation }) => {
                     {/* end description product */}
 
                     {/* san pham lien quan */}
-                    <ProductRelated
-                        navigation={navigation}
-                        relateProduct={dataFetch.category}
-                    />
+                    <ProductRelated navigation={navigation} relateProduct={dataFetch} />
                     {/* end san pham lien quan */}
                 </View>
             </ScrollView>

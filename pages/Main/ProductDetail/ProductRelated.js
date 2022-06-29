@@ -45,41 +45,41 @@ const ProductRelated = ({ relateProduct, navigation }) => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <ScrollView horizontal pagingEnabled>
-                <View
-                    style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexDirection: 'row',
-                    }}>
-                    {dataFetch.map((item) => (
-                        <Fragment key={item.id}>
-                            {item.category == relateProduct && (
-                                <CardVertical
-                                    width={width / 2}
-                                    paddingItem={4}
-                                    imgFetch={item.image}
-                                    typeProduct={item.category}
-                                    title={item.title}
-                                    price_origin={item.price}
-                                    disCount={20}
-                                    imageLink={null}
-                                    onPress={() => navigation.goBack()}
-                                />
-                            )}
-                        </Fragment>
-                    ))}
-                    {/* <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} />
-                    <CardVertical width={width / 2} paddingItem={4} /> */}
-
-                    {/* <CardVertical /> */}
-                    {/* <CardVertical /> */}
-                </View>
-            </ScrollView>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <ScrollView horizontal pagingEnabled>
+                    <View
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'row',
+                        }}>
+                        {dataFetch.map((item) => (
+                            <Fragment key={item.id}>
+                                {item.category == relateProduct.category &&
+                                    relateProduct.id != item.id && (
+                                        <CardVertical
+                                            width={width / 2}
+                                            paddingItem={4}
+                                            imgFetch={item.image}
+                                            typeProduct={item.category}
+                                            title={item.title}
+                                            price_origin={item.price}
+                                            disCount={20}
+                                            imageLink={null}
+                                            onPress={() =>
+                                                navigation.navigate('ProductDetail', {
+                                                    idProduct: item.id,
+                                                })
+                                            }
+                                        />
+                                    )}
+                            </Fragment>
+                        ))}
+                    </View>
+                </ScrollView>
+            )}
         </View>
     );
 };

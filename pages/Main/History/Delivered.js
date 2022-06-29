@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 
-const HistoryPoint = () => {
+const Delivered = () => {
     return (
         <View>
-            <Text>HistoryPoint</Text>
+            <Text>Delivered</Text>
         </View>
     );
 };
 
-export default HistoryPoint;
+export default Delivered;

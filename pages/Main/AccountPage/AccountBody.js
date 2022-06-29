@@ -3,6 +3,7 @@ import React from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -29,24 +30,29 @@ const AccountBody = ({ navigation }) => {
                     icon={<MaterialIcons name="input" size={25} />}
                 />
                 <AccountBodyItem
+                    onPress={() => navigate('HowPoint')}
                     text="Cách tích điểm"
                     icon={<MaterialIcons name="control-point" size={25} />}
                 />
             </View>
             <View style={styles.item_group}>
                 <AccountBodyItem
-                    text="Thương hiệu"
-                    icon={<FontAwesome name="star-o" size={25} />}
+                    onPress={() => navigate('RegisterDealer')}
+                    text="Đăng kí làm đại lý"
+                    icon={<AntDesign name="form" size={25} />}
                 />
                 <AccountBodyItem
+                    onPress={() => navigate('Contact')}
                     text="Thông tin liên hệ"
                     icon={<Ionicons name="call-outline" size={25} />}
                 />
                 <AccountBodyItem
+                    onPress={() => navigate('Terms')}
                     text="Điều khoản sử dụng ứng dụng"
                     icon={<FontAwesome name="sticky-note-o" size={25} />}
                 />
                 <AccountBodyItem
+                    onPress={() => navigate('Security')}
                     text="Chính sách bảo mật"
                     icon={<SimpleLineIcons name="lock" size={25} />}
                 />

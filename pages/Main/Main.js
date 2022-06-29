@@ -11,9 +11,9 @@ import Shopping from './ShoppingPage/Shopping';
 import Notify from './Notify';
 import Account from './AccountPage/Account';
 import Accumulate from './Accumulate';
-import HistoryPoint from './History/HistoryPoint';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import History from './History/History';
 
 const Tab = createBottomTabNavigator();
 
@@ -121,8 +121,9 @@ const Main = ({ navigation }) => {
             />
             <Tab.Screen
                 name="Lịch sử"
-                component={HistoryPoint}
+                component={History}
                 options={{
+                    headerShown: false,
                     tabBarIcon: ({ focused, color }) => (
                         <TouchableOpacity
                             activeOpacity={0.5}
@@ -141,7 +142,7 @@ const Main = ({ navigation }) => {
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',
                     headerTitleStyle: {
-                        fontSize: 25,
+                        fontSize: 20,
                         // marginTop: 20
                     },
                 }}

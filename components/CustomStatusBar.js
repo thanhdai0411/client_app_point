@@ -10,13 +10,13 @@ const CustomStatusBar = ({
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ height: insets.top, backgroundColor, position: 'absolute' }}>
-            <StatusBar
-                animated={true}
-                backgroundColor={backgroundColor}
-                barStyle={barStyle}
-            />
-        </View>
+        // <View style={{ height: insets.top, backgroundColor, position: 'absolute' }}>
+        <StatusBar
+            animated={true}
+            backgroundColor={backgroundColor}
+            barStyle={barStyle}
+        />
+        // </View>
     );
 };
 
