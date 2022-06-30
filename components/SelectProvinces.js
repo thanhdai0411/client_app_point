@@ -5,7 +5,7 @@ import { vietnamProvincesAPI } from '../../../api/VietnamProvinces';
 import axios from 'axios';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-export default HowPoint = () => {
+export default SelectProvinces = ({ provincesProps }) => {
     const [provincesId, setProvincesId] = useState();
     const [districtId, setDistrictId] = useState();
     const [districts, setDistricts] = useState([]);

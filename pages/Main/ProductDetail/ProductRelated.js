@@ -12,9 +12,7 @@ const ProductRelated = ({ relateProduct, navigation }) => {
     const { dataFetch, isLoading, isError } = useFetch(
         'https://fakestoreapi.com/products'
     );
-    if (isLoading) {
-        return <Loading />;
-    }
+
     return (
         <View
             style={{

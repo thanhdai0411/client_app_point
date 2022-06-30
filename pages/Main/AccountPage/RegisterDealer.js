@@ -27,8 +27,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import SelectDropdownCustom from '../../../components/SelectDropdownCustom';
 
 import { vietnamProvincesAPI } from '../../../api';
-import useFetch from '../../../hooks/useFetch';
-import { setStatusBarBackgroundColor, setStatusBarTranslucent } from 'expo-status-bar';
 
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
@@ -38,10 +36,8 @@ export default function RegisterDealer() {
 
     // image piker
     const [image, setImage] = useState(null);
-    const [isDataForm, setIsDataForm] = useState(false);
     const submitForm = (data) => {
         console.log(data);
-        setIsDataForm(true);
     };
 
     // detect keyboard
@@ -64,7 +60,6 @@ export default function RegisterDealer() {
     //fetch provinces
 
     // provinces
-
     const [provincesId, setProvincesId] = useState();
     const [districtId, setDistrictId] = useState();
     const [districts, setDistricts] = useState([]);
@@ -85,6 +80,7 @@ export default function RegisterDealer() {
         value: null,
         color: '#9EA0A4',
     };
+
     // provinces
     useEffect(() => {
         const fetchData = async () => {
@@ -130,6 +126,7 @@ export default function RegisterDealer() {
         };
         fetchData();
     }, [districtId]);
+
     return (
         <SafeAreaView style={{ backgroundColor: '#fff' }}>
             <ScrollView style={{ height: '100%' }} showsVerticalScrollIndicator={false}>

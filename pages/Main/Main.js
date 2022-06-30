@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator();
 const Main = ({ navigation }) => {
     return (
         <Tab.Navigator>
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Trang chủ"
                 component={Home}
                 options={{
@@ -76,7 +76,7 @@ const Main = ({ navigation }) => {
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',
                 }}
-            />
+            /> */}
 
             <Tab.Screen
                 name="Tích điểm"
@@ -147,7 +147,7 @@ const Main = ({ navigation }) => {
                     },
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Tài khoản"
                 component={Account}
                 options={{
@@ -173,7 +173,7 @@ const Main = ({ navigation }) => {
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',
                 }}
-            />
+            /> */}
         </Tab.Navigator>
     );
 };

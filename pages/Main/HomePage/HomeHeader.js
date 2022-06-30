@@ -10,6 +10,7 @@ import React from 'react';
 import AppLoading from 'expo-app-loading';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Coin from '../../../components/Coin';
@@ -28,13 +29,18 @@ export default function HomeHeader({ navigation }) {
                     <Coin count={100} width={90} />
                     <Image />
                 </View>
-
-                <TouchableOpacity
-                    activeOpacity={0.6}
-                    onPress={() => navigation.navigate('Thông báo')}
-                    style={{ marginRight: 10 }}>
-                    <Ionicons name="ios-notifications-outline" size={35} color="white" />
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'row' }}>
+                    <TouchableOpacity
+                        activeOpacity={0.6}
+                        onPress={() => navigation.navigate('Thông báo')}
+                        style={{ marginRight: 10 }}>
+                        <Ionicons
+                            name="ios-notifications-outline"
+                            size={35}
+                            color="white"
+                        />
+                    </TouchableOpacity>
+                </View>
                 <View
                     style={{
                         backgroundColor: 'red',

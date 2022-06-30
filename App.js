@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const { Navigator, Screen } = createNativeStackNavigator();
 
+// import
 import Introduce from './pages/Introduce';
 import Login from './pages/Authentication/Login';
 import Main from './pages/Main/Main';
@@ -18,6 +19,7 @@ import OrderProduct from './pages/Main/Cart/OrderProduct';
 import InfoOrder from './pages/Main/InfoOrder/InfoOrder';
 import AllProduct from './pages/Main/ProductDetail/AllProduct';
 import Notify from './pages/Main/Notify';
+
 import InfoUser from './pages/Main/AccountPage/InfoUser';
 import InviteCode from './pages/Main/AccountPage/InviteCode';
 import Contact from './pages/Main/AccountPage/Contact';
@@ -25,6 +27,11 @@ import HowPoint from './pages/Main/AccountPage/HowPoint';
 import Terms from './pages/Main/AccountPage/Terms';
 import Security from './pages/Main/AccountPage/Security';
 import RegisterDealer from './pages/Main/AccountPage/RegisterDealer';
+
+import HistoryPoint from './pages/Main/History/HistoryPoint';
+import HistoryOrder from './pages/Main/History/HistoryOrder';
+import WhatAWPoint from './pages/Main/History/WhatAWPoint';
+import GiftExchange from './pages/Main/History/GiftExchange';
 
 export default function App() {
     let header_color = '#178dde';
@@ -195,6 +202,55 @@ export default function App() {
                                 component={Terms}
                                 options={{
                                     title: 'Điều khoản sử dụng',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="HistoryPoint"
+                                component={HistoryPoint}
+                                options={{
+                                    title: 'Lịch sử điểm AWPoint ',
+                                    headerTitleStyle: {
+                                        fontSize: 18,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="HistoryOrder"
+                                component={HistoryOrder}
+                                options={{
+                                    title: 'Quản lý đơn hàng',
+                                    headerTitleStyle: {
+                                        fontSize: 17,
+                                    },
+                                    headerTintColor: 'black',
+                                    headerShadowVisible: false,
+                                }}
+                            />
+                            <Screen
+                                name="WhatAWPoint"
+                                component={WhatAWPoint}
+                                options={{
+                                    title: 'Điểm AWPoint là gì ?',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                    headerStyle: {
+                                        backgroundColor: '#fff',
+                                        shadowColor: 'transparent',
+                                    },
+                                }}
+                            />
+                            <Screen
+                                name="GiftExchange"
+                                component={GiftExchange}
+                                options={{
+                                    title: 'Đổi quà',
                                     headerTitleStyle: {
                                         fontSize: 20,
                                     },

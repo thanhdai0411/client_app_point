@@ -8,8 +8,9 @@ import {
     Image,
     Alert,
     TextInput,
+    Keyboard,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useInsertionEffect } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -17,25 +18,45 @@ import { useIsFocused } from '@react-navigation/native';
 import CustomStatusBar from '../../components/CustomStatusBar';
 import request from '../../utils/request';
 import CustomLabelInput from '../../components/CustomLabelInput';
+import ButtonCustom from '../../components/Button';
 
 const Accumulate = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [textScan, setTextScan] = useState(null);
-    const [score, setCore] = useState(0);
-    //
-    const [plusScore, setPlusScore] = useState(0);
-
-    // console.log(exits);
-
+    const [scoreUser, setScoreUser] = useState(0);
+    const [scoreIntroduce, setScoreIntroduce] = useState(0);
+    const [number, setNumber] = useState('');
     const isFocused = useIsFocused();
-    const idUserFake = '62bac5a1e3a866f3b6d758e7';
+
+    //========================================
+
+    const idUserFake = '62bd071706b5d8bca5a8ab16'; // Thanh Dai scanner
+    const phoneUserIntroduce = '0123456789';
+    //setting add coin
+    const settingAccumulate = {
+        user: 500,
+        introduced: 300,
+    };
+
+    //========================================
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await request.get('point/get_all');
-            const data = res && res.data.data ? res.data.data : [];
-            setCore(data.length);
+            try {
+                const res_1 = await request.get(`user/get_id/${idUserFake}`);
+                const res_2 = await request.get(`user/get_phone/${phoneUserIntroduce}`);
+                const data_1 = res_1 && res_1.data.data ? res_1.data.data : [];
+                const data_2 = res_2 && res_2.data.data ? res_2.data.data : [];
+                // console.log({ data_1, data_2 });
+                const presentNumberPointUser = data_1.number_point;
+                const presentNumberPointIntroduce = data_2.number_point_introduce;
+
+                setScoreUser(presentNumberPointUser);
+                setScoreIntroduce(presentNumberPointIntroduce);
+            } catch (err) {
+                console.log({ error_fetch_data_start: err });
+            }
         };
         fetchData();
     }, []);
@@ -45,11 +66,45 @@ const Accumulate = ({ navigation }) => {
             userID: idUserFake,
             code_scanner: data,
         };
+
         try {
             const res = await request.post('point/add', codeScan);
+
             if (res.data.success) {
-                setCore((scorePrev) => scorePrev + 1);
-                Alert.alert('Quét mã tích điểm thành công. Bạn được cộng 50 điểm');
+                // post point
+                /**
+                 *1. cong 500 ng ủe, cong 300 người git
+                 *
+                 */
+                setScoreUser((prev) => prev + settingAccumulate.user);
+                setScoreIntroduce((prev) => prev + settingAccumulate.introduced);
+
+                const postPointIntroduce = async () => {
+                    const pointIntroducePost =
+                        scoreIntroduce + settingAccumulate.introduced;
+                    const pointUserPost = scoreUser + settingAccumulate.user;
+
+                    try {
+                        const res_1 = await request.put(
+                            `user/add_number_point_id/${idUserFake}`,
+                            { number_point: pointUserPost }
+                        );
+                        const res_2 = await request.put(
+                            `user/add_number_point_phone/${phoneUserIntroduce}`,
+                            { number_point_introduce: pointIntroducePost }
+                        );
+                        if (res_1.data.success && res_2.data.success) {
+                            Alert.alert(
+                                'Quét mã tích điểm thành công. Bạn được cộng 500đ. Bạn của bạn được 300đ'
+                            );
+                        }
+                    } catch (err) {
+                        console.log({ error_post_point: err });
+                    }
+                };
+                postPointIntroduce();
+
+                // end post point
             } else {
                 Alert.alert('Quét mã tích điểm không thành công. Do mã đã qua sử dụng');
             }
@@ -74,10 +129,23 @@ const Accumulate = ({ navigation }) => {
     }, []);
 
     const handleBarCodeScanned = ({ type, data, bounds }) => {
-        // fetData(data);
         setScanned(true);
         setTextScan(data);
         handleFetchCodeScanner(data);
+    };
+    // phone number
+    const handleNumberPhone = () => {
+        console.log(number);
+        const fetchUser = async () => {
+            const res = await request.get(`user/get_phone/${number}`);
+            const data = res && res.data ? res.data.data : [];
+            if (res.data.data.length > 0) {
+                Alert.alert(`Số điện thoại ${number} nhập thành công `);
+            } else {
+                Alert.alert(`Số điện thoại ${number} không tồn tại `);
+            }
+        };
+        fetchUser();
     };
 
     const openSettingCamera = () => {
@@ -138,31 +206,30 @@ const Accumulate = ({ navigation }) => {
         <>
             {isFocused ? <CustomStatusBar barStyle="dark-content" /> : null}
 
-            <View style={styles.container}>
-                <View>
-                    <Image
-                        source={require('../../assets/img/logo.png')}
-                        style={{ width: 130, height: 130, marginBottom: 20 }}
-                    />
-                </View>
+            <View
+                style={{
+                    flex: 1,
+                    backgroundColor: color_screen_scan,
+                    alignItems: 'center',
+                    paddingTop: 50,
+                    // justifyContent: 'center',
+                }}>
                 <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
-                    <Text style={styles.text_score}>Hiện tại điểm của bạn là : </Text>
                     <Text
                         style={[styles.text_score, { fontWeight: '500', color: 'red' }]}>
-                        {score * 50}
+                        Intro: {scoreIntroduce} - User: {scoreUser}
                     </Text>
-                    <Text style={styles.text_score}> Điểm</Text>
                 </View>
                 <View style={styles.barcodebox}>
-                    {isFocused ? (
+                    {isFocused && !scanned ? (
                         <BarCodeScanner
                             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                             style={{ height: 400, width: 400 }}
                         />
                     ) : null}
                 </View>
-                <Text style={styles.maintext}>{textScan}</Text>
 
+                {/* <Text style={styles.maintext}>{textScan}</Text> */}
                 {scanned && (
                     <TouchableOpacity
                         style={styles.buttonOpenSetting}
@@ -192,7 +259,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        paddingTop: 10,
+        paddingTop: 50,
         // justifyContent: 'center',
     },
     maintext: {
@@ -217,7 +284,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 50,
         paddingVertical: 15,
         borderRadius: 10,
-        // marginTop: 20,
+        marginTop: 20,
     },
     text_open: {
         justifyContent: 'center',

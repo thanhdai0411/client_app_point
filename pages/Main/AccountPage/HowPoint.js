@@ -1,31 +1,60 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+// import { View, Text, TouchableOpacity } from 'react-native';
+// import React from 'react';
 
-// import
-import request from '../../../utils/request';
-import Nothing from '../../../components/Nothing';
-import ButtonCustom from '../../../components/Button';
-const HowPoint = () => {
-    let obj = {
-        code_scanner: '0000',
-    };
+// // import
+// import request from '../../../utils/request';
+// import Nothing from '../../../components/Nothing';
+// import ButtonCustom from '../../../components/Button';
+// const HowPoint = () => {
+//     return <Nothing text="Thông tin đâng được cập nhật" />;
+// };
 
-    const postData = async () => {
-        try {
-            const res = await request.post('point/add', {
-                code_scanner: '1001',
-            });
-            if (res.data.success) console.log('Thanh cong roi m oi');
-        } catch (error) {
-            console.log({ error });
-        }
-    };
+// export default HowPoint;
+
+import React, { useState, useEffect } from 'react';
+import { Platform, Text, View, StyleSheet } from 'react-native';
+import * as Location from 'expo-location';
+
+export default function App() {
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+        })();
+    }, []);
+
+    let text = 'Waiting..';
+    if (errorMsg) {
+        text = errorMsg;
+    } else if (location) {
+        text = JSON.stringify(location);
+    }
 
     return (
-        <View>
-            <ButtonCustom name="Fetch" onPress={postData} />
+        <View style={styles.container}>
+            <Text style={styles.paragraph}>{text}</Text>
         </View>
     );
-};
+}
 
-export default HowPoint;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+    },
+    paragraph: {
+        fontSize: 18,
+        textAlign: 'center',
+    },
+});

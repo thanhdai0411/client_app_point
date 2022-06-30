@@ -12,9 +12,15 @@ import {
     Switch,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
+
+//import
 import CustomInput from '../../../components/CustomInput';
 import ButtonCustom from '../../../components/Button';
 import CustomLabelInput from '../../../components/CustomLabelInput';
+import { vietnamProvincesAPI } from '../../../api';
+import RNPickerSelect from 'react-native-picker-select';
+import axios from 'axios';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function InfoOrder() {
     const { control, handleSubmit } = useForm();
@@ -43,6 +49,76 @@ export default function InfoOrder() {
             keyboardDidShowListener.remove();
         };
     }, []);
+
+    //fetch provinces
+    // provinces
+    const [provincesId, setProvincesId] = useState();
+    const [districtId, setDistrictId] = useState();
+    const [districts, setDistricts] = useState([]);
+    const [provinces, setProvinces] = useState([]);
+    const [wards, setWards] = useState([]);
+    const placeholder_p = {
+        label: 'Chọn Tỉnh/Thành Phố',
+        value: null,
+        color: '#9EA0A4',
+    };
+    const placeholder_d = {
+        label: 'Chọn Quận/Huyện',
+        value: null,
+        color: '#9EA0A4',
+    };
+    const placeholder_w = {
+        label: 'Chọn Phường/Xã',
+        value: null,
+        color: '#9EA0A4',
+    };
+
+    // provinces
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let res = await axios.get(vietnamProvincesAPI.provinces);
+                let data = res && res.data ? res.data : [];
+                setProvinces(data);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        fetchData();
+    }, []);
+
+    //districts
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let res = await axios.get(
+                    vietnamProvincesAPI.get_provinces(provincesId, 2)
+                );
+                let data = res && res.data ? res.data : [];
+                setDistricts(data.districts);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        fetchData();
+    }, [provincesId]);
+
+    //wards
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let res = await axios.get(
+                    vietnamProvincesAPI.get_districts(districtId, 2)
+                );
+                let data = res && res.data ? res.data : [];
+                setWards(data.wards);
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        fetchData();
+    }, [districtId]);
+
     return (
         <SafeAreaView style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }} showsVerticalScrollIndicator={false}>
@@ -70,29 +146,67 @@ export default function InfoOrder() {
 
                     <View style={{ paddingHorizontal: 10, marginTop: 10 }}>
                         <CustomLabelInput name="Tỉnh/Thành phố" />
-                        <CustomInput
-                            control={control}
-                            placeholder={'Tỉnh/Thành phố...'}
-                            rules={{ required: 'Bạn bắt buôc phải nhập trường này' }}
-                            name={'address_city'}
+                        <RNPickerSelect
+                            onValueChange={(value) => setProvincesId(value)}
+                            items={provinces.map((item) => {
+                                return { label: item.name, value: item.code };
+                            })}
+                            style={pickerSelectStyles}
+                            placeholder={placeholder_p}
+                            Icon={() => {
+                                return (
+                                    <FontAwesome
+                                        name={'chevron-down'}
+                                        color={'#aaa'}
+                                        size={18}
+                                        style={{ top: 12, right: 10 }}
+                                    />
+                                );
+                            }}
                         />
                     </View>
                     <View style={{ paddingHorizontal: 10, marginTop: 10 }}>
                         <CustomLabelInput name="Quận/Huyện" />
-                        <CustomInput
-                            control={control}
-                            placeholder={'Quận/Huyện'}
-                            rules={{ required: 'Bạn bắt buôc phải nhập trường này' }}
-                            name={'address_quan'}
+                        <RNPickerSelect
+                            onValueChange={(value) => setDistrictId(value)}
+                            items={districts.map((item) => {
+                                return { label: item.name, value: item.code };
+                            })}
+                            placeholder={placeholder_d}
+                            style={pickerSelectStyles}
+                            disabled={districts.length > 0 ? false : true}
+                            Icon={() => {
+                                return (
+                                    <FontAwesome
+                                        name={'chevron-down'}
+                                        color={'#aaa'}
+                                        size={18}
+                                        style={{ top: 12, right: 10 }}
+                                    />
+                                );
+                            }}
                         />
                     </View>
                     <View style={{ paddingHorizontal: 10, marginTop: 10 }}>
                         <CustomLabelInput name="Phường/Xã" />
-                        <CustomInput
-                            control={control}
-                            placeholder={'Phường/Xã'}
-                            rules={{ required: 'Bạn bắt buôc phải nhập trường này' }}
-                            name={'address_phuong'}
+                        <RNPickerSelect
+                            onValueChange={(value) => console.log(value)}
+                            items={wards.map((item) => {
+                                return { label: item.name, value: item.code };
+                            })}
+                            placeholder={placeholder_w}
+                            style={pickerSelectStyles}
+                            disabled={wards.length > 0 ? false : true}
+                            Icon={() => {
+                                return (
+                                    <FontAwesome
+                                        name={'chevron-down'}
+                                        color={'#aaa'}
+                                        size={18}
+                                        style={{ top: 12, right: 10 }}
+                                    />
+                                );
+                            }}
                         />
                     </View>
                     <View style={{ paddingHorizontal: 10, marginTop: 10 }}>
@@ -164,5 +278,28 @@ const styles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         paddingHorizontal: 20,
+    },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        borderWidth: 1.5,
+        borderColor: '#bbb',
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'purple',
+        borderRadius: 8,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
     },
 });

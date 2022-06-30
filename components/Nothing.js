@@ -11,6 +11,7 @@ const Nothing = ({ text = 'Nothing', button = buttonDefault, ...styleProps }) =>
                 justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: '#fff',
+                height: '100%',
                 ...styleProps,
             }}>
             <Image
