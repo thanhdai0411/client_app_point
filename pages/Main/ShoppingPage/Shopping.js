@@ -14,7 +14,7 @@ import ShoppingBody from './ShoppingBody';
 import CustomHeader from '../../../components/CustomHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
-import { cardSelector } from '../../../redux/reducers/Card/cardSlice';
+import { cardSelector } from '../../../redux/reducers/cardSlice';
 import CustomStatusBar from '../../../components/CustomStatusBar';
 
 let primary_color = '#178dde';

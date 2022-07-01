@@ -11,14 +11,16 @@ import {
     Keyboard,
 } from 'react-native';
 import React, { useState, useEffect, useInsertionEffect } from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { BarCodeScanner, requestPermissionsAsync } from 'expo-barcode-scanner';
 import { useIsFocused } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
 // import
 import CustomStatusBar from '../../components/CustomStatusBar';
 import request from '../../utils/request';
 import CustomLabelInput from '../../components/CustomLabelInput';
 import ButtonCustom from '../../components/Button';
+import { pointSelector, globalPoint } from '../../redux/reducers/pointSlice';
 
 const Accumulate = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -29,9 +31,12 @@ const Accumulate = ({ navigation }) => {
     const [number, setNumber] = useState('');
     const isFocused = useIsFocused();
 
+    // redux
+    const dispatch = useDispatch();
+
     //========================================
 
-    const idUserFake = '62bd071706b5d8bca5a8ab16'; // Thanh Dai scanner
+    const idUserScan = '62bd071706b5d8bca5a8ab16'; // Thanh Dai scanner
     const phoneUserIntroduce = '0123456789';
     //setting add coin
     const settingAccumulate = {
@@ -44,14 +49,19 @@ const Accumulate = ({ navigation }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res_1 = await request.get(`user/get_id/${idUserFake}`);
+                const res_1 = await request.get(`user/get_id/${idUserScan}`);
                 const res_2 = await request.get(`user/get_phone/${phoneUserIntroduce}`);
                 const data_1 = res_1 && res_1.data.data ? res_1.data.data : [];
                 const data_2 = res_2 && res_2.data.data ? res_2.data.data : [];
                 // console.log({ data_1, data_2 });
                 const presentNumberPointUser = data_1.number_point;
                 const presentNumberPointIntroduce = data_2.number_point_introduce;
-
+                dispatch(
+                    globalPoint({
+                        user: presentNumberPointUser,
+                        introduce: presentNumberPointIntroduce,
+                    })
+                );
                 setScoreUser(presentNumberPointUser);
                 setScoreIntroduce(presentNumberPointIntroduce);
             } catch (err) {
@@ -63,7 +73,7 @@ const Accumulate = ({ navigation }) => {
 
     const handleFetchCodeScanner = async (data) => {
         let codeScan = {
-            userID: idUserFake,
+            userID: idUserScan,
             code_scanner: data,
         };
 
@@ -83,23 +93,54 @@ const Accumulate = ({ navigation }) => {
                     const pointIntroducePost =
                         scoreIntroduce + settingAccumulate.introduced;
                     const pointUserPost = scoreUser + settingAccumulate.user;
+                    dispatch(
+                        globalPoint({
+                            user: pointUserPost,
+                            introduce: pointIntroducePost,
+                        })
+                    );
 
                     try {
                         const res_1 = await request.put(
-                            `user/add_number_point_id/${idUserFake}`,
+                            `user/update_user_id/${idUserScan}`,
                             { number_point: pointUserPost }
                         );
                         const res_2 = await request.put(
-                            `user/add_number_point_phone/${phoneUserIntroduce}`,
+                            `user/update_user_phone/${phoneUserIntroduce}`,
                             { number_point_introduce: pointIntroducePost }
                         );
-                        if (res_1.data.success && res_2.data.success) {
+
+                        // add into history
+                        const htrUser = {
+                            user_id: idUserScan,
+                            accumulate_point: settingAccumulate.user,
+                        };
+                        const htrIntroduce = {
+                            phone_number: phoneUserIntroduce,
+                            donate_points: settingAccumulate.introduced,
+                        };
+
+                        const htr_user = await request.post(
+                            'history_point/add_id',
+                            htrUser
+                        );
+                        const htr_introduce = await request.post(
+                            'history_point/add_phone',
+                            htrIntroduce
+                        );
+
+                        if (
+                            res_1.data.success &&
+                            res_2.data.success &&
+                            htr_user.data.success &&
+                            htr_introduce.data.success
+                        ) {
                             Alert.alert(
                                 'Quét mã tích điểm thành công. Bạn được cộng 500đ. Bạn của bạn được 300đ'
                             );
                         }
                     } catch (err) {
-                        console.log({ error_post_point: err });
+                        console.log({ error_post_point: err.message });
                     }
                 };
                 postPointIntroduce();
@@ -217,7 +258,7 @@ const Accumulate = ({ navigation }) => {
                 <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
                     <Text
                         style={[styles.text_score, { fontWeight: '500', color: 'red' }]}>
-                        Intro: {scoreIntroduce} - User: {scoreUser}
+                        Người giới thiệu: {scoreIntroduce} - Người quét: {scoreUser}
                     </Text>
                 </View>
                 <View style={styles.barcodebox}>

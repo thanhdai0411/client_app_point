@@ -27,6 +27,7 @@ import HowPoint from './pages/Main/AccountPage/HowPoint';
 import Terms from './pages/Main/AccountPage/Terms';
 import Security from './pages/Main/AccountPage/Security';
 import RegisterDealer from './pages/Main/AccountPage/RegisterDealer';
+import InfoBank from './pages/Main/AccountPage/InfoBank';
 
 import HistoryPoint from './pages/Main/History/HistoryPoint';
 import HistoryOrder from './pages/Main/History/HistoryOrder';
@@ -140,6 +141,19 @@ export default function App() {
                                         fontSize: 20,
                                     },
                                     headerTintColor: 'white',
+                                }}
+                            />
+                            <Screen
+                                name="InfoBank"
+                                component={InfoBank}
+                                options={{
+                                    headerShown: true,
+                                    title: 'Thông tin ngân hàng',
+
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
                                 }}
                             />
                             <Screen

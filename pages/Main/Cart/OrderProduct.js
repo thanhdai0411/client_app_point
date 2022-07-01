@@ -17,7 +17,7 @@ import {
     pressPlus,
     pressSubtract,
     deleteProduct,
-} from '../../../redux/reducers/Card/cardSlice';
+} from '../../../redux/reducers/cardSlice';
 import Nothing from '../../../components/Nothing';
 import ButtonCustom from '../../../components/Button';
 

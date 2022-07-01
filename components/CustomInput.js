@@ -13,7 +13,7 @@ const CustomInput = ({
     value,
     defaultValue,
     fontSizeInput = 17,
-    colorInput = 'gray',
+    colorInput = 'black',
     borderColorWrapInput = '#bbb',
     autoFocus = false,
     keyBoardType = null,

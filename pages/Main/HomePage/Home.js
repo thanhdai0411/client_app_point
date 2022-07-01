@@ -11,14 +11,15 @@ import {
     ScrollViewComponent,
     ScrollViewBase,
 } from 'react-native';
-const { width, height } = Dimensions.get('window');
-import CustomStatusBar from '../../../components/CustomStatusBar';
 
+// import
+
+import CustomStatusBar from '../../../components/CustomStatusBar';
 import HomeHeader from './HomeHeader';
 import HomeBody from './HomeBody';
 
 //
-//
+const { width, height } = Dimensions.get('window');
 
 function Home({ navigation }) {
     //

@@ -13,7 +13,7 @@ import {
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { cardSelector, addCart } from '../../../redux/reducers/Card/cardSlice';
+import { cardSelector, addCart } from '../../../redux/reducers/cardSlice';
 
 // import screens
 import Label from '../../../components/Label';

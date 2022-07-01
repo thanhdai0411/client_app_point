@@ -14,7 +14,7 @@ const AccountHeader = () => {
             </View>
             <View style={styles.ac_info}>
                 <Text style={styles.ac_user_name}>Thanh Dai</Text>
-                <Coin marginLeft={null} width={90} count={100} />
+                <Coin marginLeft={null} count={100} />
             </View>
         </View>
     );

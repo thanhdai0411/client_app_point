@@ -184,6 +184,7 @@ const InfoUser = ({ navigation }) => {
                                     <EvilIcons name="pencil" size={35} color="#aaa" />
                                 }
                             />
+
                             {/* avatar user */}
                             <UploadImg
                                 label="Thay đổi hình đại diện"

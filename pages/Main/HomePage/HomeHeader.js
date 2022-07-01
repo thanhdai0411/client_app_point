@@ -13,11 +13,19 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { useSelector } from 'react-redux';
+// import
 import Coin from '../../../components/Coin';
+import { pointSelector } from '../../../redux/reducers/pointSlice';
 
+//
 import { box_shadow } from '../../../components/GlobalStyles';
 
 export default function HomeHeader({ navigation }) {
+    const points = useSelector(pointSelector);
+    // console.log({ points });
+    const { point_introduce, point_user } = points;
+
     return (
         <>
             {/* <ImageBackground source={require('../../../assets/img/wall.jpg')}> */}
@@ -26,7 +34,7 @@ export default function HomeHeader({ navigation }) {
                     <Text style={styles.header_name}>
                         Thanh Dai<Text> ơi !</Text>
                     </Text>
-                    <Coin count={100} width={90} />
+                    <Coin count={point_user} />
                     <Image />
                 </View>
                 <View style={{ flexDirection: 'row' }}>

@@ -23,6 +23,11 @@ const AccountBody = ({ navigation }) => {
                     text="Thông tin cá nhân"
                     icon={<FontAwesome name="user-o" size={25} />}
                 />
+                <AccountBodyItem
+                    onPress={() => navigate('InfoBank')}
+                    text="Thông tin ngân hàng"
+                    icon={<MaterialCommunityIcons name="bank-outline" size={25} />}
+                />
 
                 <AccountBodyItem
                     onPress={() => navigate('InviteCode')}

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cardReducer from './reducers/Card/cardSlice';
-import scorePointReducer from './reducers/scorePointSlice';
+import cardReducer from './reducers/cardSlice';
+import pointReducer from './reducers/pointSlice';
 
 const store = configureStore({
     reducer: {
         cardReducer,
-        scorePointReducer,
+        pointReducer,
     },
 });
 

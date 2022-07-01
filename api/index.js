@@ -7,4 +7,8 @@ const vietnamProvincesAPI = {
     get_districts: (p, code) => `https://provinces.open-api.vn/api/d/${p}?depth=${code}`,
 };
 
-export { vietnamProvincesAPI };
+const vietnamBankAPI = {
+    list_banks: 'https://api.vietqr.io/v2/banks',
+};
+
+export { vietnamProvincesAPI, vietnamBankAPI };
