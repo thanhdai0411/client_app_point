@@ -6,7 +6,7 @@ import { box_shadow } from './GlobalStyles';
 const CardItem = ({
     nameCompany = 'AWACO',
     title = 'FreeSip cho đơn hàng đầu tiên',
-    imageLink = require('../assets/img/sp1.png'),
+    imageLink = require('../assets/img/f1.webp'),
     coinNumber = 5,
     onPress,
 }) => {
@@ -18,13 +18,14 @@ const CardItem = ({
                     <Text style={styles.name_title}>{title}</Text>
                     <Coin
                         count={coinNumber}
-                        backgroundColor="#FFB562"
-                        width={80}
-                        top={10}
+                        backgroundColor={null}
+                        borderWidth={0}
+                        bottom={-10}
+                        colorPoint={'black'}
                     />
                 </View>
                 <View style={styles.img_item}>
-                    <Image source={imageLink} style={styles.img} />
+                    <Image source={imageLink} style={styles.img} resizeMode="stretch" />
                 </View>
             </View>
         </TouchableOpacity>
@@ -60,11 +61,11 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     img_item: {
-        flex: 2,
+        flex: 2.5,
     },
     img: {
-        width: 120,
-        height: 120,
+        width: 145,
+        height: 125,
         borderRadius: 5,
     },
 });

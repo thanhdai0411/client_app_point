@@ -33,6 +33,9 @@ import HistoryPoint from './pages/Main/History/HistoryPoint';
 import HistoryOrder from './pages/Main/History/HistoryOrder';
 import WhatAWPoint from './pages/Main/History/WhatAWPoint';
 import GiftExchange from './pages/Main/History/GiftExchange';
+import GiftExchangeMoney from './pages/Main/History/GiftExchangeMoney';
+import GiftExchangeProduct from './pages/Main/History/GiftExchangeProduct';
+import DetailExchange from './pages/Main/History/DetailExchange';
 
 export default function App() {
     let header_color = '#178dde';
@@ -264,10 +267,48 @@ export default function App() {
                                 name="GiftExchange"
                                 component={GiftExchange}
                                 options={{
-                                    title: 'Đổi quà',
+                                    title: 'Đổi điểm',
                                     headerTitleStyle: {
                                         fontSize: 20,
                                     },
+                                    headerShadowVisible: false,
+
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="GiftExchangeMoney"
+                                component={GiftExchangeMoney}
+                                options={{
+                                    title: 'Đổi điểm thành tiền',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="GiftExchangeProduct"
+                                component={GiftExchangeProduct}
+                                options={{
+                                    title: 'Đổi điểm thành quà',
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+
+                                    headerTintColor: 'black',
+                                }}
+                            />
+                            <Screen
+                                name="DetailExchange"
+                                component={DetailExchange}
+                                options={{
+                                    // title: 'Đổi ',
+                                    headerShown: false,
+                                    headerTitleStyle: {
+                                        fontSize: 20,
+                                    },
+
                                     headerTintColor: 'black',
                                 }}
                             />

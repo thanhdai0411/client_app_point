@@ -34,21 +34,38 @@ import { vietnamBankAPI, vietnamProvincesAPI } from '../../../api';
 
 import axios from 'axios';
 import CustomStatusBar from '../../../components/CustomStatusBar';
+import request from '../../../utils/request';
 
 export default function InfoBank() {
     const { control, handleSubmit, setValue } = useForm();
     const isFocused = useIsFocused();
     const [image, setImage] = useState(null);
     const [publishDate, setPublishDate] = useState('');
+    const [infoBank, setInfoBank] = useState([]);
 
-    // image piker
+    ///=================
+    const idUserScan = '62bd071706b5d8bca5a8ab16'; // Thanh Dai scanner
+
+    ///=================
 
     const submitForm = (data) => {
         const dataFormBank = {
             ...data,
             date_publish_cmnd: publishDate,
         };
-        console.log(dataFormBank);
+        const postDataFormBank = async () => {
+            const res = await request.post('info_bank/add', {
+                ...dataFormBank,
+                user_id: idUserScan,
+            });
+            const data = res && res.data ? res.data.data : [];
+            console.log(data);
+            if (res.data.success) {
+                Alert.alert('Cập thông tin ngân hàng thành công');
+            }
+            setInfoBank(data);
+        };
+        postDataFormBank();
     };
 
     // detect keyboard

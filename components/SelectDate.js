@@ -3,14 +3,14 @@ import { View, Text, Button, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-const SelectDate = ({ valueSelect, onChange, borderColorProp = '#bbb' }) => {
+const SelectDate = ({ valueSelect, borderColorProp = '#bbb' }) => {
     const [date, setDate] = useState(new Date());
     const [show, setShow] = useState(false);
 
-    // const onChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate;
-    //     setDate(currentDate);
-    // };
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setDate(currentDate);
+    };
 
     let MyDateString =
         ('0' + date.getDate()).slice(-2) +
@@ -19,7 +19,8 @@ const SelectDate = ({ valueSelect, onChange, borderColorProp = '#bbb' }) => {
         '/' +
         date.getFullYear();
 
-    !show ? valueSelect(MyDateString) : '';
+    // !show ? valueSelect(MyDateString) : '';
+    valueSelect(MyDateString);
     return (
         <View>
             <View

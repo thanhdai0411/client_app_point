@@ -80,7 +80,7 @@ const AccountBody = ({ navigation }) => {
                 borderWidth={2}
                 borderRadius={10}
                 borderColor="pink"
-                marginTop={30}
+                marginTop={8}
                 marginHorizontal={20}
             />
         </View>

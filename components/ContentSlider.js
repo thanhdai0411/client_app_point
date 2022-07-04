@@ -103,7 +103,7 @@ const ContentSlider = ({
                                     left={-120}
                                     paddingHorizontal={20}
                                     marginBottom={-20}
-                                    width={90}
+                                    // width={90}
                                 />
                             )}
                         </View>
