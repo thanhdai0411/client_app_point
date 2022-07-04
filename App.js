@@ -37,6 +37,9 @@ import GiftExchangeMoney from './pages/Main/History/GiftExchangeMoney';
 import GiftExchangeProduct from './pages/Main/History/GiftExchangeProduct';
 import DetailExchange from './pages/Main/History/DetailExchange';
 
+import HAcumulated from './pages/Main/History/HAcumulated';
+import HSpent from './pages/Main/History/HSpent';
+
 export default function App() {
     let header_color = '#178dde';
 
@@ -229,13 +232,15 @@ export default function App() {
                                 name="HistoryPoint"
                                 component={HistoryPoint}
                                 options={{
-                                    title: 'Lịch sử điểm AWPoint ',
+                                    title: 'Lịch sử điểm ',
                                     headerTitleStyle: {
                                         fontSize: 18,
                                     },
                                     headerTintColor: 'black',
+                                    headerShadowVisible: false,
                                 }}
                             />
+
                             <Screen
                                 name="HistoryOrder"
                                 component={HistoryOrder}

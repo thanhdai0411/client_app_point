@@ -5,6 +5,7 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 import React from 'react';
 import { useIsFocused } from '@react-navigation/native';
@@ -23,11 +24,21 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const { width, height } = Dimensions.get('window');
 let color = '#178dde';
+import request from '../../../utils/request';
 
 const DetailExchange = ({ navigation }) => {
     const isFocused = useIsFocused();
 
-    const handleExchange = () => {};
+    const handleExchange = () => {
+        Alert.alert('Bạn đổi điểm thành công. Chúng tôi sẽ trao thưởng sớm nhất đến bạn');
+        const exchangePoint = async () => {
+            // const res = await request.post()
+        };
+    };
+
+    const handleCheckInfoBank = () => {
+        navigation.navigate('InfoBank');
+    };
 
     return (
         <>
@@ -113,15 +124,27 @@ const DetailExchange = ({ navigation }) => {
                     </View>
                 </View>
             </ImageHeaderScrollView>
-            <View style={{ backgroundColor: 'white' }}>
+            <View style={{ backgroundColor: 'white', flexDirection: 'row' }}>
+                <ButtonCustom
+                    name="Kiểm tra lại thông tin"
+                    borderRadius={10}
+                    marginBottom={30}
+                    marginTop={10}
+                    // flex={1}
+                    // paddingHorizontal={30}
+                    marginHorizontal={10}
+                    backgroundColor="orange"
+                    onPress={handleCheckInfoBank}
+                />
                 <ButtonCustom
                     name="Đổi ngay"
                     borderRadius={10}
                     marginBottom={30}
                     marginTop={10}
-                    paddingHorizontal={30}
+                    flex={1}
+                    // paddingHorizontal={30}
                     marginHorizontal={10}
-                    backgroundColor="orange"
+                    backgroundColor="blue"
                     onPress={handleExchange}
                 />
             </View>

@@ -10,6 +10,7 @@ const SelectDate = ({ valueSelect, borderColorProp = '#bbb' }) => {
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setDate(currentDate);
+        valueSelect(MyDateString);
     };
 
     let MyDateString =
@@ -20,7 +21,7 @@ const SelectDate = ({ valueSelect, borderColorProp = '#bbb' }) => {
         date.getFullYear();
 
     // !show ? valueSelect(MyDateString) : '';
-    valueSelect(MyDateString);
+    // valueSelect(MyDateString);
     return (
         <View>
             <View
