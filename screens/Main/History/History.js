@@ -1,15 +1,18 @@
 import { View, Text, SafeAreaView, Image } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useSelector } from 'react-redux';
 
 // import
 import CustomStatusBar from '../../../components/CustomStatusBar';
 import Nothing from '../../../components/Nothing';
 import CardHistory from '../../../components/CardHistory';
 import { LinearGradient } from 'expo-linear-gradient';
+import { userSelector } from '../../../redux/reducers/userSlice';
 
 let header_color = '#178dde';
 const History = ({ navigation }) => {
+    const { info_user } = useSelector(userSelector);
     return (
         <SafeAreaView style={{ backgroundColor: header_color }}>
             {/* header */}
@@ -28,10 +31,15 @@ const History = ({ navigation }) => {
                     }}>
                     <View>
                         <Text style={{ fontSize: 18, marginBottom: 5, color: 'white' }}>
-                            Xin chào, <Text style={{ fontWeight: '500' }}>Thanh Dai</Text>
+                            Xin chào,{' '}
+                            <Text style={{ fontWeight: '500' }}>
+                                {info_user.username
+                                    ? info_user.username
+                                    : info_user.phone_number}
+                            </Text>
                         </Text>
                         <Text style={{ fontSize: 16, color: 'white' }}>
-                            Bạn là Thành viên <Text>Hoàng gia</Text>
+                            Bạn là Thành viên <Text>Nhập môn</Text>
                         </Text>
                     </View>
                     <View>
@@ -39,17 +47,31 @@ const History = ({ navigation }) => {
                             source={require('../../../assets/img/rank_6.png')}
                             style={{ width: 120, height: 121 }}
                         />
-                        <Image
-                            source={require('../../../assets/img/logo.png')}
-                            style={{
-                                width: 52.5,
-                                height: 52.5,
-                                position: 'absolute',
-                                top: 38,
-                                right: 33.7,
-                                borderRadius: 5,
-                            }}
-                        />
+                        {info_user.avatar ? (
+                            <Image
+                                source={{ uri: info_user.avatar }}
+                                style={{
+                                    width: 52.5,
+                                    height: 52.5,
+                                    position: 'absolute',
+                                    top: 38,
+                                    right: 33.7,
+                                    borderRadius: 5,
+                                }}
+                            />
+                        ) : (
+                            <Image
+                                source={require('../../../assets/img/water4.jpg')}
+                                style={{
+                                    width: 52.5,
+                                    height: 52.5,
+                                    position: 'absolute',
+                                    top: 38,
+                                    right: 33.7,
+                                    borderRadius: 5,
+                                }}
+                            />
+                        )}
                     </View>
                 </View>
                 <LinearGradient

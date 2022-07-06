@@ -10,13 +10,15 @@ const CustomInput = ({
     secureTextEntry,
     iconRight = null,
     onPressIcon,
+    editable,
     value,
     defaultValue,
+    refInput,
     fontSizeInput = 17,
     colorInput = 'black',
     borderColorWrapInput = '#bbb',
     autoFocus = false,
-    keyBoardType = null,
+    keyboardType = null,
     ...styleInput
 }) => {
     return (
@@ -54,14 +56,16 @@ const CustomInput = ({
 
                                 // flex: 1,
                             }}
+                            ref={refInput}
                             autoFocus={autoFocus}
-                            keyboardType={keyBoardType}
+                            keyboardType={keyboardType}
                             onBlur={onBlur}
                             onChangeText={onChange}
-                            value={value}
+                            // value={value}
                             defaultValue={defaultValue}
                             placeholder={placeholder}
                             secureTextEntry={secureTextEntry}
+                            editable={editable}
                         />
                         <TouchableOpacity oPress={onPressIcon}>
                             {iconRight}

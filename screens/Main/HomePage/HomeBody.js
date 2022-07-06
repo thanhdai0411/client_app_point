@@ -6,8 +6,9 @@ import {
     Image,
     Dimensions,
     ImageEditor,
+    Alert,
 } from 'react-native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 const { width, height } = Dimensions.get('window');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -75,6 +76,21 @@ const HomeBody = ({ navigation }) => {
             img: require('../../../assets/img/tich_diem.jpg'),
         },
     ];
+
+    // useEffect(() => {
+    //     Alert.alert(
+    //         'Thông báo',
+    //         'Bạn hãy cập nhật đầy đủ thông tin cá nhân để chúng tôi hiểu bạn hơn',
+    //         [
+    //             {
+    //                 text: 'Để sau',
+    //                 onPress: () => console.log('Cancel Pressed'),
+    //                 style: 'cancel',
+    //             },
+    //             { text: 'Đi ngay', onPress: () => navigation.navigate('InfoUser') },
+    //         ]
+    //     );
+    // }, []);
 
     return (
         <View style={styles.home_body}>

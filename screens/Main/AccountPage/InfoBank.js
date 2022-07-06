@@ -19,6 +19,8 @@ import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useIsFocused } from '@react-navigation/native';
 
+import { useSelector } from 'react-redux';
+
 // import
 import CustomInput from '../../../components/CustomInput';
 import ButtonCustom from '../../../components/Button';
@@ -36,15 +38,19 @@ import axios from 'axios';
 import CustomStatusBar from '../../../components/CustomStatusBar';
 import request from '../../../utils/request';
 
-export default function InfoBank() {
+import { userSelector } from '../../../redux/reducers/userSlice';
+
+export default function InfoBank({ navigation }) {
     const { control, handleSubmit, setValue } = useForm();
     const isFocused = useIsFocused();
     const [image, setImage] = useState(null);
     const [publishDate, setPublishDate] = useState('');
     const [infoBank, setInfoBank] = useState([]);
 
+    const { info_user } = useSelector(userSelector);
+
     ///=================
-    const idUserScan = '62bd071706b5d8bca5a8ab16'; // Thanh Dai scanner
+    const idUserScan = info_user._id; // Thanh Dai scanner
 
     ///=================
 
@@ -59,11 +65,10 @@ export default function InfoBank() {
                 user_id: idUserScan,
             });
             const data = res && res.data ? res.data.data : [];
-            console.log(data);
             if (res.data.success) {
+                navigation.navigate('Main');
                 Alert.alert('Cập thông tin ngân hàng thành công');
             }
-            setInfoBank(data);
         };
         postDataFormBank();
     };
@@ -162,6 +167,9 @@ export default function InfoBank() {
                                                 value: item.shortName,
                                             };
                                         })}
+                                        pickerProps={{
+                                            style: { height: 214, overflow: 'hidden' },
+                                        }}
                                         onValueChange={onChange}
                                         style={{
                                             inputIOS: {

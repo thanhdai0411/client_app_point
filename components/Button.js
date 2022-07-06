@@ -7,6 +7,7 @@ const ButtonCustom = ({
     iconBtn = null,
     opacityBtn = 0.5,
     colorText = 'white',
+    disabled,
     sizeText = 17,
     weightText = '500',
     primary_color = '#006db6',
@@ -17,6 +18,7 @@ const ButtonCustom = ({
         <TouchableOpacity
             activeOpacity={opacityBtn}
             onPress={onPress}
+            disabled={disabled}
             style={{
                 alignItems: 'center',
                 backgroundColor: primary_color,

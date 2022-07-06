@@ -10,11 +10,33 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AccountBodyItem from './AccountBodyItem';
 import ButtonCustom from '../../../components/Button';
+import * as SecureStore from 'expo-secure-store';
 
 let header_color = '#178dde';
 
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../../redux/reducers/userSlice';
+import firebase from 'firebase/compat';
+
 const AccountBody = ({ navigation }) => {
     const { navigate } = navigation;
+    const dispatch = useDispatch();
+
+    let keyStore = 'phone_number';
+
+    const handleLogout = async () => {
+        try {
+            await firebase.auth().signOut();
+            await SecureStore.deleteItemAsync(keyStore);
+            await SecureStore.deleteItemAsync('username');
+
+            dispatch(loginSuccess({ login: false, intro: false }));
+            console.log('Delete success');
+        } catch (err) {
+            console.log({ delete_err: err.message });
+        }
+    };
+
     return (
         <View style={styles.ac_body}>
             <View style={styles.item_group}>
@@ -82,6 +104,7 @@ const AccountBody = ({ navigation }) => {
                 borderColor="pink"
                 marginTop={8}
                 marginHorizontal={20}
+                onPress={handleLogout}
             />
         </View>
     );
