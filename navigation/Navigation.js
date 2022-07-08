@@ -151,7 +151,7 @@ const Navigation = () => {
                             name="InfoUser"
                             component={InfoUser}
                             options={{
-                                headerShown: true,
+                                headerShown: false,
                                 title: 'Thông tin cá nhân',
                                 headerShadowVisible: false,
                                 headerStyle: {
@@ -169,6 +169,7 @@ const Navigation = () => {
                             options={{
                                 headerShown: true,
                                 title: 'Thông tin ngân hàng',
+                                headerShadowVisible: false,
 
                                 headerTitleStyle: {
                                     fontSize: 20,

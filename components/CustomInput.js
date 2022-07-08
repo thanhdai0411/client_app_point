@@ -57,6 +57,7 @@ const CustomInput = ({
                                 // flex: 1,
                             }}
                             ref={refInput}
+                            returnKeyType="done"
                             autoFocus={autoFocus}
                             keyboardType={keyboardType}
                             onBlur={onBlur}

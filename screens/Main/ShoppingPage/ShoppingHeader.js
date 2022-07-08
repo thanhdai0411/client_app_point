@@ -21,6 +21,8 @@ const ShoppingHeader = () => {
             <ContentSlider
                 isCoin={false}
                 isTitle={false}
+                autoplay={true}
+                timePlay={5}
                 activeOpacity={0.99}
                 borderRadiusImg={10}
                 backgroundColorContainer={null}

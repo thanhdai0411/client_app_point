@@ -108,10 +108,12 @@ const HomeBody = ({ navigation }) => {
                         img: require('../../../assets/img/b4.jpg'),
                     },
                 ]}
-                autoplay={false}
+                autoplay={true}
+                heightImg={150}
+                timePlay={5}
                 isTitle={false}
                 backgroundColorContainer={null}
-                containerMarginTop={55}
+                containerMarginTop={63}
             />
             {/* end Banner */}
 
@@ -147,11 +149,12 @@ const styles = StyleSheet.create({
     home_body: {
         // flex: 1,
         width: '100%',
-        // height: '80%',
+        height: '100%',
+
         backgroundColor: body_color,
         borderTopRightRadius: 20,
         borderTopLeftRadius: 20,
-        paddingBottom: 30,
+        // paddingBottom: 10,
     },
     home_body_img: {
         borderRadius: 20,

@@ -18,6 +18,7 @@ const Ticket = ({
                 marginHorizontal: 15,
                 borderRadius: 10,
                 padding: 15,
+                paddingVertical: 8,
                 borderWidth: 1,
                 borderColor: '#ddd',
                 top: top,
@@ -28,7 +29,7 @@ const Ticket = ({
                         textAlign: 'center',
                         fontSize: 25,
                         fontWeight: '500',
-                        paddingBottom: 35,
+                        paddingBottom: 20,
                         paddingTop: 5,
                     }}>
                     {title}

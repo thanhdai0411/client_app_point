@@ -6,9 +6,16 @@ import {
     ScrollView,
     TouchableOpacity,
     Alert,
+    ImageBackground,
 } from 'react-native';
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
+import {
+    ImageHeaderScrollView,
+    TriggeringView,
+} from 'react-native-image-header-scroll-view';
+
 //import
 import CustomInput from '../../../components/CustomInput';
 import CustomLabelInput from '../../../components/CustomLabelInput';
@@ -21,11 +28,13 @@ import UploadImg from '../../../components/UploadImg';
 import request from '../../../utils/request';
 
 import { userSelector, getUserDB } from '../../../redux/reducers/userSlice';
+
 let header_color = '#178dde';
 
 const { width, height } = Dimensions.get('window');
 const InfoUser = ({ navigation }) => {
-    const [imageUpload, setImageUpload] = useState(null);
+    const [imageUpload, setImageUploadAvatar] = useState(null);
+    const [imageUploadWall, setImageUploadWall] = useState(null);
     const { control, handleSubmit } = useForm();
     const { info_user } = useSelector(userSelector);
 
@@ -44,6 +53,7 @@ const InfoUser = ({ navigation }) => {
             ...data,
             phone_number: info_user.phone_number,
             avatar: imageUpload,
+            wall: imageUploadWall,
         };
         // console.log(dataInfoUser);
         if (
@@ -86,26 +96,42 @@ const InfoUser = ({ navigation }) => {
             }
         };
 
-        if (dataInfoUser.email) updateUser(dataInfoUser.email, 'email', 'Email');
-        if (dataInfoUser.address) updateUser(dataInfoUser.address, 'address', 'Địa chỉ');
+        if (dataInfoUser.email) updateUser(dataInfoUser.email, 'email', 'dmail');
+        if (dataInfoUser.address) updateUser(dataInfoUser.address, 'address', 'địa chỉ');
         if (dataInfoUser.username)
-            updateUser(dataInfoUser.username, 'username', 'Tên cá nhâ');
+            updateUser(dataInfoUser.username, 'username', 'tên cá nhân');
         if (dataInfoUser.avatar)
-            updateUser(dataInfoUser.avatar, 'avatar', 'Hình đại diện');
+            updateUser(dataInfoUser.avatar, 'avatar', 'hình đại diện');
+        if (dataInfoUser.wall) updateUser(dataInfoUser.wall, 'wall', 'hình nền');
     };
 
     return (
         // <>
         //     {info_user.username ? () : ()}
         // </>
-        <View style={{ backgroundColor: header_color }}>
-            <ScrollView>
-                <View
-                    style={{
-                        backgroundColor: header_color,
-                        height: height / 5,
-                        width: width,
-                    }}></View>
+        <>
+            <ImageHeaderScrollView
+                maxHeight={280}
+                minHeight={80}
+                headerImage={
+                    imageUploadWall
+                        ? { uri: imageUploadWall }
+                        : info_user.wall
+                        ? { uri: info_user.wall }
+                        : require('../../../assets/img/wall.jpg')
+                }
+                renderFixedForeground={() => (
+                    <CustomHeader
+                        title={'Thông tin cá nhân'}
+                        backgroundColorHeader={null}
+                        borderHeader={null}
+                        marginTop={30}
+                        navigation={navigation}
+                        colorIconLeft={'white'}
+                        textColor={'white'}
+                        // styleIconLeft={{ color: 'white' }}
+                    />
+                )}>
                 <View
                     style={{
                         backgroundColor: '#fff',
@@ -311,15 +337,23 @@ const InfoUser = ({ navigation }) => {
                                 paddingHorizontal={null}
                                 marginTopWrap={8}
                                 getImgUpload={(image) => {
-                                    setImageUpload(image);
+                                    setImageUploadAvatar(image);
+                                }}
+                            />
+                            <UploadImg
+                                label="Thay đổi hình nền"
+                                requireLabel={false}
+                                paddingHorizontal={null}
+                                marginTopWrap={8}
+                                getImgUpload={(image) => {
+                                    setImageUploadWall(image);
                                 }}
                             />
                         </View>
                     </View>
                 </View>
-                {/* end update info */}
-            </ScrollView>
-            {/* buton submit */}
+            </ImageHeaderScrollView>
+
             <View
                 style={{
                     paddingBottom: 50,
@@ -341,8 +375,7 @@ const InfoUser = ({ navigation }) => {
                     onPress={handleSubmit(submitForm)}
                 />
             </View>
-            {/* end btn submit */}
-        </View>
+        </>
     );
 };
 

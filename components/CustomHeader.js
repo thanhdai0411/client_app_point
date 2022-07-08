@@ -2,11 +2,11 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const iconLeftDefault = <AntDesign name="left" size={25} color="#000" />;
 const CustomHeader = ({
     title,
     navigation,
-    iconLeft = iconLeftDefault,
+    iconLeft = true,
+    colorIconLeft = 'black',
     iconRight = null,
     onPressLeft = null,
     onPressRight,
@@ -17,6 +17,8 @@ const CustomHeader = ({
         fontWeight: 'bold',
     },
     textColor,
+    backgroundColorHeader = 'white',
+    borderHeader = 1,
     ...styleHeader
 }) => {
     const handelBackScreen = () => {
@@ -26,8 +28,8 @@ const CustomHeader = ({
     return (
         <View
             style={{
-                backgroundColor: 'white',
-                borderBottomWidth: 1,
+                backgroundColor: backgroundColorHeader,
+                borderBottomWidth: borderHeader,
                 borderColor: '#ccc',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -35,8 +37,8 @@ const CustomHeader = ({
                 ...styleHeader,
             }}>
             {iconLeft && (
-                <TouchableOpacity onPress={onPressIconLeft} style={styleIconLeft}>
-                    {iconLeft}
+                <TouchableOpacity onPress={onPressIconLeft} style={{ ...styleIconLeft }}>
+                    <AntDesign name="left" size={25} color={colorIconLeft} />
                 </TouchableOpacity>
             )}
 

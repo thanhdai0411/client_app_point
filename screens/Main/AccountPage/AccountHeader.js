@@ -9,42 +9,29 @@ import { userSelector } from '../../../redux/reducers/userSlice';
 const AccountHeader = () => {
     const { info_user } = useSelector(userSelector);
     return (
-        <>
-            {info_user.username ? (
-                <View style={styles.ac_header}>
-                    {/* <SimpleLineIcons name="user" size={50} color="blue" /> */}
-                    {info_user.avatar ? (
-                        <Image
-                            source={{ uri: info_user.avatar }}
-                            style={{ width: 80, height: 80, borderRadius: 10 }}
-                        />
-                    ) : (
-                        <Image
-                            source={require('../../../assets/img/non_user.jpg')}
-                            style={{ width: 80, height: 80, borderRadius: 10 }}
-                        />
-                    )}
-                    <View style={styles.ac_info}>
-                        <Text style={styles.ac_user_name}>{info_user.username}</Text>
-                        <Coin marginLeft={null} count={info_user.number_point} />
-                    </View>
-                </View>
+        <View style={styles.ac_header}>
+            {/* <SimpleLineIcons name="user" size={50} color="blue" /> */}
+            {info_user.avatar ? (
+                <Image
+                    source={{ uri: info_user.avatar }}
+                    style={{ width: 80, height: 80, borderRadius: 10 }}
+                />
             ) : (
-                <View style={styles.ac_header}>
-                    <View style={styles.ac_avatar}>
-                        {/* <SimpleLineIcons name="user" size={50} color="blue" /> */}
-                        <Image
-                            source={require('../../../assets/img/non_user.jpg')}
-                            style={{ width: 65, height: 65 }}
-                        />
-                    </View>
-                    <View style={styles.ac_info}>
-                        <Text style={styles.ac_user_name}>{info_user.phone_number}</Text>
-                        <Coin marginLeft={null} count={100} />
-                    </View>
-                </View>
+                <Image
+                    source={require('../../../assets/img/non_user.jpg')}
+                    style={{ width: 80, height: 80, borderRadius: 10 }}
+                />
             )}
-        </>
+            <View style={styles.ac_info}>
+                <Text style={styles.ac_user_name}>
+                    {info_user.username ? info_user.username : info_user.phone_number}
+                </Text>
+                <Coin
+                    marginLeft={null}
+                    count={info_user.number_point ? info_user.number_point : 0}
+                />
+            </View>
+        </View>
     );
 };
 
@@ -53,7 +40,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 125,
         flexDirection: 'row',
-        marginLeft: 15,
+        paddingLeft: 15,
         paddingTop: 30,
         // backgroundColor: 'red',
     },

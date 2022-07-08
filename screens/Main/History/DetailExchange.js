@@ -14,6 +14,7 @@ import {
     ImageHeaderScrollView,
     TriggeringView,
 } from 'react-native-image-header-scroll-view';
+import { useSelector } from 'react-redux';
 
 // import
 import Ticket from '../../../components/Ticket';
@@ -21,19 +22,26 @@ import CustomStatusBar from '../../../components/CustomStatusBar';
 import Coin from '../../../components/Coin';
 import ButtonCustom from '../../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import request from '../../../utils/request';
+import { userSelector } from '../../../redux/reducers/userSlice';
 
 const { width, height } = Dimensions.get('window');
 let color = '#178dde';
-import request from '../../../utils/request';
 
 const DetailExchange = ({ navigation }) => {
     const isFocused = useIsFocused();
+    const { info_user } = useSelector(userSelector);
+    console.log(info_user);
 
     const handleExchange = () => {
-        Alert.alert('Bạn đổi điểm thành công. Chúng tôi sẽ trao thưởng sớm nhất đến bạn');
-        const exchangePoint = async () => {
-            // const res = await request.post()
-        };
+        (async () => {
+            const res = await request.post('send_email', info_user);
+            if (res.data.success) {
+                Alert.alert(
+                    `Bạn đổi điểm thành công. Bạn có thể kiếm tra thông tin đổi thưởng trong email ${info_user.email} của bạn. Chúng tôi sẽ trao thưởng sớm nhất đến bạn`
+                );
+            }
+        })();
     };
 
     const handleCheckInfoBank = () => {
@@ -144,7 +152,7 @@ const DetailExchange = ({ navigation }) => {
                     flex={1}
                     // paddingHorizontal={30}
                     marginHorizontal={10}
-                    backgroundColor="blue"
+                    backgroundColor="#006db6"
                     onPress={handleExchange}
                 />
             </View>
