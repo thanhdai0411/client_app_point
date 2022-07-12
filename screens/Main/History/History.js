@@ -9,10 +9,12 @@ import Nothing from '../../../components/Nothing';
 import CardHistory from '../../../components/CardHistory';
 import { LinearGradient } from 'expo-linear-gradient';
 import { userSelector } from '../../../redux/reducers/userSlice';
+import { pointSelector } from '../../../redux/reducers/pointSlice';
 
 let header_color = '#178dde';
 const History = ({ navigation }) => {
     const { info_user } = useSelector(userSelector);
+    const { point_user } = useSelector(pointSelector);
     return (
         <SafeAreaView style={{ backgroundColor: header_color }}>
             {/* header */}
@@ -93,7 +95,7 @@ const History = ({ navigation }) => {
                                 marginRight: 10,
                                 fontWeight: '500',
                             }}>
-                            100{' '}
+                            {point_user == 0 ? info_user.number_point : point_user}{' '}
                         </Text>
                         Điểm
                     </Text>

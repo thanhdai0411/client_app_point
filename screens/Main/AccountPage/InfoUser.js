@@ -55,29 +55,6 @@ const InfoUser = ({ navigation }) => {
             avatar: imageUpload,
             wall: imageUploadWall,
         };
-        // console.log(dataInfoUser);
-        if (
-            dataInfoUser.email &&
-            dataInfoUser.address &&
-            dataInfoUser.avatar &&
-            dataInfoUser.username
-        )
-            (async () => {
-                try {
-                    const res = await request.put(
-                        `user/update_user_phone/${info_user.phone_number}`,
-                        dataInfoUser
-                    );
-
-                    if (res.data.success) {
-                        navigation.navigate('Main');
-                        dispatch(getUserDB());
-                        Alert.alert('Cập nhật thông tin cá nhân thành công');
-                    }
-                } catch (err) {
-                    Alert.alert('Cập nhật thông tin cá nhân thất bại');
-                }
-            })();
 
         const updateUser = async (data, field, message) => {
             try {
@@ -95,14 +72,38 @@ const InfoUser = ({ navigation }) => {
                 Alert.alert('Cập nhật thông tin cá nhân thất bại');
             }
         };
+        if (
+            dataInfoUser.email &&
+            dataInfoUser.address &&
+            dataInfoUser.avatar &&
+            dataInfoUser.username
+        ) {
+            (async () => {
+                try {
+                    const res = await request.put(
+                        `user/update_user_phone/${info_user.phone_number}`,
+                        dataInfoUser
+                    );
 
-        if (dataInfoUser.email) updateUser(dataInfoUser.email, 'email', 'dmail');
-        if (dataInfoUser.address) updateUser(dataInfoUser.address, 'address', 'địa chỉ');
-        if (dataInfoUser.username)
-            updateUser(dataInfoUser.username, 'username', 'tên cá nhân');
-        if (dataInfoUser.avatar)
-            updateUser(dataInfoUser.avatar, 'avatar', 'hình đại diện');
-        if (dataInfoUser.wall) updateUser(dataInfoUser.wall, 'wall', 'hình nền');
+                    if (res.data.success) {
+                        navigation.navigate('Main');
+                        dispatch(getUserDB());
+                        Alert.alert('Cập nhật thông tin cá nhân thành công');
+                    }
+                } catch (err) {
+                    Alert.alert('Cập nhật thông tin cá nhân thất bại');
+                }
+            })();
+        } else {
+            if (dataInfoUser.email) updateUser(dataInfoUser.email, 'email', 'dmail');
+            if (dataInfoUser.address)
+                updateUser(dataInfoUser.address, 'address', 'địa chỉ');
+            if (dataInfoUser.username)
+                updateUser(dataInfoUser.username, 'username', 'tên cá nhân');
+            if (dataInfoUser.avatar)
+                updateUser(dataInfoUser.avatar, 'avatar', 'hình đại diện');
+            if (dataInfoUser.wall) updateUser(dataInfoUser.wall, 'wall', 'hình nền');
+        }
     };
 
     return (

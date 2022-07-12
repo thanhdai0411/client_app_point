@@ -1,25 +1,56 @@
 import { View, Text, ScrollView } from 'react-native';
-import React from 'react';
+import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+
 import HistoryCard from '../../../components/HistoryCard';
+import { userSelector } from '../../../redux/reducers/userSlice';
+import Nothing from '../../../components/Nothing';
+import useFetch from '../../../hooks/useFetch';
+import Loading from '../../../components/Loading';
 
 const HDonated = () => {
+    const { info_user } = useSelector(userSelector);
+    const { isLoading, dataFetch } = useFetch(`user/get_id/${info_user._id}`);
+    console.log({ 1: dataFetch.history_point });
+
+    let isYes = false;
     return (
-        <View style={{ backgroundColor: '#eee' }}>
+        <View style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }}>
-                <View style={{ paddingBottom: 150 }}>
-                    <HistoryCard
-                        title="Bạn có người bạn thật tuyệt"
-                        action="từ người người bạn giới thiệu"
-                    />
-                    <HistoryCard
-                        title="Bạn có người bạn thật tuyệt"
-                        action="từ người người bạn giới thiệu"
-                    />
-                    <HistoryCard
-                        title="Bạn có người bạn thật tuyệt"
-                        action="từ người người bạn giới thiệu"
-                    />
-                </View>
+                {isLoading ? (
+                    <Loading />
+                ) : (
+                    <>
+                        <View style={{ paddingBottom: 150 }}>
+                            {dataFetch.history_point &&
+                                dataFetch.history_point.length > 0 &&
+                                dataFetch.history_point.map((htr) => {
+                                    if (htr.donate_points) {
+                                        return (
+                                            <Fragment key={htr._id}>
+                                                <HistoryCard
+                                                    image_link={require('../../../assets/img/donate.jpg')}
+                                                    title="Bạn có người bạn thật tuyệt"
+                                                    action="từ người người bạn giới thiệu"
+                                                    point={htr.donate_points}
+                                                    date={moment(htr.createdAt).format(
+                                                        'DD/MM/YYYY'
+                                                    )}
+                                                    time={moment(htr.createdAt).format(
+                                                        'HH:mm:ss'
+                                                    )}
+                                                />
+                                            </Fragment>
+                                        );
+                                    } else {
+                                        isYes = true;
+                                    }
+                                })}
+                        </View>
+                        {isYes && <Nothing text="Chưa có lịch sử giới thiệu" />}
+                    </>
+                )}
             </ScrollView>
         </View>
     );

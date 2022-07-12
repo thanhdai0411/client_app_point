@@ -10,11 +10,11 @@ import {
 import React, { Fragment } from 'react';
 import CardVertical from '../../../components/CardVertical';
 import ProductDetail from '../ProductDetail/ProducDetail';
-import useFetch from '../../../hooks/useFetch';
+import useFetch_1 from '../../../hooks/useFetch_1';
 import Loading from '../../../components/Loading';
 
 const AllProduct = ({ navigation }) => {
-    const { dataFetch, isLoading, isError } = useFetch(
+    const { dataFetch, isLoading, isError } = useFetch_1(
         'https://fakestoreapi.com/products'
     );
 

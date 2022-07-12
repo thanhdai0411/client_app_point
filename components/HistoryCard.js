@@ -5,7 +5,7 @@ import { box_shadow } from '../components/GlobalStyles';
 const HistoryCard = ({
     image_link = require('../assets/img/water4.jpg'),
     title = 'Tích điểm thành công',
-    accumulate_point = '300',
+    point = '300',
     sub_action = 'Bạn được cộng thêm',
     action = 'từ hành động quét mã QRCode',
     time = '10:32',
@@ -27,12 +27,14 @@ const HistoryCard = ({
             }}>
             <View style={{ width: '25%' }}>
                 <Image
-                    source={require('../assets/img/water4.jpg')}
+                    source={image_link}
                     style={{
                         width: 70,
                         height: 70,
                         borderRadius: 10,
                         marginRight: 10,
+                        borderWidth: 1,
+                        borderColor: '#eee',
                     }}
                     resizeMode="stretch"
                 />
@@ -41,7 +43,7 @@ const HistoryCard = ({
                 <Text style={{ fontSize: 17, fontWeight: '500' }}>{title}</Text>
                 <View>
                     <Text style={{ fontSize: 15, marginVertical: 8 }}>
-                        {sub_action} <Text>{accumulate_point} Điểm</Text>
+                        {sub_action} <Text style={{ color: 'orange' }}>{point} </Text>Điểm
                         <Text> {action}</Text>
                     </Text>
                 </View>

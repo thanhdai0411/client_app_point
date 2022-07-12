@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useRef, Fragment } from 'react';
 import CardVertical from '../../../components/CardVertical';
-import useFetch from '../../../hooks/useFetch';
+import useFetch_1 from '../../../hooks/useFetch_1';
 import Loading from '../../../components/Loading';
 
 const { width, height } = Dimensions.get('window');
@@ -9,7 +9,7 @@ const ProductRelated = ({ relateProduct, navigation }) => {
     const handleShowAllProduct = () => {
         navigation.navigate('AllProduct');
     };
-    const { dataFetch, isLoading, isError } = useFetch(
+    const { dataFetch, isLoading, isError } = useFetch_1(
         'https://fakestoreapi.com/products'
     );
 

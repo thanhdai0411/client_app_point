@@ -5,9 +5,11 @@ import { useSelector } from 'react-redux';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Coin from '../../../components/Coin';
 import { userSelector } from '../../../redux/reducers/userSlice';
+import { pointSelector } from '../../../redux/reducers/pointSlice';
 
 const AccountHeader = () => {
     const { info_user } = useSelector(userSelector);
+    const { point_user } = useSelector(pointSelector);
     return (
         <View style={styles.ac_header}>
             {/* <SimpleLineIcons name="user" size={50} color="blue" /> */}
@@ -28,7 +30,7 @@ const AccountHeader = () => {
                 </Text>
                 <Coin
                     marginLeft={null}
-                    count={info_user.number_point ? info_user.number_point : 0}
+                    count={point_user == 0 ? info_user.number_point : point_user}
                 />
             </View>
         </View>

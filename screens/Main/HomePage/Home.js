@@ -26,7 +26,9 @@ import { useSelector } from 'react-redux';
 
 //
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // import
@@ -42,7 +44,7 @@ function Home({ navigation }) {
     const points = useSelector(pointSelector);
     const { info_user } = useSelector(userSelector);
     // console.log({ info_user });
-    const { point_introduce, point_user } = points;
+    const { point_user } = points;
     return (
         <>
             <ImageHeaderScrollView
@@ -64,7 +66,11 @@ function Home({ navigation }) {
                                 <Text> ơi !</Text>
                             </Text>
 
-                            <Coin count={point_user} />
+                            <Coin
+                                count={
+                                    point_user == 0 ? info_user.number_point : point_user
+                                }
+                            />
                             <Image />
                         </View>
                         <View style={{ flexDirection: 'row' }}>
@@ -100,28 +106,46 @@ function Home({ navigation }) {
                 <View style={{ top: -30 }}>
                     <View style={{ ...styles.header_category, ...box_shadow }}>
                         <View style={styles.header_category_container}>
-                            <View style={styles.header_category_item}>
-                                <Ionicons name="barcode" size={35} color="orange" />
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => navigation.navigate('InfoUser')}
+                                style={styles.header_category_item}>
+                                <FontAwesome name="user-o" size={28} color="orange" />
                                 <Text style={styles.header_category_name}>
-                                    Thành viên
+                                    Thông tin cá nhân
                                 </Text>
-                            </View>
-                            <View style={styles.header_category_item}>
-                                <Ionicons name="gift-outline" size={35} color="red" />
-                                <Text style={styles.header_category_name}>Ưu đãi</Text>
-                            </View>
-                            <View style={styles.header_category_item}>
-                                <Ionicons name="trophy-outline" size={35} color="green" />
-                                <Text style={styles.header_category_name}>Thử thách</Text>
-                            </View>
-                            <View style={styles.header_category_item}>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => navigation.navigate('InfoBank')}
+                                style={styles.header_category_item}>
                                 <MaterialCommunityIcons
-                                    name="inbox-full-outline"
-                                    size={37}
-                                    color="blue"
+                                    name="bank-outline"
+                                    size={28}
+                                    color="red"
                                 />
-                                <Text style={styles.header_category_name}>Hộp thư </Text>
-                            </View>
+                                <Text style={styles.header_category_name}>
+                                    Thông tin ngân hàng
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => navigation.navigate('InviteCode')}
+                                style={styles.header_category_item}>
+                                <MaterialIcons name="input" size={28} color="green" />
+                                <Text style={styles.header_category_name}>
+                                    Nhập mã giới thiệu
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => navigation.navigate('RegisterDealer')}
+                                style={styles.header_category_item}>
+                                <AntDesign name="form" size={28} color="blue" />
+                                <Text style={styles.header_category_name}>
+                                    Đăng kí làm đại lý{' '}
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
 
@@ -186,14 +210,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
         position: 'absolute',
         // top: '10%',
-        marginTop: -35,
+        marginTop: -40,
         zIndex: 1,
         left: 0,
         right: 0,
         borderRadius: 10,
     },
     header_category_container: {
-        marginVertical: 5,
+        marginVertical: 2,
 
         flex: 1,
         flexDirection: 'row',

@@ -23,7 +23,7 @@ import Description from './Description';
 import ProductRelated from './ProductRelated';
 import CustomHeader from '../../../components/CustomHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import useFetch from '../../../hooks/useFetch';
+import useFetch_1 from '../../../hooks/useFetch_1';
 
 const imageLink = [
     require('../../../assets/img/sp2.jpg'),
@@ -46,7 +46,7 @@ const ProductDetail = ({ route, navigation }) => {
     const products = useSelector(cardSelector);
     //
 
-    const { dataFetch, isLoading, isError } = useFetch(
+    const { dataFetch, isLoading, isError } = useFetch_1(
         `https://fakestoreapi.com/products/${idProduct}`
     );
 
