@@ -25,7 +25,6 @@ const CustomInput = ({
         <Controller
             control={control}
             rules={rules}
-            r
             render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
                 <>
                     <View
@@ -43,6 +42,8 @@ const CustomInput = ({
 
                                 paddingLeft: 15,
                                 paddingVertical: 15,
+                                textAlign: 'center',
+
                                 ...styleInput,
 
                                 // marginVertical: 5,
@@ -56,6 +57,7 @@ const CustomInput = ({
 
                                 // flex: 1,
                             }}
+                            textAlign="center"
                             ref={refInput}
                             returnKeyType="done"
                             autoFocus={autoFocus}

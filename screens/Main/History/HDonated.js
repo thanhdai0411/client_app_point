@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import React, { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -12,27 +12,25 @@ import Loading from '../../../components/Loading';
 const HDonated = () => {
     const { info_user } = useSelector(userSelector);
     const { isLoading, dataFetch } = useFetch(`user/get_id/${info_user._id}`);
-    console.log({ 1: dataFetch.history_point });
 
-    let isYes = false;
     return (
         <View style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }}>
                 {isLoading ? (
-                    <Loading />
+                    <ActivityIndicator size="large" />
                 ) : (
                     <>
                         <View style={{ paddingBottom: 150 }}>
                             {dataFetch.history_point &&
                                 dataFetch.history_point.length > 0 &&
-                                dataFetch.history_point.map((htr) => {
+                                dataFetch.history_point.reverse().map((htr) => {
                                     if (htr.donate_points) {
                                         return (
                                             <Fragment key={htr._id}>
                                                 <HistoryCard
                                                     image_link={require('../../../assets/img/donate.jpg')}
                                                     title="Bạn có người bạn thật tuyệt"
-                                                    action="từ người người bạn giới thiệu"
+                                                    action={htr.info_donate_points}
                                                     point={htr.donate_points}
                                                     date={moment(htr.createdAt).format(
                                                         'DD/MM/YYYY'
@@ -43,12 +41,9 @@ const HDonated = () => {
                                                 />
                                             </Fragment>
                                         );
-                                    } else {
-                                        isYes = true;
                                     }
                                 })}
                         </View>
-                        {isYes && <Nothing text="Chưa có lịch sử giới thiệu" />}
                     </>
                 )}
             </ScrollView>

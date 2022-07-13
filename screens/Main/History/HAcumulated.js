@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
@@ -13,12 +13,12 @@ import Loading from '../../../components/Loading';
 const HAcumulated = () => {
     const { info_user } = useSelector(userSelector);
     const { isLoading, dataFetch } = useFetch(`user/get_id/${info_user._id}`);
-    let isYes = false;
+    console.log(dataFetch);
     return (
         <View style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }}>
                 {isLoading ? (
-                    <Loading />
+                    <ActivityIndicator size="large" />
                 ) : (
                     <>
                         <View style={{ paddingBottom: 150 }}>
@@ -40,12 +40,9 @@ const HAcumulated = () => {
                                                 />
                                             </Fragment>
                                         );
-                                    } else {
-                                        isYes = true;
                                     }
                                 })}
                         </View>
-                        {isYes && <Nothing text="Chưa có lịch sử tích điểm" />}
                     </>
                 )}
             </ScrollView>

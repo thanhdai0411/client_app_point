@@ -7,7 +7,7 @@ let color_coin = '#e9b534';
 const Coin = ({
     backgroundColor = null,
     colorPoint = '#fff',
-    count = 100,
+    count = 0,
     ...styleProp
 }) => {
     return (

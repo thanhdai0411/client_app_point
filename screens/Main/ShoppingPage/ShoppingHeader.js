@@ -1,7 +1,7 @@
 import { View, Text, Dimensions } from 'react-native';
 import React from 'react';
 import Category from '../../../components/Category';
-import ContentSlider from '../../../components/ContentSlider';
+import SlideMarketing from '../../../components/SlideMarketing';
 const { width, height } = Dimensions.get('window');
 
 let primary_color = '#178dde';
@@ -18,7 +18,7 @@ const ShoppingHeader = () => {
                     borderBottomLeftRadius: 30,
                     borderBottomRightRadius: 30,
                 }}></View>
-            <ContentSlider
+            <SlideMarketing
                 isCoin={false}
                 isTitle={false}
                 autoplay={true}

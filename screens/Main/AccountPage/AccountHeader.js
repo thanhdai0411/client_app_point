@@ -9,7 +9,6 @@ import { pointSelector } from '../../../redux/reducers/pointSlice';
 
 const AccountHeader = () => {
     const { info_user } = useSelector(userSelector);
-    const { point_user } = useSelector(pointSelector);
     return (
         <View style={styles.ac_header}>
             {/* <SimpleLineIcons name="user" size={50} color="blue" /> */}
@@ -28,10 +27,7 @@ const AccountHeader = () => {
                 <Text style={styles.ac_user_name}>
                     {info_user.username ? info_user.username : info_user.phone_number}
                 </Text>
-                <Coin
-                    marginLeft={null}
-                    count={point_user == 0 ? info_user.number_point : point_user}
-                />
+                <Coin marginLeft={null} count={info_user.number_point} />
             </View>
         </View>
     );

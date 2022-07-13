@@ -1,43 +1,49 @@
-import { View, Text, ScrollView, SafeAreaView } from 'react-native';
-import React from 'react';
+import { View, Text, ScrollView, SafeAreaView, ActivityIndicator } from 'react-native';
+import React, { Fragment } from 'react';
+
 import CardItem from '../../../components/CardHorizontal';
 import { useIsFocused } from '@react-navigation/native';
+import useFetch from '../../../hooks/useFetch';
+import Nothing from '../../../components/Nothing';
 
 const GiftExchangeMoney = ({ navigation }) => {
     const isFocused = useIsFocused();
+    const { isLoading, dataFetch } = useFetch('gift/get/type/money_gift');
+
     return (
         <>
             <View style={{ height: '100%' }}>
                 <ScrollView>
-                    <View style={{ paddingBottom: 150 }}>
-                        <CardItem
-                            onPress={() =>
-                                navigation.navigate('DetailExchange', { id: 1 })
-                            }
-                            coinNumber={5000}
-                            nameCompany={null}
-                            title={'Đổi 500.000 VNĐ'}
-                            imageLink={require('../../../assets/img/m_4.jpg')}
-                        />
-                        <CardItem
-                            coinNumber={10000}
-                            nameCompany={null}
-                            title={'Đổi 1.000.000 VNĐ'}
-                            imageLink={require('../../../assets/img/m_4.jpg')}
-                        />
-                        <CardItem
-                            coinNumber={15000}
-                            nameCompany={null}
-                            title={'Đổi 2.500.000 VNĐ'}
-                            imageLink={require('../../../assets/img/m_4.jpg')}
-                        />
-                        <CardItem
-                            coinNumber={50000}
-                            nameCompany={null}
-                            title={'Đổi 6.000.000 VNĐ'}
-                            imageLink={require('../../../assets/img/m_4.jpg')}
-                        />
-                    </View>
+                    {isLoading ? (
+                        <ActivityIndicator size="large" style={{ marginTop: 50 }} />
+                    ) : (
+                        <View style={{ paddingBottom: 150 }}>
+                            {dataFetch && dataFetch.length > 0 ? (
+                                dataFetch.map((item) => {
+                                    return (
+                                        <Fragment key={item._id}>
+                                            <CardItem
+                                                onPress={() =>
+                                                    navigation.navigate(
+                                                        'DetailExchange',
+                                                        {
+                                                            id: item._id,
+                                                        }
+                                                    )
+                                                }
+                                                coinNumber={item.number_point_buy}
+                                                nameCompany={null}
+                                                title={item.title}
+                                                imageLink={{ uri: item.image }}
+                                            />
+                                        </Fragment>
+                                    );
+                                })
+                            ) : (
+                                <Nothing text="Hiện tại chưa có phần quà nao" />
+                            )}
+                        </View>
+                    )}
                 </ScrollView>
             </View>
         </>

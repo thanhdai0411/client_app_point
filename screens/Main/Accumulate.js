@@ -29,6 +29,8 @@ const Accumulate = ({ navigation }) => {
     const [textScan, setTextScan] = useState(null);
     const [scoreUser, setScoreUser] = useState(0);
     const [scoreIntroduce, setScoreIntroduce] = useState(0);
+    const [scoreUserIntroduce, setScoreNumberUserIntroduce] = useState(0);
+
     const [number, setNumber] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -43,13 +45,10 @@ const Accumulate = ({ navigation }) => {
     //========================================
 
     const idUserScan = info_user._id; // Thanh Dai scanner
-    const phoneUserIntroduce = info_user.number_phone_presenter;
-    //setting add coin
 
-    // const settingAccumulate = {
-    //     user: 500,
-    //     introduced: 300,
-    // };
+    const phoneUserIntroduce = info_user.number_phone_presenter;
+
+    // console.log({ scoreUser, scoreIntroduce, scoreUserIntroduce });
 
     //========================================
 
@@ -58,31 +57,30 @@ const Accumulate = ({ navigation }) => {
         const fetchData = async () => {
             try {
                 const res_1 = await request.get(`user/get_id/${idUserScan}`);
+
                 const res_2 = await request.get(`user/get_phone/${phoneUserIntroduce}`);
                 const res_3 = await request.get(`point_setting/get_all`);
 
                 const data_1 = res_1 && res_1.data.data ? res_1.data.data : [];
                 const data_2 = res_2 && res_2.data.data ? res_2.data.data : [];
                 const data_3 = res_3 && res_3.data.data ? res_3.data.data : [];
-                // console.log({ data_1, data_2 });
+
                 setIsLoading(false);
+
                 const presentNumberPointUser = data_1.number_point;
                 const presentNumberPointIntroduce = data_2.number_point_introduce;
-                dispatch(
-                    globalPoint({
-                        user: presentNumberPointUser,
-                        introduce: presentNumberPointIntroduce,
-                    })
-                );
+                const presentNumberPointUserIntroduce = data_2.number_point;
+
                 setScoreUser(presentNumberPointUser);
                 setScoreIntroduce(presentNumberPointIntroduce);
+                setScoreNumberUserIntroduce(presentNumberPointUserIntroduce);
                 setSettingAccumulate(data_3);
             } catch (err) {
                 console.log({ error_fetch_data_start: err });
             }
         };
         fetchData();
-    }, []);
+    }, [phoneUserIntroduce]);
 
     let arr = [];
     isSettingAccumulate.forEach((settingAccumulate) => {
@@ -111,26 +109,51 @@ const Accumulate = ({ navigation }) => {
                                         prev +
                                         parseInt(settingAccumulate.number_point_user)
                                 );
-                                setScoreIntroduce(
-                                    (prev) =>
-                                        prev +
-                                        parseInt(settingAccumulate.number_point_intro)
-                                );
+
+                                if (phoneUserIntroduce) {
+                                    setScoreIntroduce(
+                                        (prev) =>
+                                            prev +
+                                            parseInt(settingAccumulate.number_point_intro)
+                                    );
+                                    setScoreNumberUserIntroduce(
+                                        (prev) =>
+                                            prev +
+                                            parseInt(settingAccumulate.number_point_intro)
+                                    );
+                                }
 
                                 (async () => {
+                                    let pointIntroducePost, pointNumberIntroduce;
+
+                                    if (phoneUserIntroduce) {
+                                        pointIntroducePost =
+                                            scoreIntroduce +
+                                            +settingAccumulate.number_point_intro;
+                                        pointNumberIntroduce =
+                                            scoreUserIntroduce +
+                                            +settingAccumulate.number_point_intro;
+                                    }
+                                    const pointUserPost =
+                                        scoreUser + +settingAccumulate.number_point_user;
                                     try {
                                         const res_1 = await request.put(
                                             `user/update_user_id/${idUserScan}`,
                                             { number_point: pointUserPost }
                                         );
-                                        const res_2 = await request.put(
-                                            `user/update_user_phone/${phoneUserIntroduce}`,
-                                            {
-                                                number_point_introduce:
-                                                    pointIntroducePost,
-                                                number_point: pointIntroducePost,
-                                            }
-                                        );
+
+                                        let res_2;
+
+                                        if (phoneUserIntroduce) {
+                                            res_2 = await request.put(
+                                                `user/update_user_phone/${phoneUserIntroduce}`,
+                                                {
+                                                    number_point_introduce:
+                                                        pointIntroducePost,
+                                                    number_point: pointNumberIntroduce,
+                                                }
+                                            );
+                                        }
 
                                         // add into history
                                         const htrUser = {
@@ -138,34 +161,58 @@ const Accumulate = ({ navigation }) => {
                                             accumulate_point:
                                                 settingAccumulate.number_point_user,
                                         };
-                                        const htrIntroduce = {
-                                            phone_number: phoneUserIntroduce,
-                                            donate_points:
-                                                settingAccumulate.number_point_intro,
-                                        };
+
+                                        let htrIntroduce;
+                                        if (phoneUserIntroduce) {
+                                            htrIntroduce = {
+                                                phone_number: phoneUserIntroduce,
+                                                donate_points:
+                                                    settingAccumulate.number_point_intro,
+                                                info_donate_points: `từ ${info_user.phone_number}`,
+                                            };
+                                        }
 
                                         const htr_user = await request.post(
                                             'history_point/add_id',
                                             htrUser
                                         );
-                                        const htr_introduce = await request.post(
-                                            'history_point/add_phone',
-                                            htrIntroduce
-                                        );
-
-                                        if (
-                                            res_1.data.success &&
-                                            res_2.data.success &&
-                                            htr_user.data.success &&
-                                            htr_introduce.data.success
-                                        ) {
-                                            Alert.alert(
-                                                `Quét mã tích điểm thành công. Bạn được cộng ${settingAccumulate.number_point_user}đ. Bạn của bạn được ${settingAccumulate.number_point_intro}đ`
+                                        let htr_introduce;
+                                        if (phoneUserIntroduce) {
+                                            htr_introduce = await request.post(
+                                                'history_point/add_phone',
+                                                htrIntroduce
                                             );
-                                            dispatch(getUserDB());
+                                        }
+                                        if (phoneUserIntroduce) {
+                                            if (
+                                                res_1.data.success &&
+                                                res_2.data.success &&
+                                                htr_user.data.success &&
+                                                htr_introduce.data.success
+                                            ) {
+                                                dispatch(getUserDB());
+
+                                                Alert.alert(
+                                                    `Quét mã tích điểm thành công`,
+                                                    `Bạn được cộng ${settingAccumulate.number_point_user}đ. Bạn của bạn được cộng ${settingAccumulate.number_point_intro}`
+                                                );
+                                            }
+                                        } else {
+                                            if (
+                                                res_1.data.success &&
+                                                htr_user.data.success
+                                            ) {
+                                                dispatch(getUserDB());
+                                                Alert.alert(
+                                                    `Quét mã tích điểm thành công`,
+                                                    `Bạn được cộng ${settingAccumulate.number_point_user}đ`
+                                                );
+                                            }
                                         }
                                     } catch (err) {
-                                        console.log({ error_post_point: err.message });
+                                        console.log({
+                                            error_post_point: err.message,
+                                        });
                                     }
                                 })();
                             }

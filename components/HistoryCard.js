@@ -7,7 +7,7 @@ const HistoryCard = ({
     title = 'Tích điểm thành công',
     point = '300',
     sub_action = 'Bạn được cộng thêm',
-    action = 'từ hành động quét mã QRCode',
+    action,
     time = '10:32',
     date = '04/07/2022',
 }) => {
@@ -44,7 +44,10 @@ const HistoryCard = ({
                 <View>
                     <Text style={{ fontSize: 15, marginVertical: 8 }}>
                         {sub_action} <Text style={{ color: 'orange' }}>{point} </Text>Điểm
-                        <Text> {action}</Text>
+                        <Text style={{ color: 'red' }} numberOfLines={3}>
+                            {' '}
+                            {action}
+                        </Text>
                     </Text>
                 </View>
                 <View>

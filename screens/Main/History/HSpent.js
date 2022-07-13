@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import React, { Fragment, useState } from 'react';
 import HistoryCard from '../../../components/HistoryCard';
 
@@ -19,20 +19,20 @@ const HSpent = () => {
         <View style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }}>
                 {isLoading ? (
-                    <Loading />
+                    <ActivityIndicator size="large" />
                 ) : (
                     <>
                         <View style={{ paddingBottom: 150 }}>
                             {dataFetch.history_point &&
                                 dataFetch.history_point.length > 0 &&
-                                dataFetch.history_point.map((htr) => {
+                                dataFetch.history_point.reverse().map((htr) => {
                                     if (htr.exchange_point) {
                                         return (
                                             <Fragment key={htr._id}>
                                                 <HistoryCard
                                                     title="Đổi điểm thành công"
                                                     sub_action="Bạn bị trừ"
-                                                    action="từ hành động đổi quà"
+                                                    action={htr.info_exchange_point}
                                                     point={htr.exchange_point}
                                                     date={moment(htr.createdAt).format(
                                                         'DD/MM/YYYY'
@@ -40,15 +40,13 @@ const HSpent = () => {
                                                     time={moment(htr.createdAt).format(
                                                         'HH:mm:ss'
                                                     )}
+                                                    image_link={require('../../../assets/img/exchange.jpg')}
                                                 />
                                             </Fragment>
                                         );
-                                    } else {
-                                        isYes = true;
                                     }
                                 })}
                         </View>
-                        {isYes && <Nothing text="Chưa có lịch sử tiêu điểm nào" />}
                     </>
                 )}
             </ScrollView>

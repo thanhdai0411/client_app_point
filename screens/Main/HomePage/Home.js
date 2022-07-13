@@ -43,8 +43,6 @@ const { width, height } = Dimensions.get('window');
 function Home({ navigation }) {
     const points = useSelector(pointSelector);
     const { info_user } = useSelector(userSelector);
-    // console.log({ info_user });
-    const { point_user } = points;
     return (
         <>
             <ImageHeaderScrollView
@@ -66,11 +64,7 @@ function Home({ navigation }) {
                                 <Text> ơi !</Text>
                             </Text>
 
-                            <Coin
-                                count={
-                                    point_user == 0 ? info_user.number_point : point_user
-                                }
-                            />
+                            <Coin count={info_user.number_point} />
                             <Image />
                         </View>
                         <View style={{ flexDirection: 'row' }}>

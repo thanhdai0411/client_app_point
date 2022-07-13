@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import { View, Text, SafeAreaView, Image, TextInput, ScrollView } from 'react-native';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ import { pointSelector } from '../../../redux/reducers/pointSlice';
 let header_color = '#178dde';
 const History = ({ navigation }) => {
     const { info_user } = useSelector(userSelector);
-    const { point_user } = useSelector(pointSelector);
+
     return (
         <SafeAreaView style={{ backgroundColor: header_color }}>
             {/* header */}
@@ -95,7 +95,7 @@ const History = ({ navigation }) => {
                                 marginRight: 10,
                                 fontWeight: '500',
                             }}>
-                            {point_user == 0 ? info_user.number_point : point_user}{' '}
+                            {info_user.number_point}{' '}
                         </Text>
                         Điểm
                     </Text>
@@ -108,6 +108,7 @@ const History = ({ navigation }) => {
                     <Text style={{ color: 'white', fontSize: 16 }}>30.000</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <TextInput />
                     <View
                         style={{
                             height: 10,

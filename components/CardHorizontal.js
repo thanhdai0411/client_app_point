@@ -9,13 +9,35 @@ const CardItem = ({
     imageLink = require('../assets/img/f1.webp'),
     coinNumber = 5,
     onPress,
+    height = 150,
+    backgroundColor = '#fff',
+    isBoxShadow = true,
+    borderRadius = 10,
+    ...style
 }) => {
     return (
         <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
-            <View style={{ ...styles.container, ...box_shadow }}>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    backgroundColor: backgroundColor,
+                    marginHorizontal: 10,
+                    borderRadius: borderRadius,
+
+                    // padding: 10,
+                    paddingHorizontal: 15,
+                    height: height,
+                    marginVertical: 8,
+                    ...box_shadow,
+                    ...style,
+                }}>
                 <View style={styles.name}>
                     <Text style={styles.name_company}>{nameCompany}</Text>
-                    <Text style={styles.name_title}>{title}</Text>
+                    <Text style={styles.name_title} numberOfLines={2}>
+                        {title}
+                    </Text>
                     <Coin
                         count={coinNumber}
                         backgroundColor={null}
@@ -33,18 +55,6 @@ const CardItem = ({
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        marginHorizontal: 10,
-        borderRadius: 10,
-        // padding: 10,
-        paddingHorizontal: 15,
-        height: 150,
-        marginVertical: 8,
-    },
     name: {
         flex: 3,
         height: '100%',
@@ -57,7 +67,7 @@ const styles = StyleSheet.create({
     },
     name_title: {
         marginVertical: 10,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: '500',
     },
     img_item: {

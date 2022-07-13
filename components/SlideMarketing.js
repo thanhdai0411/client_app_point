@@ -8,12 +8,11 @@ import {
     TouchableOpacity,
     TouchableHighlight,
 } from 'react-native';
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Coin from '../components/Coin';
 import { box_shadow } from './GlobalStyles';
-import CardItem from './CardHorizontal';
 
 const { width, height } = Dimensions.get('window');
 let dataContent = [
@@ -30,7 +29,7 @@ let dataContent = [
         img: require('../assets/img/b4.jpg'),
     },
 ];
-const ContentSlider = ({
+const SlideMarketing = ({
     data = dataContent,
     title_left = 'Ưu đãi mới nhất 🤤',
     timePlay = 5,
@@ -51,10 +50,10 @@ const ContentSlider = ({
     resizeModeImg = 'stretch',
     position = null,
     activeOpacity = 0.5,
-    navigation,
     ...styleContainer
 }) => {
     const [imgLoad, setImgLoad] = useState(false);
+
     return (
         <View
             style={{
@@ -81,23 +80,34 @@ const ContentSlider = ({
                 autoplay={autoplay}
                 autoplayTimeout={timePlay}>
                 {data.map((item, index) => (
-                    <Fragment key={item._id}>
-                        <CardItem
-                            onPress={() =>
-                                navigation.navigate('DetailExchange', {
-                                    id: item._id,
-                                })
-                            }
-                            height={165}
-                            borderRadius={8}
-                            coinNumber={item.number_point_buy}
-                            nameCompany={null}
-                            title={item.title}
-                            imageLink={{ uri: item.image }}
-                            borderWidth={1}
-                            borderColor={'#ccc'}
-                        />
-                    </Fragment>
+                    <TouchableOpacity
+                        key={index}
+                        activeOpacity={activeOpacity}
+                        accessible={true}
+                        onPress={onPressImg}>
+                        <View style={{ ...styles.slide1, ...box_shadow }}>
+                            <Image
+                                source={item.img}
+                                style={{
+                                    borderWidth: borderImg,
+                                    borderColor: '#ddd',
+                                    width: widthImg,
+                                    height: heightImg,
+                                    borderRadius: borderRadiusImg,
+                                }}
+                                resizeMode={resizeModeImg}
+                            />
+                            {isCoin && (
+                                <Coin
+                                    top={-50}
+                                    left={-120}
+                                    paddingHorizontal={20}
+                                    marginBottom={-20}
+                                    // width={90}
+                                />
+                            )}
+                        </View>
+                    </TouchableOpacity>
                 ))}
             </Swiper>
         </View>
@@ -137,4 +147,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ContentSlider;
+export default SlideMarketing;

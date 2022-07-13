@@ -14,88 +14,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ContentSlider from '../../../components/ContentSlider';
+import SlideMarketing from '../../../components/SlideMarketing';
+import useFetch from '../../../hooks/useFetch';
 
 const HomeBody = ({ navigation }) => {
-    const dataType = [
-        {
-            icon: <Ionicons name="fast-food-outline" size={50} color="#FCDA05" />,
-            description: 'Ẩm thực',
-        },
-        {
-            icon: <Ionicons name="game-controller-outline" size={50} color="#EC9B3B" />,
-            description: 'Giải trí',
-        },
-        {
-            icon: (
-                <MaterialCommunityIcons
-                    name="face-woman-shimmer-outline"
-                    size={50}
-                    color="#F4BFBF"
-                />
-            ),
-            description: 'Làm đẹp',
-        },
-        {
-            icon: <AntDesign name="skin" size={50} color="#14C38E" />,
-            description: 'Thời trang',
-        },
-        {
-            icon: (
-                <MaterialCommunityIcons
-                    name="lightbulb-on-outline"
-                    size={50}
-                    color="#FF1F5A"
-                />
-            ),
-            description: 'Tiện ích',
-        },
-        {
-            icon: <AntDesign name="book" size={50} color="#6088BB" />,
-            description: 'Giáo dục',
-        },
-        {
-            icon: <AntDesign name="shoppingcart" size={50} color="#9D2503" />,
-            description: 'Mua sắm',
-        },
-        {
-            icon: (
-                <MaterialCommunityIcons
-                    name="collapse-all-outline"
-                    size={50}
-                    color="#AD8C45"
-                />
-            ),
-            description: 'Tất cả',
-        },
-    ];
-    let dataContent = [
-        {
-            img: require('../../../assets/img/img_6.jpg'),
-        },
-        {
-            img: require('../../../assets/img/tich_diem.jpg'),
-        },
-    ];
-
-    // useEffect(() => {
-    //     Alert.alert(
-    //         'Thông báo',
-    //         'Bạn hãy cập nhật đầy đủ thông tin cá nhân để chúng tôi hiểu bạn hơn',
-    //         [
-    //             {
-    //                 text: 'Để sau',
-    //                 onPress: () => console.log('Cancel Pressed'),
-    //                 style: 'cancel',
-    //             },
-    //             { text: 'Đi ngay', onPress: () => navigation.navigate('InfoUser') },
-    //         ]
-    //     );
-    // }, []);
+    const { isLoading: loadingM, dataFetch: moneyGift } = useFetch(
+        'gift/get/type/money_gift'
+    );
+    const { isLoading: loadingP, dataFetch: productGift } = useFetch(
+        'gift/get/type/product_gift'
+    );
 
     return (
         <View style={styles.home_body}>
             {/* Banner */}
-            <ContentSlider
+            <SlideMarketing
                 isCoin={false}
                 data={[
                     {
@@ -119,21 +52,27 @@ const HomeBody = ({ navigation }) => {
 
             {/* slider contennt */}
             <ContentSlider
+                data={moneyGift}
+                title_left={'Đổi điểm thành tiền mặt ngay 🤤'}
                 onPressShowAll={() =>
-                    navigation.navigate('ShowAllSlider', { title: 'Ưu đãi mới nhất 🤤' })
+                    navigation.navigate('ShowAllSlider', {
+                        title: 'Đổi điểm thành tiền mặt ngay 🤤',
+                        type: 'money_gift',
+                    })
                 }
-                onPressImg={() => navigation.navigate('DetailSlider', { idSlide: 1 })}
+                navigation={navigation}
                 containerMarginTop={-5}
             />
             <ContentSlider
-                data={dataContent}
+                data={productGift}
                 title_left={'Có không đổi hết đừng buồn 😆'}
                 onPressShowAll={() =>
                     navigation.navigate('ShowAllSlider', {
                         title: 'Có không đổi hết đừng buồn 😆',
+                        type: 'product_gift',
                     })
                 }
-                onPressImg={() => navigation.navigate('DetailSlider', { idSlide: 1 })}
+                navigation={navigation}
             />
 
             {/* end slider content */}
@@ -143,7 +82,7 @@ const HomeBody = ({ navigation }) => {
 
 let primary_color = '#006db6';
 let header_color = '#ff9300';
-let body_color = '#eee';
+let body_color = '#ccc';
 
 const styles = StyleSheet.create({
     home_body: {

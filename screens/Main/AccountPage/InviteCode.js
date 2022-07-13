@@ -13,6 +13,19 @@ const InviteCode = () => {
     const { info_user } = useSelector(userSelector);
     const dispatch = useDispatch();
 
+    const handleDeleteInvitePhone = () => {
+        (async () => {
+            const res = await request.put(
+                `user/update_user_phone/${info_user.phone_number}`,
+                { number_phone_presenter: null }
+            );
+            if (res.data.success) {
+                dispatch(getUserDB());
+                Alert.alert('Xóa người giới thiệu thành công');
+            }
+        })();
+    };
+
     const submitForm = (data) => {
         const { number_phone_presenter } = data;
 
@@ -30,8 +43,8 @@ const InviteCode = () => {
                     );
 
                     if (res_1.data.success) {
-                        Alert.alert('Nhập số điện thoại người giới thiệu thành công');
                         dispatch(getUserDB());
+                        Alert.alert('Nhập số điện thoại người giới thiệu thành công');
                     }
                 } else {
                     Alert.alert('Vui lòng nhập người giới thiệu là người đã sử dụng App');
@@ -66,9 +79,24 @@ const InviteCode = () => {
                         }}>
                         Số điện thoại người giới thiệu hiện tại{' '}
                     </Text>
-                    <Text style={{ fontSize: 18, marginVertical: 10 }}>
-                        {info_user.number_phone_presenter}
-                    </Text>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginVertical: 20,
+                        }}>
+                        <Text style={{ fontSize: 18, marginVertical: 10 }}>
+                            {info_user.number_phone_presenter}
+                        </Text>
+                        <ButtonCustom
+                            name="Xóa"
+                            marginHorizontal={null}
+                            borderRadius={10}
+                            backgroundColor="red"
+                            onPress={handleDeleteInvitePhone}
+                        />
+                    </View>
                 </View>
             ) : (
                 <View>

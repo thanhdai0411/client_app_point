@@ -6,6 +6,7 @@ const Ticket = ({
     title = 'Giảm 10k Tổng hóa đơn',
     dead_time = '30/7/2022',
     number_coin = '100',
+    number_count = '200',
     sub_title = 'Đổi điểm thành tiền',
     top = -70,
 }) => {
@@ -27,7 +28,7 @@ const Ticket = ({
                 <Text
                     style={{
                         textAlign: 'center',
-                        fontSize: 25,
+                        fontSize: 20,
                         fontWeight: '500',
                         paddingBottom: 20,
                         paddingTop: 5,
