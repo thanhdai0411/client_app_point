@@ -96,6 +96,11 @@ const ContentSlider = ({
                             imageLink={{ uri: item.image }}
                             borderWidth={1}
                             borderColor={'#ccc'}
+                            shadowColor="#000000"
+                            shadowOffset={{ width: 0, height: 0 }}
+                            shadowOpacity={0.3}
+                            shadowRadius={8}
+                            elevation={5}
                         />
                     </Fragment>
                 ))}

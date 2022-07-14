@@ -13,17 +13,17 @@ const { width, height } = Dimensions.get('window');
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useSelector, useDispatch } from 'react-redux';
+
 import ContentSlider from '../../../components/ContentSlider';
 import SlideMarketing from '../../../components/SlideMarketing';
 import useFetch from '../../../hooks/useFetch';
+import { giftSelector, getGiftDB } from '../../../redux/reducers/giftSlice';
 
 const HomeBody = ({ navigation }) => {
-    const { isLoading: loadingM, dataFetch: moneyGift } = useFetch(
-        'gift/get/type/money_gift'
-    );
-    const { isLoading: loadingP, dataFetch: productGift } = useFetch(
-        'gift/get/type/product_gift'
-    );
+    const dispatch = useDispatch();
+
+    const { giftProduct, giftMoney } = useSelector(giftSelector);
 
     return (
         <View style={styles.home_body}>
@@ -46,34 +46,40 @@ const HomeBody = ({ navigation }) => {
                 timePlay={5}
                 isTitle={false}
                 backgroundColorContainer={null}
-                containerMarginTop={63}
+                containerMarginTop={70}
             />
             {/* end Banner */}
 
             {/* slider contennt */}
-            <ContentSlider
-                data={moneyGift}
-                title_left={'Đổi điểm thành tiền mặt ngay 🤤'}
-                onPressShowAll={() =>
-                    navigation.navigate('ShowAllSlider', {
-                        title: 'Đổi điểm thành tiền mặt ngay 🤤',
-                        type: 'money_gift',
-                    })
-                }
-                navigation={navigation}
-                containerMarginTop={-5}
-            />
-            <ContentSlider
-                data={productGift}
-                title_left={'Có không đổi hết đừng buồn 😆'}
-                onPressShowAll={() =>
-                    navigation.navigate('ShowAllSlider', {
-                        title: 'Có không đổi hết đừng buồn 😆',
-                        type: 'product_gift',
-                    })
-                }
-                navigation={navigation}
-            />
+            {giftMoney && giftMoney.length > 0 && (
+                <ContentSlider
+                    data={giftMoney}
+                    title_left={'Đổi điểm thành tiền mặt ngay 🤤'}
+                    onPressShowAll={() =>
+                        navigation.navigate('ShowAllSlider', {
+                            title: 'Đổi điểm thành tiền mặt ngay 🤤',
+                            type: 'money_gift',
+                        })
+                    }
+                    navigation={navigation}
+                    containerMarginTop={-5}
+                />
+            )}
+
+            {giftProduct && giftProduct.length > 0 && (
+                <ContentSlider
+                    data={giftProduct}
+                    title_left={'Có không đổi hết đừng buồn 😆'}
+                    onPressShowAll={() =>
+                        navigation.navigate('ShowAllSlider', {
+                            title: 'Có không đổi hết đừng buồn 😆',
+                            type: 'product_gift',
+                        })
+                    }
+                    navigation={navigation}
+                    containerMarginTop={-5}
+                />
+            )}
 
             {/* end slider content */}
         </View>
@@ -82,7 +88,7 @@ const HomeBody = ({ navigation }) => {
 
 let primary_color = '#006db6';
 let header_color = '#ff9300';
-let body_color = '#ccc';
+let body_color = '#eee';
 
 const styles = StyleSheet.create({
     home_body: {

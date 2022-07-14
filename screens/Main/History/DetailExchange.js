@@ -29,6 +29,7 @@ import ButtonCustom from '../../../components/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import request from '../../../utils/request';
 import { userSelector, getUserDB } from '../../../redux/reducers/userSlice';
+import { getGiftDB } from '../../../redux/reducers/giftSlice';
 import useFetch from '../../../hooks/useFetch';
 import CustomInput from '../../../components/CustomInput';
 import CustomLabelInput from '../../../components/CustomLabelInput';
@@ -97,61 +98,76 @@ const DetailExchange = ({ navigation, route }) => {
         const amountGift = numberCountGift - data;
 
         const exChange = () => {
-            if (numberPresentPointUser >= totalPointGift) {
-                const pointUserRemain = numberPresentPointUser - totalPointGift;
+            if (amountGift >= 0) {
+                if (numberPresentPointUser >= totalPointGift) {
+                    const pointUserRemain = numberPresentPointUser - totalPointGift;
 
-                (async () => {
-                    try {
-                        //update number point user again
-                        const res = await request.put(`user/update_user_id/${idUser}`, {
-                            number_point: pointUserRemain,
-                        });
-
-                        // update amount gift
-                        console.log({ amountGift });
-                        let res_1;
-                        if (amountGift == 0) {
-                            res_1 = await request.delete(`gift/delete/${idGift}`, {
-                                number_count: amountGift,
-                            });
-                        } else {
-                            res_1 = await request.put(`gift/update/${idGift}`, {
-                                number_count: amountGift,
-                            });
-                        }
-
-                        // update history exchange
-                        const htrUser = {
-                            user_id: idUser,
-                            exchange_point: totalPointGift,
-                            info_exchange_point: ` do đổi ${data} quà "${dataFetch.title}"`,
-                        };
-                        const htr_user = await request.post(
-                            'history_point/add_id',
-                            htrUser
-                        );
-
-                        if (
-                            res.data.success &&
-                            res_1.data.success &&
-                            htr_user.data.success
-                        ) {
-                            setModalVisible(false);
-                            navigation.goBack();
-                            Alert.alert(
-                                'Đổi điểm thành công! Chúng tôi sẽ trao quà sớm nhất đến bạn '
+                    (async () => {
+                        try {
+                            //update number point user again
+                            const res = await request.put(
+                                `user/update_user_id/${idUser}`,
+                                {
+                                    number_point: pointUserRemain,
+                                }
                             );
-                            dispatch(getUserDB());
-                        } else {
-                            Alert.alert('Đổi điểm không thành công ');
+
+                            // update amount gift
+                            console.log({ amountGift });
+                            let res_1;
+                            if (amountGift == 0) {
+                                res_1 = await request.delete(`gift/delete/${idGift}`, {
+                                    number_count: amountGift,
+                                });
+                            } else if (amountGift > 0) {
+                                res_1 = await request.put(`gift/update/${idGift}`, {
+                                    number_count: amountGift,
+                                });
+                            } else {
+                                Alert.alert(
+                                    'Đổi điểm không thành công! Do đổi nhiều hơn số lượng quà còn lại'
+                                );
+                            }
+
+                            // update history exchange
+                            const htrUser = {
+                                user_id: idUser,
+                                exchange_point: totalPointGift,
+                                info_exchange_point: ` do đổi ${data} quà "${dataFetch.title}"`,
+                            };
+                            const htr_user = await request.post(
+                                'history_point/add_id',
+                                htrUser
+                            );
+
+                            if (
+                                res.data.success &&
+                                res_1.data.success &&
+                                htr_user.data.success
+                            ) {
+                                navigation.goBack();
+                                Alert.alert(
+                                    'Đổi điểm thành công! Chúng tôi sẽ trao quà sớm nhất đến bạn '
+                                );
+                                setModalVisible(false);
+                                dispatch(getUserDB());
+                                dispatch(getGiftDB());
+                            } else {
+                                Alert.alert('Đổi điểm không thành công ');
+                            }
+                        } catch (err) {
+                            console.log({ exchange_gift_err: err.message });
                         }
-                    } catch (err) {
-                        console.log({ exchange_gift_err: err.message });
-                    }
-                })();
+                    })();
+                } else {
+                    Alert.alert(
+                        'Bạn không có đủ điểm để đổi. Hãy tích thêm điểm và quay lại đổi bạn nhé !'
+                    );
+                }
             } else {
                 Alert.alert(
-                    'Bạn không có đủ điểm để đổi. Hãy tích thêm điểm và quay lại đổi bạn nhé !'
+                    'Cảnh báo',
+                    'Số lượng quà bạn nhập lớn hơn số quà còn lại. Xin vui lòng nhập lại'
                 );
             }
         };
@@ -167,42 +183,6 @@ const DetailExchange = ({ navigation, route }) => {
                 { text: 'Đổi ngay', onPress: () => exChange() },
             ]
         );
-
-        // if (numberPresentPointUser >= totalPointGift) {
-        //     const pointUserRemain = numberPresentPointUser - totalPointGift;
-
-        //     (async () => {
-        //         try {
-        //             //update number point user again
-        //             const res = await request.put(`user/update_user_id/${idUser}`, {
-        //                 number_point: pointUserRemain,
-        //             });
-
-        //             // update amount gift
-        //             console.log({ amountGift });
-        //             const res_1 = await request.put(`gift/update/${idGift}`, {
-        //                 number_count: amountGift,
-        //             });
-
-        //             if (res.data.success && res_1.data.success) {
-        //                 setModalVisible(false);
-        //                 navigation.goBack();
-        //                 Alert.alert(
-        //                     'Đổi điểm thành công! Chúng tôi sẽ trao quà sớm nhất đến bạn '
-        //                 );
-        //                 dispatch(getUserDB());
-        //             } else {
-        //                 Alert.alert('Đổi điểm không thành công ');
-        //             }
-        //         } catch (err) {
-        //             console.log({ exchange_gift_err: err.message });
-        //         }
-        //     })();
-        // } else {
-        //     Alert.alert(
-        //         'Bạn không có đủ điểm để đổi. Hãy tích thêm điểm và quay lại đổi bạn nhé !'
-        //     );
-        // }
     };
 
     const handleExchange = () => {

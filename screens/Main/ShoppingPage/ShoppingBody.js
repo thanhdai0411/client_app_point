@@ -40,6 +40,7 @@ const ShoppingBody = ({ navigation }) => {
                         // backgroundColor: 'white',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        height: '100%',
                     }}>
                     <Image
                         source={require('../../../assets/img/loading_icon.gif')}

@@ -54,7 +54,10 @@ const CardHistory = ({
                         shadowRadius: 5,
                         elevation: 3,
                     }}>
-                    <Image source={imgLink} style={{ width: 50, height: 50 }} />
+                    <Image
+                        source={imgLink}
+                        style={{ width: 50, height: 50, borderRadius: 10 }}
+                    />
                 </View>
                 <Text
                     style={{

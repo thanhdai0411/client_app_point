@@ -18,12 +18,12 @@ import {
 // import
 
 import CustomStatusBar from '../../../components/CustomStatusBar';
-// import HomeHeader from './HomeHeader';
 import HomeBody from './HomeBody';
 import { pointSelector } from '../../../redux/reducers/pointSlice';
 import { userSelector } from '../../../redux/reducers/userSlice';
-import { useSelector } from 'react-redux';
-
+import { getGiftDB } from '../../../redux/reducers/giftSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import MyText from '../../../components/MyText';
 //
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -42,7 +42,9 @@ const { width, height } = Dimensions.get('window');
 
 function Home({ navigation }) {
     const points = useSelector(pointSelector);
+    const dispatch = useDispatch();
     const { info_user } = useSelector(userSelector);
+
     return (
         <>
             <ImageHeaderScrollView
@@ -111,33 +113,29 @@ function Home({ navigation }) {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={0.6}
-                                onPress={() => navigation.navigate('InfoBank')}
+                                onPress={() => navigation.navigate('TransFer')}
                                 style={styles.header_category_item}>
-                                <MaterialCommunityIcons
-                                    name="bank-outline"
-                                    size={28}
-                                    color="red"
-                                />
+                                <AntDesign name="retweet" size={30} color="red" />
                                 <Text style={styles.header_category_name}>
-                                    Thông tin ngân hàng
+                                    Chuyển điểm
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => navigation.navigate('WheelOfFortune')}
+                                style={styles.header_category_item}>
+                                <AntDesign name="dashboard" size={28} color="green" />
+                                <Text style={styles.header_category_name}>
+                                    Vòng quay may mắn
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={() => navigation.navigate('InviteCode')}
                                 style={styles.header_category_item}>
-                                <MaterialIcons name="input" size={28} color="green" />
+                                <MaterialIcons name="input" size={28} color="violet" />
                                 <Text style={styles.header_category_name}>
                                     Nhập mã giới thiệu
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                activeOpacity={0.6}
-                                onPress={() => navigation.navigate('RegisterDealer')}
-                                style={styles.header_category_item}>
-                                <AntDesign name="form" size={28} color="blue" />
-                                <Text style={styles.header_category_name}>
-                                    Đăng kí làm đại lý{' '}
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -229,7 +227,7 @@ const styles = StyleSheet.create({
         // marginVertical: 5,
         // fontFamily: 'Poppins_500Medium',
         fontWeight: '500',
-        marginTop: 3,
+        marginTop: 8,
         fontSize: 15,
     },
 });

@@ -19,6 +19,7 @@ const CustomInput = ({
     borderColorWrapInput = '#bbb',
     autoFocus = false,
     keyboardType = null,
+    returnKeyType = 'done',
     ...styleInput
 }) => {
     return (
@@ -59,7 +60,7 @@ const CustomInput = ({
                             }}
                             textAlign="center"
                             ref={refInput}
-                            returnKeyType="done"
+                            returnKeyType={returnKeyType}
                             autoFocus={autoFocus}
                             keyboardType={keyboardType}
                             onBlur={onBlur}

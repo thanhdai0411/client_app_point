@@ -92,6 +92,7 @@ const InviteCode = () => {
                         <ButtonCustom
                             name="Xóa"
                             marginHorizontal={null}
+                            padding={10}
                             borderRadius={10}
                             backgroundColor="red"
                             onPress={handleDeleteInvitePhone}

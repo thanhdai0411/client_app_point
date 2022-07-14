@@ -36,12 +36,15 @@ import GiftExchange from '../screens/Main/History/GiftExchange';
 import GiftExchangeMoney from '../screens/Main/History/GiftExchangeMoney';
 import GiftExchangeProduct from '../screens/Main/History/GiftExchangeProduct';
 import DetailExchange from '../screens/Main/History/DetailExchange';
+import TransFer from '../screens/Main/HomePage/TransFer';
+import WheelOfFortune from '../screens/Main/HomePage/WheelOfFortune';
 
 import Otp from '../screens/Authentication/Otp';
 
 // redux
 
 import { userSelector, getPhoneNumber, getUserDB } from '../redux/reducers/userSlice';
+import { getGiftDB } from '../redux/reducers/giftSlice';
 
 const Navigation = () => {
     const dispatch = useDispatch();
@@ -56,9 +59,11 @@ const Navigation = () => {
             if (username) {
                 console.log({ StoreUserName: username });
                 dispatch(getUserDB());
+                dispatch(getGiftDB());
             } else {
                 console.log({ StoreUserName: 'Khong co gi' });
                 dispatch(getPhoneNumber());
+                dispatch(getGiftDB());
             }
         })();
     }, [dispatch]);
@@ -322,6 +327,39 @@ const Navigation = () => {
                         <Screen
                             name="DetailExchange"
                             component={DetailExchange}
+                            options={{
+                                headerShown: false,
+
+                                headerTitleStyle: {
+                                    fontSize: 20,
+                                },
+
+                                headerTintColor: 'black',
+                            }}
+                        />
+                        <Screen
+                            name="TransFer"
+                            component={TransFer}
+                            options={{
+                                // title: 'Đổi ',
+                                // headerShown: false,
+                                title: 'Chuyển điểm',
+                                headerShadowVisible: false,
+                                headerStyle: {
+                                    backgroundColor: '#CEE5D0',
+                                },
+
+                                headerTitleStyle: {
+                                    fontSize: 20,
+                                    fontWeight: '500',
+                                },
+
+                                headerTintColor: 'black',
+                            }}
+                        />
+                        <Screen
+                            name="WheelOfFortune"
+                            component={WheelOfFortune}
                             options={{
                                 // title: 'Đổi ',
                                 headerShown: false,

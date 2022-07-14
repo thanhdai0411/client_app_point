@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { box_shadow } from '../components/GlobalStyles';
 
 const HistoryCard = ({
@@ -42,12 +42,11 @@ const HistoryCard = ({
             <View style={{ width: '75%' }}>
                 <Text style={{ fontSize: 17, fontWeight: '500' }}>{title}</Text>
                 <View>
-                    <Text style={{ fontSize: 15, marginVertical: 8 }}>
+                    <Text
+                        style={{ fontSize: 15, marginVertical: 5, textAlign: 'justify' }}
+                        numberOfLines={4}>
                         {sub_action} <Text style={{ color: 'orange' }}>{point} </Text>Điểm
-                        <Text style={{ color: 'red' }} numberOfLines={3}>
-                            {' '}
-                            {action}
-                        </Text>
+                        <Text style={{ color: '#2155CD' }}> {action}</Text>
                     </Text>
                 </View>
                 <View>

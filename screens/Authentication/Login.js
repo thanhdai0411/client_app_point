@@ -23,6 +23,7 @@ import CustomInput from '../../components/CustomInput';
 import CustomLabelInput from '../../components/CustomLabelInput';
 import request from '../../utils/request';
 import { getUserDB } from '../../redux/reducers/userSlice';
+import { getGiftDB } from '../../redux/reducers/giftSlice';
 
 const Login = ({ navigation }) => {
     const { control, handleSubmit } = useForm();
@@ -34,27 +35,30 @@ const Login = ({ navigation }) => {
         string.splice(0, 1, '+84');
         let result = string.join('');
 
-        const phoneProvider = new firebase.auth.PhoneAuthProvider();
-        phoneProvider
-            .verifyPhoneNumber(result, recaptchaVerifier.current)
-            .then((value) => {
-                (async () => {
-                    try {
-                        const res = await request.get(`user/get_phone/${phone_number}`);
-                        const data = res && res.data ? res.data.data : {};
-                        if (data) {
-                            dispatch(getUserDB(data.phone_number));
-                        } else {
-                            navigation.navigate('Otp', { verificationId: value });
-                        }
-                    } catch (err) {
-                        console.log({ get_login_err: err.message });
-                    }
-                })();
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
+        (async () => {
+            try {
+                const res = await request.get(`user/get_phone/${phone_number}`);
+                const data = res && res.data ? res.data.data : {};
+                if (data) {
+                    dispatch(getUserDB(data.phone_number));
+                    dispatch(getGiftDB());
+                } else {
+                    const phoneProvider = new firebase.auth.PhoneAuthProvider();
+                    phoneProvider
+                        .verifyPhoneNumber(result, recaptchaVerifier.current)
+                        .then((value) => {
+                            navigation.navigate('Otp', {
+                                verificationId: value,
+                            });
+                        })
+                        .catch((err) => {
+                            console.log(err.message);
+                        });
+                }
+            } catch (err) {
+                console.log({ get_login_err: err.message });
+            }
+        })();
     };
 
     return (

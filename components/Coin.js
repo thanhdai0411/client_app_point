@@ -46,7 +46,7 @@ const Coin = ({
             <Text
                 style={{
                     color: colorPoint,
-                    fontWeight: 'bold',
+                    fontWeight: '500',
                     fontSize: 20,
                 }}>
                 {' '}

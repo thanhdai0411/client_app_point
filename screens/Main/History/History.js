@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView, Image, TextInput, ScrollView } from 'react-na
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
+import Slider from '@react-native-community/slider';
 
 // import
 import CustomStatusBar from '../../../components/CustomStatusBar';
@@ -11,10 +12,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { userSelector } from '../../../redux/reducers/userSlice';
 import { pointSelector } from '../../../redux/reducers/pointSlice';
 
-let header_color = '#178dde';
+let header_color = '#377D71';
 const History = ({ navigation }) => {
     const { info_user } = useSelector(userSelector);
-
+    let rangeRank = 100000;
     return (
         <SafeAreaView style={{ backgroundColor: header_color }}>
             {/* header */}
@@ -105,17 +106,33 @@ const History = ({ navigation }) => {
                     <Text style={{ color: 'white', fontSize: 16 }}>
                         Quá trình thăng hạng
                     </Text>
-                    <Text style={{ color: 'white', fontSize: 16 }}>30.000</Text>
+                    <Text style={{ color: 'white', fontSize: 16 }}>{rangeRank}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInput />
-                    <View
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginVertical: 10,
+                    }}>
+                    <Slider
                         style={{
-                            height: 10,
-                            backgroundColor: 'orange',
-                            marginVertical: 10,
                             flex: 1,
-                        }}></View>
+                            height: 13,
+                            backgroundColor: 'white',
+                            borderRadius: 5,
+                        }}
+                        minimumValue={0}
+                        value={info_user.number_point}
+                        step={1}
+                        maximumValue={rangeRank}
+                        minimumTrackTintColor="black"
+                        maximumTrackTintColor="red"
+                        thumbTintColor="orange"
+                        thumbImage={require('../../../assets/img/beatify.png')}
+                        // onSlidingStart={(value) => console.log(value)}
+                        onValueChange={(value) => console.log(value)}
+                    />
+
                     <View
                         style={{
                             borderWidth: 1,
@@ -128,9 +145,9 @@ const History = ({ navigation }) => {
                         <AntDesign name="star" size={20} color="white" />
                     </View>
                 </View>
-                <View style={{ marginTop: 10 }}>
+                <View>
                     <Text style={{ color: 'white', fontSize: 13 }}>
-                        Tích lũy 30.000 điểm để đạt hạng Thành Viên Hoàng gia
+                        Tích lũy {rangeRank} điểm để đạt hạng Hoàng gia
                     </Text>
                 </View>
             </View>
