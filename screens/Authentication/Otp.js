@@ -47,12 +47,23 @@ const Otp = ({ route, navigation }) => {
                                 let string = phone_number.split('');
                                 string.splice(0, 3, '0');
                                 let result = string.join('');
+                                console.log(result);
 
+                                // save number phone into db
                                 const res = await request.post('user/add', {
                                     phone_number: result,
                                 });
-                                if (res.data.success) {
-                                    await saveUserStore(keyStore, result);
+                                console.log('>>> res ', res.data.success);
+
+                                // default then login for 10 spin free
+                                const res_1 = await request.post('game/add', {
+                                    phone_number: result,
+                                });
+                                console.log('>>> res_1', res_1.data.success);
+
+                                if (res.data.success && res_1.data.success) {
+                                    await saveUserStore('phone_number', result);
+                                    dispatch(getUserDB(result));
                                     Alert.alert(
                                         'Thông báo',
                                         'Bạn hãy đi tới Tài khoản để cập nhật đầy đủ thông tin cá nhân để chúng tôi hiểu bạn hơn',

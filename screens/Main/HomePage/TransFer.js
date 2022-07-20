@@ -211,7 +211,7 @@ const TransFer = () => {
                     height: '100%',
                     borderTopRightRadius: 30,
                     borderTopLeftRadius: 30,
-                    marginTop: isKeyboardVisible ? -80 : 0,
+                    marginTop: isKeyboardVisible ? -100 : 0,
                 }}>
                 <Text
                     style={{

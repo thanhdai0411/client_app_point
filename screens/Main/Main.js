@@ -6,20 +6,26 @@ import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import Home from './HomePage/Home';
 import Shopping from './ShoppingPage/Shopping';
 import Notify from './Notify';
 import Account from './AccountPage/Account';
 import Accumulate from './Accumulate';
-
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import WheelOfFortune1 from './Game/WheelOfFortune';
 import History from './History/History';
 
 const Tab = createBottomTabNavigator();
 
 const Main = ({ navigation }) => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={{
+                tabBarStyle: {
+                    // backgroundColor: '#FCF8E8',
+                },
+            }}>
             <Tab.Screen
                 name="Trang chủ"
                 component={Home}
@@ -47,7 +53,7 @@ const Main = ({ navigation }) => {
                     tabBarInactiveTintColor: 'black',
                 }}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name="Mua sắm"
                 component={Shopping}
                 options={{
@@ -72,6 +78,36 @@ const Main = ({ navigation }) => {
                         </TouchableOpacity>
                     ),
                     tabBarLabel: 'Mua sắm',
+                    tabBarLabelStyle: { fontSize: 13, fontWeight: '400' },
+                    tabBarActiveTintColor: 'red',
+                    tabBarInactiveTintColor: 'black',
+                }}
+            /> */}
+            <Tab.Screen
+                name="Trò chơi"
+                component={WheelOfFortune1}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ focused }) => (
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            onPress={() => {
+                                navigation.navigate('Trò chơi');
+                            }}>
+                            <View
+                                style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}>
+                                <Ionicons
+                                    name="game-controller-outline"
+                                    size={30}
+                                    color={focused ? 'red' : 'black'}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    ),
+                    tabBarLabel: 'Trò chơi',
                     tabBarLabelStyle: { fontSize: 13, fontWeight: '400' },
                     tabBarActiveTintColor: 'red',
                     tabBarInactiveTintColor: 'black',

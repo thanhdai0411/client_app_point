@@ -45,8 +45,9 @@ const HistoryCard = ({
                     <Text
                         style={{ fontSize: 15, marginVertical: 5, textAlign: 'justify' }}
                         numberOfLines={4}>
-                        {sub_action} <Text style={{ color: 'orange' }}>{point} </Text>Điểm
-                        <Text style={{ color: '#2155CD' }}> {action}</Text>
+                        {sub_action}
+                        <Text style={{ color: 'orange' }}> {point}</Text>
+                        <Text style={{ color: '#2155CD' }}>{action}</Text>
                     </Text>
                 </View>
                 <View>

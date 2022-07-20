@@ -20,6 +20,7 @@ export const getPhoneNumber = createAsyncThunk('user/get_store', async () => {
 export const getUserDB = createAsyncThunk('user/get_db', async (phone) => {
     try {
         const phone_number = await SecureStore.getItemAsync('phone_number');
+        console.log({ phone_number_store: phone_number });
         if (phone_number) {
             const res = await request.get(`user/get_phone/${phone_number}`);
             const data = res && res.data ? res.data.data : {};

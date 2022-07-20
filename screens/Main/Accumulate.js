@@ -9,6 +9,7 @@ import {
     Alert,
     TextInput,
     Keyboard,
+    ActivityIndicator,
 } from 'react-native';
 import React, { useState, useEffect, useInsertionEffect } from 'react';
 import { BarCodeScanner, requestPermissionsAsync } from 'expo-barcode-scanner';
@@ -44,7 +45,7 @@ const Accumulate = ({ navigation }) => {
 
     //========================================
 
-    const idUserScan = info_user._id; // Thanh Dai scanner
+    const idUserScan = info_user._id;
 
     const phoneUserIntroduce = info_user.number_phone_presenter;
 
@@ -68,11 +69,14 @@ const Accumulate = ({ navigation }) => {
                 setIsLoading(false);
 
                 const presentNumberPointUser = data_1.number_point;
-                const presentNumberPointIntroduce = data_2.number_point_introduce;
                 const presentNumberPointUserIntroduce = data_2.number_point;
 
+                if (data_2.data) {
+                    const presentNumberPointIntroduce = data_2.number_point_introduce;
+                    setScoreIntroduce(presentNumberPointIntroduce);
+                }
+
                 setScoreUser(presentNumberPointUser);
-                setScoreIntroduce(presentNumberPointIntroduce);
                 setScoreNumberUserIntroduce(presentNumberPointUserIntroduce);
                 setSettingAccumulate(data_3);
             } catch (err) {
@@ -183,6 +187,7 @@ const Accumulate = ({ navigation }) => {
                                                 htrIntroduce
                                             );
                                         }
+
                                         if (phoneUserIntroduce) {
                                             if (
                                                 res_1.data.success &&
@@ -191,6 +196,7 @@ const Accumulate = ({ navigation }) => {
                                                 htr_introduce.data.success
                                             ) {
                                                 dispatch(getUserDB());
+                                                console.log(456);
 
                                                 Alert.alert(
                                                     `Quét mã tích điểm thành công`,
@@ -203,6 +209,7 @@ const Accumulate = ({ navigation }) => {
                                                 htr_user.data.success
                                             ) {
                                                 dispatch(getUserDB());
+                                                console.log(123);
                                                 Alert.alert(
                                                     `Quét mã tích điểm thành công`,
                                                     `Bạn được cộng ${settingAccumulate.number_point_user}đ`
@@ -272,48 +279,51 @@ const Accumulate = ({ navigation }) => {
         return (
             <>
                 {isFocused ? <CustomStatusBar barStyle="dark-content" /> : null}
-
-                <View style={styles.container_open_setting}>
-                    <View style={styles.text_open}>
-                        <View>
-                            <Image
-                                source={require('../../assets/img/logo.png')}
-                                style={{ width: 130, height: 130, marginBottom: 20 }}
-                            />
+                {isLoading ? (
+                    <ActivityIndicator size="large" />
+                ) : (
+                    <View style={styles.container_open_setting}>
+                        <View style={styles.text_open}>
+                            <View>
+                                <Image
+                                    source={require('../../assets/img/logo.png')}
+                                    style={{ width: 130, height: 130, marginBottom: 20 }}
+                                />
+                            </View>
+                            <Text
+                                style={{
+                                    margin: 10,
+                                    textAlign: 'center',
+                                    fontSize: 25,
+                                    fontWeight: '500',
+                                }}>
+                                Chưa bật camera
+                            </Text>
+                            <Text
+                                style={{
+                                    textAlign: 'center',
+                                    marginBottom: 20,
+                                    fontSize: 17,
+                                }}>
+                                Để quét QR, trước tiên cần phải bật camera trong phần cài
+                                đặt của ứng dụng
+                            </Text>
                         </View>
-                        <Text
-                            style={{
-                                margin: 10,
-                                textAlign: 'center',
-                                fontSize: 25,
-                                fontWeight: '500',
-                            }}>
-                            Chưa bật camera
-                        </Text>
-                        <Text
-                            style={{
-                                textAlign: 'center',
-                                marginBottom: 20,
-                                fontSize: 17,
-                            }}>
-                            Để quét QR, trước tiên cần phải bật camera trong phần cài đặt
-                            của ứng dụng
-                        </Text>
-                    </View>
 
-                    <TouchableOpacity
-                        style={styles.buttonOpenSetting}
-                        onPress={openSettingCamera}>
-                        <Text
-                            style={{
-                                fontSize: 19,
-                                color: 'white',
-                                fontWeight: '500',
-                            }}>
-                            Vào cài đặt ngay
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                        <TouchableOpacity
+                            style={styles.buttonOpenSetting}
+                            onPress={openSettingCamera}>
+                            <Text
+                                style={{
+                                    fontSize: 19,
+                                    color: 'white',
+                                    fontWeight: '500',
+                                }}>
+                                Vào cài đặt ngay
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </>
         );
     }

@@ -3,6 +3,7 @@ import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useSelector } from 'react-redux';
 import Slider from '@react-native-community/slider';
+import * as Progress from 'react-native-progress';
 
 // import
 import CustomStatusBar from '../../../components/CustomStatusBar';
@@ -15,7 +16,7 @@ import { pointSelector } from '../../../redux/reducers/pointSlice';
 let header_color = '#377D71';
 const History = ({ navigation }) => {
     const { info_user } = useSelector(userSelector);
-    let rangeRank = 100000;
+    let rangeRank = 10000000;
     return (
         <SafeAreaView style={{ backgroundColor: header_color }}>
             {/* header */}
@@ -114,24 +115,16 @@ const History = ({ navigation }) => {
                         alignItems: 'center',
                         marginVertical: 10,
                     }}>
-                    <Slider
-                        style={{
-                            flex: 1,
-                            height: 13,
-                            backgroundColor: 'white',
-                            borderRadius: 5,
-                        }}
-                        minimumValue={0}
-                        value={info_user.number_point}
-                        step={1}
-                        maximumValue={rangeRank}
-                        minimumTrackTintColor="black"
-                        maximumTrackTintColor="red"
-                        thumbTintColor="orange"
-                        thumbImage={require('../../../assets/img/beatify.png')}
-                        // onSlidingStart={(value) => console.log(value)}
-                        onValueChange={(value) => console.log(value)}
-                    />
+                    <View style={{ flex: 1 }}>
+                        <Progress.Bar
+                            progress={info_user.number_point / rangeRank}
+                            animated={true}
+                            width={null}
+                            color={'orange'}
+                            borderColor="#ccc"
+                            borderWidth={2}
+                        />
+                    </View>
 
                     <View
                         style={{

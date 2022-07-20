@@ -8,7 +8,6 @@ import {
     TouchableOpacity,
     Alert,
     Modal,
-    Pressable as Preservable,
     StyleSheet,
 } from 'react-native';
 import React, { useState } from 'react';

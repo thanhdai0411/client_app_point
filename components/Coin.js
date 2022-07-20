@@ -3,7 +3,7 @@ import React from 'react';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 let primary_color = '#006db6';
-let color_coin = '#e9b534';
+let color_coin = '#D8E9A8';
 const Coin = ({
     backgroundColor = null,
     colorPoint = '#fff',
@@ -26,11 +26,11 @@ const Coin = ({
             }}>
             <View
                 style={{
-                    borderWidth: 1,
-                    borderColor: 'orange',
+                    // borderWidth: 1,
+                    // borderColor: 'orange',
                     borderRadius: 50,
                     padding: 5,
-                    backgroundColor: color_coin,
+                    // backgroundColor: color_coin,
                 }}>
                 <Image
                     source={require('../assets/img/logo_coin.png')}

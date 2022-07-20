@@ -38,8 +38,11 @@ const Login = ({ navigation }) => {
         (async () => {
             try {
                 const res = await request.get(`user/get_phone/${phone_number}`);
+
                 const data = res && res.data ? res.data.data : {};
                 if (data) {
+                    await SecureStore.setItemAsync('phone_number', data.phone_number);
+
                     dispatch(getUserDB(data.phone_number));
                     dispatch(getGiftDB());
                 } else {

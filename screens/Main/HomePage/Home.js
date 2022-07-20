@@ -8,6 +8,7 @@ import {
     Image,
     Dimensions,
     TouchableOpacity,
+    Alert,
 } from 'react-native';
 
 import {
@@ -36,6 +37,7 @@ import Coin from '../../../components/Coin';
 
 //
 import { box_shadow } from '../../../components/GlobalStyles';
+import Fireworks from '../../../components/FireWork';
 
 //
 const { width, height } = Dimensions.get('window');
@@ -69,7 +71,8 @@ function Home({ navigation }) {
                             <Coin count={info_user.number_point} />
                             <Image />
                         </View>
-                        <View style={{ flexDirection: 'row' }}>
+                        {/* notify */}
+                        {/* <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={() => navigation.navigate('Thông báo')}
@@ -81,6 +84,7 @@ function Home({ navigation }) {
                                 />
                             </TouchableOpacity>
                         </View>
+
                         <View
                             style={{
                                 backgroundColor: 'red',
@@ -96,7 +100,9 @@ function Home({ navigation }) {
                                 borderColor: 'white',
                             }}>
                             <Text style={{ color: 'white', fontWeight: '500' }}>0</Text>
-                        </View>
+                        </View> */}
+
+                        {/* end notify */}
                     </View>
                 )}>
                 <View style={{ top: -30 }}>
@@ -122,18 +128,27 @@ function Home({ navigation }) {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 activeOpacity={0.6}
-                                onPress={() => navigation.navigate('WheelOfFortune')}
+                                onPress={() => navigation.navigate('RegisterDealer')}
+                                style={styles.header_category_item}>
+                                <AntDesign name="form" size={30} color="gray" />
+                                <Text style={styles.header_category_name}>
+                                    Đăng kí làm đại lý
+                                </Text>
+                            </TouchableOpacity>
+                            {/* <TouchableOpacity
+                                activeOpacity={0.6}
+                                onPress={() => navigation.navigate('WheelOfFortune1')}
                                 style={styles.header_category_item}>
                                 <AntDesign name="dashboard" size={28} color="green" />
                                 <Text style={styles.header_category_name}>
                                     Vòng quay may mắn
                                 </Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                             <TouchableOpacity
                                 activeOpacity={0.6}
                                 onPress={() => navigation.navigate('InviteCode')}
                                 style={styles.header_category_item}>
-                                <MaterialIcons name="input" size={28} color="violet" />
+                                <MaterialIcons name="input" size={28} color="blue" />
                                 <Text style={styles.header_category_name}>
                                     Nhập mã giới thiệu
                                 </Text>

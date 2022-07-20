@@ -7,6 +7,8 @@ import CustomLabelInput from './CustomLabelInput';
 
 import { launchImageLibraryAsync, MediaTypeOptions } from 'expo-image-picker';
 
+import request from '../utils/request';
+
 export default function UploadImg({
     label = 'Tải hình lên',
     requireLabel,
@@ -16,6 +18,27 @@ export default function UploadImg({
 }) {
     // upload img
     const [image, setImage] = useState(null);
+
+    // const openImageLibrary = async () => {
+    //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    //     if (status !== 'granted') {
+    //         alert('Sorry, we need camera roll permissions to make this work!');
+    //     }
+
+    //     if (status === 'granted') {
+    //         const response = await ImagePicker.launchImageLibraryAsync({
+    //             mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //             allowsEditing: true,
+    //         });
+
+    //         if (!response.cancelled) {
+    //             setImage(response.uri);
+    //             getImgUpload(response.uri);
+    //         }
+    //     }
+    // };
+
     const pickImage = async () => {
         let result = await launchImageLibraryAsync({
             mediaTypes: MediaTypeOptions.All,

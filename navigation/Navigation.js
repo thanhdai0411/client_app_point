@@ -37,7 +37,8 @@ import GiftExchangeMoney from '../screens/Main/History/GiftExchangeMoney';
 import GiftExchangeProduct from '../screens/Main/History/GiftExchangeProduct';
 import DetailExchange from '../screens/Main/History/DetailExchange';
 import TransFer from '../screens/Main/HomePage/TransFer';
-import WheelOfFortune from '../screens/Main/HomePage/WheelOfFortune';
+import WheelOfFortune1 from '../screens/Main/Game/WheelOfFortune';
+import HistorySpinGame from '../screens/Main/Game/HistorySpinGame';
 
 import Otp from '../screens/Authentication/Otp';
 
@@ -358,13 +359,26 @@ const Navigation = () => {
                             }}
                         />
                         <Screen
-                            name="WheelOfFortune"
-                            component={WheelOfFortune}
+                            name="WheelOfFortune1"
+                            component={WheelOfFortune1}
                             options={{
                                 // title: 'Đổi ',
                                 headerShown: false,
                                 headerTitleStyle: {
                                     fontSize: 20,
+                                },
+
+                                headerTintColor: 'black',
+                            }}
+                        />
+                        <Screen
+                            name="HistorySpinGame"
+                            component={HistorySpinGame}
+                            options={{
+                                title: 'Lịch sử vòng quay may mắn',
+                                headerShown: true,
+                                headerTitleStyle: {
+                                    fontSize: 18,
                                 },
 
                                 headerTintColor: 'black',
