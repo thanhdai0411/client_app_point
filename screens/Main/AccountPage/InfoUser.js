@@ -251,6 +251,29 @@ const InfoUser = ({ navigation }) => {
                                 paddingVertical={null}
                                 paddingBottom={5}
                             />
+                            <CustomLabelInput
+                                name="Chức danh người dùng"
+                                require={false}
+                                paddingLeft={5}
+                                // marginBottom={null}
+                                marginBottom={8}
+                                marginTop={15}
+                                fontSize={18}
+                            />
+                            <CustomInput
+                                control={control}
+                                defaultValue={info_user.role}
+                                editable={false}
+                                value={info_user.role}
+                                // placeholder={'09xxx'}
+                                // rules={{ required: 'Bạn bắt buôc phải nhập trường này' }}
+                                name={'phone_number'}
+                                borderWidth={0}
+                                borderBottomWidth={1}
+                                paddingLeft={5}
+                                paddingVertical={null}
+                                paddingBottom={5}
+                            />
                             {/* email */}
                             <CustomLabelInput
                                 name="Email"

@@ -54,37 +54,18 @@ const Accumulate = ({ navigation }) => {
     //========================================
 
     useEffect(() => {
-        setIsLoading(true);
         const fetchData = async () => {
             try {
-                const res_1 = await request.get(`user/get_id/${idUserScan}`);
-
-                const res_2 = await request.get(`user/get_phone/${phoneUserIntroduce}`);
                 const res_3 = await request.get(`point_setting/get_all`);
-
-                const data_1 = res_1 && res_1.data.data ? res_1.data.data : [];
-                const data_2 = res_2 && res_2.data.data ? res_2.data.data : [];
                 const data_3 = res_3 && res_3.data.data ? res_3.data.data : [];
 
-                setIsLoading(false);
-
-                const presentNumberPointUser = data_1.number_point;
-                const presentNumberPointUserIntroduce = data_2.number_point;
-
-                if (data_2.data) {
-                    const presentNumberPointIntroduce = data_2.number_point_introduce;
-                    setScoreIntroduce(presentNumberPointIntroduce);
-                }
-
-                setScoreUser(presentNumberPointUser);
-                setScoreNumberUserIntroduce(presentNumberPointUserIntroduce);
                 setSettingAccumulate(data_3);
             } catch (err) {
-                console.log({ error_fetch_data_start: err });
+                console.log({ error_fetch_point_setting: err });
             }
         };
         fetchData();
-    }, [phoneUserIntroduce]);
+    }, []);
 
     let arr = [];
     isSettingAccumulate.forEach((settingAccumulate) => {
@@ -94,143 +75,57 @@ const Accumulate = ({ navigation }) => {
     const handleFetchCodeScanner = (data) => {
         let regexp = /[a-z]/gi;
         let qrScan = data.match(regexp).join('');
+
         // let result = arr.includes(qrScan);
         let result = arr.find((item) => item == qrScan);
 
         if (result) {
             let codeScan = {
                 userID: idUserScan,
+                phoneUserIntroduce,
                 code_scanner: data,
+                prefix_scan: result,
             };
             (async () => {
-                try {
-                    const res = await request.post('point/add', codeScan);
-                    if (res.data.success) {
-                        isSettingAccumulate.forEach((settingAccumulate) => {
-                            if (settingAccumulate.prefix == result) {
-                                setScoreUser(
-                                    (prev) =>
-                                        prev +
-                                        parseInt(settingAccumulate.number_point_user)
-                                );
+                const res = await request.post('point/add', codeScan);
+                const { success, user, point, message } = res.data;
 
-                                if (phoneUserIntroduce) {
-                                    setScoreIntroduce(
-                                        (prev) =>
-                                            prev +
-                                            parseInt(settingAccumulate.number_point_intro)
-                                    );
-                                    setScoreNumberUserIntroduce(
-                                        (prev) =>
-                                            prev +
-                                            parseInt(settingAccumulate.number_point_intro)
-                                    );
-                                }
+                if (success) {
+                    if (user === 'both') {
+                        const htrUser = {
+                            user_id: idUserScan,
+                            accumulate_point: point.user,
+                        };
 
-                                (async () => {
-                                    let pointIntroducePost, pointNumberIntroduce;
+                        const htrIntroducer = {
+                            phone_number: phoneUserIntroduce,
+                            donate_points: point.introducer,
+                            info_donate_points: `từ ${info_user.phone_number}`,
+                        };
 
-                                    if (phoneUserIntroduce) {
-                                        pointIntroducePost =
-                                            scoreIntroduce +
-                                            +settingAccumulate.number_point_intro;
-                                        pointNumberIntroduce =
-                                            scoreUserIntroduce +
-                                            +settingAccumulate.number_point_intro;
-                                    }
-                                    const pointUserPost =
-                                        scoreUser + +settingAccumulate.number_point_user;
-                                    try {
-                                        const res_1 = await request.put(
-                                            `user/update_user_id/${idUserScan}`,
-                                            { number_point: pointUserPost }
-                                        );
-
-                                        let res_2;
-
-                                        if (phoneUserIntroduce) {
-                                            res_2 = await request.put(
-                                                `user/update_user_phone/${phoneUserIntroduce}`,
-                                                {
-                                                    number_point_introduce:
-                                                        pointIntroducePost,
-                                                    number_point: pointNumberIntroduce,
-                                                }
-                                            );
-                                        }
-
-                                        // add into history
-                                        const htrUser = {
-                                            user_id: idUserScan,
-                                            accumulate_point:
-                                                settingAccumulate.number_point_user,
-                                        };
-
-                                        let htrIntroduce;
-                                        if (phoneUserIntroduce) {
-                                            htrIntroduce = {
-                                                phone_number: phoneUserIntroduce,
-                                                donate_points:
-                                                    settingAccumulate.number_point_intro,
-                                                info_donate_points: `từ ${info_user.phone_number}`,
-                                            };
-                                        }
-
-                                        const htr_user = await request.post(
-                                            'history_point/add_id',
-                                            htrUser
-                                        );
-                                        let htr_introduce;
-                                        if (phoneUserIntroduce) {
-                                            htr_introduce = await request.post(
-                                                'history_point/add_phone',
-                                                htrIntroduce
-                                            );
-                                        }
-
-                                        if (phoneUserIntroduce) {
-                                            if (
-                                                res_1.data.success &&
-                                                res_2.data.success &&
-                                                htr_user.data.success &&
-                                                htr_introduce.data.success
-                                            ) {
-                                                dispatch(getUserDB());
-                                                console.log(456);
-
-                                                Alert.alert(
-                                                    `Quét mã tích điểm thành công`,
-                                                    `Bạn được cộng ${settingAccumulate.number_point_user}đ. Bạn của bạn được cộng ${settingAccumulate.number_point_intro}`
-                                                );
-                                            }
-                                        } else {
-                                            if (
-                                                res_1.data.success &&
-                                                htr_user.data.success
-                                            ) {
-                                                dispatch(getUserDB());
-                                                console.log(123);
-                                                Alert.alert(
-                                                    `Quét mã tích điểm thành công`,
-                                                    `Bạn được cộng ${settingAccumulate.number_point_user}đ`
-                                                );
-                                            }
-                                        }
-                                    } catch (err) {
-                                        console.log({
-                                            error_post_point: err.message,
-                                        });
-                                    }
-                                })();
-                            }
-                        });
-                    } else {
-                        Alert.alert(
-                            'Quét mã tích điểm không thành công. Do mã đã qua sử dụng'
+                        const htr_user = await request.post(
+                            'history_point/add_id',
+                            htrUser
+                        );
+                        const htr_introduce = await request.post(
+                            'history_point/add_phone',
+                            htrIntroducer
+                        );
+                    } else if (user === 'only') {
+                        const htrUser = {
+                            user_id: idUserScan,
+                            accumulate_point: point.user,
+                        };
+                        const htr_user = await request.post(
+                            'history_point/add_id',
+                            htrUser
                         );
                     }
-                } catch (err) {
-                    console.log(err.message);
+
+                    Alert.alert('Thông báo', `${message}`);
+                    dispatch(getUserDB());
+                } else {
+                    Alert.alert('Thông báo', `${message}`);
                 }
             })();
         } else {
@@ -255,20 +150,6 @@ const Accumulate = ({ navigation }) => {
         setTextScan(data);
         console.log('>>> qr: ', data);
         handleFetchCodeScanner(data);
-    };
-    // phone number
-    const handleNumberPhone = () => {
-        console.log(number);
-        const fetchUser = async () => {
-            const res = await request.get(`user/get_phone/${number}`);
-            const data = res && res.data ? res.data.data : [];
-            if (res.data.data.length > 0) {
-                Alert.alert(`Số điện thoại ${number} nhập thành công `);
-            } else {
-                Alert.alert(`Số điện thoại ${number} không tồn tại `);
-            }
-        };
-        fetchUser();
     };
 
     const openSettingCamera = () => {
@@ -353,10 +234,15 @@ const Accumulate = ({ navigation }) => {
                             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                             style={{ height: 400, width: 400 }}
                         />
-                    ) : null}
+                    ) : (
+                        <View>
+                            <Text style={{ color: 'white', fontSize: 18 }}>
+                                Nhấp Scan Again để tiếp tục quét
+                            </Text>
+                        </View>
+                    )}
                 </View>
 
-                {/* <Text style={styles.maintext}>{textScan}</Text> */}
                 {scanned && (
                     <TouchableOpacity
                         style={styles.buttonOpenSetting}
@@ -401,7 +287,7 @@ const styles = StyleSheet.create({
         width: 300,
         overflow: 'hidden',
         borderRadius: 30,
-        borderWidth: 4,
+        borderWidth: 2,
         borderColor: 'black',
         backgroundColor: 'tomato',
     },

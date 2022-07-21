@@ -166,18 +166,19 @@ const History = ({ navigation }) => {
                         name="Lịch sử giao dịch điểm"
                         onPress={() => navigation.navigate('HistoryPoint')}
                     />
-                    <CardHistory
+                    {/* <CardHistory
                         name="Lịch sử giao hàng"
                         onPress={() => navigation.navigate('HistoryOrder')}
+                    /> */}
+                    <CardHistory
+                        name="Đổi điểm"
+                        onPress={() => navigation.navigate('GiftExchange')}
                     />
                     <CardHistory
                         name="Điểm AWPoint là gì ?"
                         onPress={() => navigation.navigate('WhatAWPoint')}
                     />
-                    <CardHistory
-                        name="Đổi điểm"
-                        onPress={() => navigation.navigate('GiftExchange')}
-                    />
+                    <CardHistory name="Đang cập nhật..." />
                 </View>
                 {/* end */}
             </View>

@@ -58,7 +58,6 @@ const CustomInput = ({
 
                                 // flex: 1,
                             }}
-                            textAlign="center"
                             ref={refInput}
                             returnKeyType={returnKeyType}
                             autoFocus={autoFocus}

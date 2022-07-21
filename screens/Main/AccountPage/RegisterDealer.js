@@ -160,6 +160,7 @@ export default function RegisterDealer() {
     const submitForm = ({
         dealer_email,
         dealer_name,
+        dealer_phone_number,
         district,
         product_business,
         province,
@@ -167,28 +168,6 @@ export default function RegisterDealer() {
         ward,
         address,
     }) => {
-        console.log({
-            dealer_email,
-            dealer_name,
-            district,
-            product_business,
-            province,
-            shop_name,
-            ward,
-            address,
-        });
-        if (
-            !dealer_email ||
-            !dealer_email ||
-            !district ||
-            !product_business ||
-            !province ||
-            !shop_name ||
-            !ward ||
-            !address
-        ) {
-            Alert.alert('Thông báo', 'Vui lòng cập nhật đầy đủ thông tin yêu cầu');
-        }
         const formData = new FormData();
         const images = [
             {
@@ -216,15 +195,18 @@ export default function RegisterDealer() {
         formData.append('product_business', product_business);
         formData.append('shop_name', shop_name);
         formData.append('address', address);
-        formData.append('dealer_phone_number', info_user.phone_number);
+        formData.append('dealer_phone_number', dealer_phone_number);
 
         (async () => {
             try {
                 setLoading(true);
-
-                res = await request.get(vietnamProvincesAPI.get_from_code('p', province));
-                res_1 = await request.get(vietnamProvincesAPI.get_from_code('w', ward));
-                res_2 = await request.get(
+                let res = await request.get(
+                    vietnamProvincesAPI.get_from_code('p', province)
+                );
+                let res_1 = await request.get(
+                    vietnamProvincesAPI.get_from_code('w', ward)
+                );
+                let res_2 = await request.get(
                     vietnamProvincesAPI.get_from_code('d', district)
                 );
                 const ward_ = res_1.data.name;
@@ -234,23 +216,19 @@ export default function RegisterDealer() {
                 formData.append('province', province_);
                 formData.append('ward', ward_);
 
-                if (imageAvatar && imageBusiness && imageCMND) {
-                    const res = await request.post('dealer/add', formData, {
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    });
-                    if (res.data.success) {
-                        setLoading(false);
-                        Alert.alert(
-                            'Thông báo',
-                            'Bạn đăng kí thành công, chúng tối sẽ phản hồi sớm nhất đến bạn'
-                        );
-                        dispatch(getUserDB());
-                    }
-                } else {
-                    Alert.alert('Cảnh báo', 'Bạn phải cập nhật đủ hình yêu  cầu');
+                const postInfoDealer = await request.post('dealer/add', formData, {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                if (postInfoDealer.data.success) {
+                    setLoading(false);
+                    Alert.alert(
+                        'Bạn đăng kí thành công',
+                        `Bạn vui lòng kiểm tra email ${dealer_email} để hoàn thành thủ tục đăng kí. Xin cảm ơn`
+                    );
+                    dispatch(getUserDB());
                 }
             } catch (err) {
                 console.log('info_dealer_err: ', err.message);
@@ -263,11 +241,28 @@ export default function RegisterDealer() {
         dealer_name,
         district,
         product_business,
+        dealer_phone_number,
         province,
         shop_name,
         ward,
         address,
     }) => {
+        if (
+            !dealer_email &&
+            !dealer_name &&
+            !dealer_phone_number &&
+            !district &&
+            !product_business &&
+            !province &&
+            !shop_name &&
+            !ward &&
+            !address &&
+            imageCMND == info_user.info_dealer.imageCMND &&
+            imageAvatar == info_user.info_dealer.imageAvatar &&
+            imageBusiness == info_user.info_dealer.imageBusiness
+        ) {
+            return Alert.alert('Thông báo', 'Hình như bạn chưa có sự thay đổi nào ?');
+        }
         const formData = new FormData();
         const images = [
             {
@@ -283,45 +278,14 @@ export default function RegisterDealer() {
                 uri: imageBusiness,
             },
         ];
-        if (
-            imageCMND.indexOf('file:///') !== -1 &&
-            imageAvatar.indexOf('file:///') !== -1 &&
-            imageBusiness.indexOf('file:///') !== -1
-        ) {
-            images.map((item) => {
-                formData.append('image_dealer', {
-                    uri: item.uri,
-                    type: 'image/jpeg',
-                    name: item.name,
-                });
+        images.map((item) => {
+            formData.append('image_dealer', {
+                uri: item.uri,
+                type: 'image/jpeg',
+                name: item.name,
             });
-        } else if (
-            imageCMND.indexOf('file:///') !== -1 ||
-            imageAvatar.indexOf('file:///') !== -1 ||
-            imageBusiness.indexOf('file:///') !== -1
-        ) {
-            if (imageCMND.indexOf('file:///') !== -1) {
-                formData.append('image_dealer', {
-                    uri: imageCMND,
-                    type: 'image/jpeg',
-                    name: 'img_cmnd',
-                });
-            }
-            if (imageAvatar.indexOf('file:///') !== -1) {
-                formData.append('image_dealer', {
-                    uri: imageAvatar,
-                    type: 'image/jpeg',
-                    name: 'img_avatar',
-                });
-            }
-            if (imageBusiness.indexOf('file:///') !== -1) {
-                formData.append('image_dealer', {
-                    uri: imageBusiness,
-                    type: 'image/jpeg',
-                    name: 'img_business',
-                });
-            }
-        }
+        });
+
         formData.append(
             'dealer_email',
             dealer_email || info_user.info_dealer.dealer_email
@@ -333,7 +297,10 @@ export default function RegisterDealer() {
         );
         formData.append('shop_name', shop_name || info_user.info_dealer.shop_name);
         formData.append('address', address || info_user.info_dealer.address);
-        formData.append('dealer_phone_number', info_user.phone_number);
+        formData.append(
+            'dealer_phone_number',
+            dealer_phone_number || info_user.info_dealer.dealer_phone_number
+        );
 
         (async () => {
             setLoading(true);
@@ -358,7 +325,12 @@ export default function RegisterDealer() {
                     formData.append('district', district_);
                     formData.append('province', province_);
                     formData.append('ward', ward_);
+                } else {
+                    formData.append('district', info_user.info_dealer.district);
+                    formData.append('province', info_user.info_dealer.province);
+                    formData.append('ward', info_user.info_dealer.ward);
                 }
+
                 if (imageAvatar && imageBusiness && imageCMND) {
                     const res = await request.put(
                         `dealer/update/${info_user.info_dealer._id}`,
@@ -374,6 +346,7 @@ export default function RegisterDealer() {
                     Alert.alert('Cảnh báo', 'Bạn phải cập nhật đủ hình yêu  cầu');
                 }
             } catch (err) {
+                setLoading(false);
                 console.log('info_dealer_err: ', err.message);
             }
         })();
@@ -396,11 +369,11 @@ export default function RegisterDealer() {
                             }
                             placeholder={'Nguyễn Văn A'}
                             rules={
-                                info_user.info_dealer
+                                info_user.info_dealer && info_user.info_dealer.dealer_name
                                     ? info_user.info_dealer.dealer_name
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.dealer_name
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'dealer_name'}
                         />
@@ -416,11 +389,12 @@ export default function RegisterDealer() {
                             }
                             placeholder={'Nước đóng chai'}
                             rules={
-                                info_user.info_dealer
+                                info_user.info_dealer &&
+                                info_user.info_dealer.product_business
                                     ? info_user.info_dealer.product_business
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.product_business
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'product_business'}
                         />
@@ -437,11 +411,11 @@ export default function RegisterDealer() {
                                     : null
                             }
                             rules={
-                                info_user.info_dealer
+                                info_user.info_dealer && info_user.info_dealer.shop_name
                                     ? info_user.info_dealer.shop_name
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.shop_name
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'shop_name'}
                         />
@@ -458,19 +432,43 @@ export default function RegisterDealer() {
                                     : null
                             }
                             rules={
-                                info_user.info_dealer
+                                info_user.info_dealer &&
+                                info_user.info_dealer.dealer_email
                                     ? info_user.info_dealer.dealer_email
                                     : null
-                                    ? {
+                                    ? !info_user.info_dealer.dealer_email
+                                    : {
                                           required: 'Bạn bắt buôc phải nhập trường này',
                                           pattern: {
                                               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                               message: 'Email không hợp lệ',
                                           },
                                       }
-                                    : null
                             }
                             name={'dealer_email'}
+                        />
+                    </View>
+                    <View style={{ paddingHorizontal: 10, marginTop: 10 }}>
+                        <CustomLabelInput name="Số điện thoại" />
+                        <CustomInput
+                            control={control}
+                            placeholder={'0xxxx'}
+                            defaultValue={
+                                info_user.info_dealer
+                                    ? info_user.info_dealer.dealer_phone_number
+                                    : null
+                            }
+                            rules={
+                                info_user.info_dealer &&
+                                info_user.info_dealer.dealer_phone_number
+                                    ? info_user.info_dealer.dealer_phone_number
+                                    : null
+                                    ? !info_user.info_dealer.dealer_phone_number
+                                    : {
+                                          required: 'Bạn bắt buôc phải nhập trường này',
+                                      }
+                            }
+                            name={'dealer_phone_number'}
                         />
                     </View>
 
@@ -488,15 +486,15 @@ export default function RegisterDealer() {
                                 info_user.info_dealer
                                     ? info_user.info_dealer.province
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.province
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             render={({
                                 field: { onChange, onBlur, value },
                                 fieldState: { error },
                             }) => (
                                 <>
-                                    {info_user.info_dealer.province ? (
+                                    {info_user.info_dealer ? (
                                         <Text style={{ fontSize: 17, marginBottom: 10 }}>
                                             Tỉnh/Thành phố bạn đã chọn:{' '}
                                             {info_user.info_dealer.province}
@@ -583,15 +581,15 @@ export default function RegisterDealer() {
                                 info_user.info_dealer
                                     ? info_user.info_dealer.district
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.district
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             render={({
                                 field: { onChange, onBlur, value },
                                 fieldState: { error },
                             }) => (
                                 <>
-                                    {info_user.info_dealer.district ? (
+                                    {info_user.info_dealer ? (
                                         <Text style={{ fontSize: 17, marginBottom: 10 }}>
                                             Quận/Huyện bạn đã chọn:{' '}
                                             {info_user.info_dealer.district}
@@ -677,15 +675,15 @@ export default function RegisterDealer() {
                                 info_user.info_dealer
                                     ? info_user.info_dealer.ward
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.ward
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             render={({
                                 field: { onChange, onBlur, value },
                                 fieldState: { error },
                             }) => (
                                 <>
-                                    {info_user.info_dealer.ward ? (
+                                    {info_user.info_dealer ? (
                                         <Text style={{ fontSize: 17, marginBottom: 10 }}>
                                             Phường/Xã bạn đã chọn:{' '}
                                             {info_user.info_dealer.ward}
@@ -771,8 +769,8 @@ export default function RegisterDealer() {
                                 info_user.info_dealer
                                     ? info_user.info_dealer.address
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_dealer.address
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'address'}
                         />
@@ -790,7 +788,7 @@ export default function RegisterDealer() {
                                 setImageAvatar(image);
                             }}
                         />
-                        {imageAvatar || info_user.info_dealer.imageAvatar ? (
+                        {info_user.info_dealer && info_user.info_dealer.imageAvatar ? (
                             <View>
                                 <Text
                                     style={{
@@ -810,7 +808,7 @@ export default function RegisterDealer() {
                                     />
                                 </View>
                             </View>
-                        ) : (
+                        ) : !imageAvatar ? (
                             <Text
                                 style={{
                                     color: 'red',
@@ -820,7 +818,7 @@ export default function RegisterDealer() {
                                 }}>
                                 Bạn bắt buộc phải chọn hình
                             </Text>
-                        )}
+                        ) : null}
                     </View>
 
                     <View
@@ -833,7 +831,7 @@ export default function RegisterDealer() {
                                 setImageBusiness(image);
                             }}
                         />
-                        {imageBusiness || info_user.info_dealer.imageBusiness ? (
+                        {info_user.info_dealer && info_user.info_dealer.imageBusiness ? (
                             <View>
                                 <Text
                                     style={{
@@ -853,7 +851,7 @@ export default function RegisterDealer() {
                                     />
                                 </View>
                             </View>
-                        ) : (
+                        ) : !imageBusiness ? (
                             <Text
                                 style={{
                                     color: 'red',
@@ -863,7 +861,7 @@ export default function RegisterDealer() {
                                 }}>
                                 Bạn bắt buộc phải chọn hình
                             </Text>
-                        )}
+                        ) : null}
                     </View>
                     <View
                         style={{
@@ -875,7 +873,7 @@ export default function RegisterDealer() {
                                 setImageCMND(image);
                             }}
                         />
-                        {imageCMND || info_user.info_dealer.imageCMND ? (
+                        {info_user.info_dealer && info_user.info_dealer.imageCMND ? (
                             <View>
                                 <Text
                                     style={{
@@ -895,7 +893,7 @@ export default function RegisterDealer() {
                                     />
                                 </View>
                             </View>
-                        ) : (
+                        ) : !imageCMND ? (
                             <Text
                                 style={{
                                     color: 'red',
@@ -905,7 +903,7 @@ export default function RegisterDealer() {
                                 }}>
                                 Bạn bắt buộc phải chọn hình
                             </Text>
-                        )}
+                        ) : null}
                     </View>
 
                     {/* end upload img */}
@@ -958,8 +956,16 @@ export default function RegisterDealer() {
                         alignItems: 'center',
                         backgroundColor: 'rgba(0, 0, 0, 0.4)',
                     }}>
-                    <Text style={{ color: 'white', fontSize: 20 }}>Loading...</Text>
-                    <ButtonCustom onPress={() => setLoading(false)} />
+                    <ActivityIndicator size="large" color={'orange'} />
+                    <Text
+                        style={{
+                            color: 'white',
+                            fontSize: 24,
+                            fontWeight: '800',
+                            marginTop: 20,
+                        }}>
+                        Bạn vui lòng chờ trong 3 phút
+                    </Text>
                 </View>
             </Modal>
             {/* end modal */}

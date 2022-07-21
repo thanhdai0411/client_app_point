@@ -9,9 +9,11 @@ import {
     Alert,
     Modal,
     StyleSheet,
+    ActivityIndicator,
 } from 'react-native';
 import React, { useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import { Linking } from 'react-native';
 
 import {
     ImageHeaderScrollView,
@@ -82,6 +84,7 @@ const DetailExchange = ({ navigation, route }) => {
     const { isLoading, dataFetch } = useFetch(`gift/get/${id}`);
     const [modalVisible, setModalVisible] = useState(false);
     const isFocused = useIsFocused();
+    const [loading, setLoading] = useState(false);
 
     const { info_user } = useSelector(userSelector);
     const { control, handleSubmit } = useForm();
@@ -102,7 +105,10 @@ const DetailExchange = ({ navigation, route }) => {
                     const pointUserRemain = numberPresentPointUser - totalPointGift;
 
                     (async () => {
+                        setLoading(true);
                         try {
+                            setModalVisible(false);
+
                             //update number point user again
                             const res = await request.put(
                                 `user/update_user_id/${idUser}`,
@@ -112,7 +118,6 @@ const DetailExchange = ({ navigation, route }) => {
                             );
 
                             // update amount gift
-                            console.log({ amountGift });
                             let res_1;
                             if (amountGift == 0) {
                                 res_1 = await request.delete(`gift/delete/${idGift}`, {
@@ -139,16 +144,36 @@ const DetailExchange = ({ navigation, route }) => {
                                 htrUser
                             );
 
+                            // send mail info gift
+                            const infoSent = {
+                                email: info_user.email,
+                                username: info_user.username,
+                                phone_number: info_user.phone_number,
+                                info_bank: info_user.info_bank,
+                                info_gift_exchange: {
+                                    name: dataFetch.title,
+                                    amount_exchange: data,
+                                    point: totalPointGift,
+                                },
+                            };
+                            const sendMail = await request.post(
+                                'send_email/exchange_gift',
+                                infoSent
+                            );
+
                             if (
                                 res.data.success &&
                                 res_1.data.success &&
-                                htr_user.data.success
+                                htr_user.data.success &&
+                                sendMail.data.success
                             ) {
+                                setLoading(false);
                                 navigation.goBack();
                                 Alert.alert(
-                                    'Đổi điểm thành công! Chúng tôi sẽ trao quà sớm nhất đến bạn '
+                                    'Thông báo',
+                                    `Đổi điểm thành công! Vui lòng kiểm tra email ${info_user.email} để xác nhận đổi thưởng. Xin cảm ơn `
                                 );
-                                setModalVisible(false);
+
                                 dispatch(getUserDB());
                                 dispatch(getGiftDB());
                             } else {
@@ -191,13 +216,18 @@ const DetailExchange = ({ navigation, route }) => {
             //
         } else if (!info_user.email || !info_user.info_bank) {
             Alert.alert(
-                'Bạn chưa cập nhập đầy đủ thông tin cá nhân hoặc thông tin ngân hàng. Vui lòng cập nhật đầy đủ thông tin để đổi thưởng'
+                'Thông báo',
+                'Bạn chưa cập nhập đầy đủ thông tin cá nhân hoặc thông tin ngân hàng. Vui lòng đến "Tài khoản" cập nhật đầy đủ thông tin để đổi thưởng',
+                [
+                    {
+                        text: 'Đi ngay',
+                        onPress: () =>
+                            navigation.navigate('Main', { screen: 'Tài khoản' }),
+                        style: 'cancel',
+                    },
+                ]
             );
         }
-    };
-
-    const handleCheckInfoBank = () => {
-        navigation.navigate('InfoBank');
     };
 
     return (
@@ -248,17 +278,6 @@ const DetailExchange = ({ navigation, route }) => {
             </ImageHeaderScrollView>
             <View style={{ backgroundColor: 'white', flexDirection: 'row' }}>
                 <ButtonCustom
-                    name="Kiểm tra lại thông tin"
-                    borderRadius={10}
-                    marginBottom={30}
-                    marginTop={10}
-                    // flex={1}
-                    // paddingHorizontal={30}
-                    marginHorizontal={10}
-                    backgroundColor="orange"
-                    onPress={handleCheckInfoBank}
-                />
-                <ButtonCustom
                     name="Đổi ngay"
                     borderRadius={10}
                     marginBottom={30}
@@ -272,7 +291,7 @@ const DetailExchange = ({ navigation, route }) => {
             </View>
 
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -336,6 +355,22 @@ const DetailExchange = ({ navigation, route }) => {
                             />
                         </View>
                     </View>
+                </View>
+            </Modal>
+
+            {/* loading */}
+            <Modal animationType="fade" transparent={true} visible={loading}>
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    }}>
+                    <ActivityIndicator size={'large'} color="orange" />
+                    <Text style={{ fontSize: 24, color: 'white' }}>
+                        Vui lòng chờ xíu ạ ...
+                    </Text>
                 </View>
             </Modal>
         </>

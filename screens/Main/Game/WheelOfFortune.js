@@ -12,6 +12,7 @@ import {
     Modal,
     ImageBackground,
     Alert,
+    ActivityIndicator,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Progress from 'react-native-progress';
@@ -32,7 +33,15 @@ import CustomInput from '../../../components/CustomInput';
 import request from '../../../utils/request';
 import { nothing } from 'immer';
 
-const participants = ['1000', '2000', 'Nothing', '50000', '100000', 'Chia 2', 'Nhân 2'];
+const participants = [
+    'Nothing',
+    '2000',
+    'Nothing',
+    'Chia 2',
+    '100000',
+    'Chia 2',
+    'Nhân 2',
+];
 const number = [0, 5, 10, 15, 20];
 
 const { width, height } = Dimensions.get('screen');
@@ -41,6 +50,9 @@ const WheelOfFortune1 = ({ navigation }) => {
     const { info_user } = useSelector(userSelector);
     const dispatch = useDispatch();
     const { control, handleSubmit } = useForm();
+
+    const [loadingBuy, setLoadingBuy] = useState(false);
+    const [saveAmountBuy, setSaveAmountBuy] = useState(0);
 
     const [isValue, setIsValue] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -55,6 +67,7 @@ const WheelOfFortune1 = ({ navigation }) => {
     });
     const [started, setStarted] = useState(false);
     const childRef = useRef();
+    const inputRef_1 = useRef(null);
 
     let already_spin = info_user.game.already_spin;
     let maxProcess = 20;
@@ -151,31 +164,45 @@ const WheelOfFortune1 = ({ navigation }) => {
 
     // mua só lần quay
     const handlePlusAmountSpin = ({ amount_spin }) => {
-        console.log('loading: amount');
+        if (!amount_spin || amount_spin <= 0) {
+            return Alert.alert('Thông báo', 'Vui lòng nhập số lần quay muốn mua');
+        }
         (async () => {
+            setLoadingBuy(true);
+            setModalAmountSpin(false);
             const res = await request.post('/transfer/amount_spin', {
                 buy_amount: amount_spin,
                 phone_number: info_user.phone_number,
             });
 
-            const htrIntroduce = {
-                phone_number: info_user.phone_number,
-                exchange_point: amount_spin * info_user.game.price_amount,
-                info_exchange_point: `do mua ${amount_spin} lần vòng quay may mắn`,
-            };
+            if (res.data.success) {
+                const htrIntroduce = {
+                    phone_number: info_user.phone_number,
+                    exchange_point: amount_spin * info_user.game.price_amount,
+                    info_exchange_point: ` do mua ${amount_spin} lần vòng quay may mắn`,
+                };
 
-            const htr = await request.post('history_point/add_phone', htrIntroduce);
+                const htr = await request.post('history_point/add_phone', htrIntroduce);
 
-            console.log('loading: amount -> done');
+                if (htr.data.success) {
+                    setLoadingBuy(false);
 
-            if (res.data.success && htr.data.success) {
-                Alert.alert(
-                    'Bạn mua số lần quay thành công',
-                    `Bạn được cộng thêm ${amount_spin} lần quay`
-                );
+                    Alert.alert(
+                        'Bạn mua số lần quay thành công',
+                        `Bạn được cộng thêm ${amount_spin} lần quay`,
+                        [
+                            {
+                                text: 'OK',
+                                onPress: () => setSaveAmountBuy(amount_spin),
+                                style: 'cancel',
+                            },
+                        ]
+                    );
 
-                dispatch(getUserDB());
-                setModalAmountSpin(false);
+                    dispatch(getUserDB());
+                } else {
+                    Alert.alert('Thông báo', 'Lưu lịch sử thất bại');
+                }
             } else {
                 Alert.alert('Thông báo', `${res.data.message}`);
             }
@@ -648,12 +675,14 @@ const WheelOfFortune1 = ({ navigation }) => {
                         </View>
                         <CustomInput
                             control={control}
+                            defaultValue={saveAmountBuy ? saveAmountBuy : null}
                             keyboardType={'number-pad'}
-                            rules={{ required: 'Bạn phải nhập số lượng muốn dổi' }}
+                            rules={{ required: 'Nhập số lượng lượt quay' }}
                             name={'amount_spin'}
                             placeholder={'...........................................'}
                             marginVertical={15}
                             padding={null}
+                            refInput={inputRef_1}
                             textAlign={'center'}
                             iconRight={
                                 <TouchableOpacity
@@ -685,6 +714,23 @@ const WheelOfFortune1 = ({ navigation }) => {
                             />
                         </View>
                     </View>
+                </View>
+            </Modal>
+            {/* end modal plus amount  */}
+
+            {/* modal loading plus amount  */}
+            <Modal animationType="fade" transparent={true} visible={loadingBuy}>
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    }}>
+                    <ActivityIndicator size={'large'} color="orange" />
+                    <Text style={{ fontSize: 24, color: 'white' }}>
+                        Vui lòng chờ xíu ạ ...
+                    </Text>
                 </View>
             </Modal>
             {/* end modal plus amount  */}

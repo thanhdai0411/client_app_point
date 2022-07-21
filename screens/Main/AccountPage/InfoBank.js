@@ -217,11 +217,11 @@ export default function InfoBank({ navigation }) {
                             control={control}
                             name={'name_bank'}
                             rules={
-                                info_user.info_bank
+                                info_user.info_bank && info_user.info_bank.name_bank
                                     ? info_user.info_bank.name_bank
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_bank.name_bank
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             render={({
                                 field: { onChange, onBlur, value },
@@ -311,11 +311,11 @@ export default function InfoBank({ navigation }) {
                             }
                             placeholder={'Chi nhánh Bình Tân'}
                             rules={
-                                info_user.info_bank
+                                info_user.info_bank && info_user.info_bank.branch_bank
                                     ? info_user.info_bank.branch_bank
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_bank.branch_bank
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'branch_bank'}
                         />
@@ -331,11 +331,11 @@ export default function InfoBank({ navigation }) {
                             }
                             placeholder={'Nguyen Van A'}
                             rules={
-                                info_user.info_bank
+                                info_user.info_bank && info_user.info_bank.name_account
                                     ? info_user.info_bank.name_account
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_bank.name_account
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'name_account'}
                         />
@@ -353,11 +353,11 @@ export default function InfoBank({ navigation }) {
                             placeholder={'9999 999...'}
                             // keyBoardType={""}
                             rules={
-                                info_user.info_bank
+                                info_user.info_bank && info_user.info_bank.account_number
                                     ? info_user.info_bank.account_number
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_bank.account_number
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'account_number'}
                         />
@@ -377,8 +377,8 @@ export default function InfoBank({ navigation }) {
                                 info_user.info_bank
                                     ? info_user.info_bank.number_cmnd
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_bank.number_cmnd
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             name={'number_cmnd'}
                         />
@@ -404,8 +404,8 @@ export default function InfoBank({ navigation }) {
                                 info_user.info_bank
                                     ? info_user.info_bank.cmnd_issued_by
                                     : null
-                                    ? { required: 'Bạn bắt buôc phải nhập trường này' }
-                                    : null
+                                    ? !info_user.info_bank.cmnd_issued_by
+                                    : { required: 'Bạn bắt buôc phải nhập trường này' }
                             }
                             render={({
                                 field: { onChange, onBlur, value },

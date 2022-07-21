@@ -32,7 +32,7 @@ const HistorySpinGame = () => {
                                         return (
                                             <Fragment key={htr._id}>
                                                 <HistoryCard
-                                                    title="Bạn thật may mắn"
+                                                    title="Vòng quay may mắn"
                                                     sub_action={null}
                                                     point={null}
                                                     action={htr.info_game_spin}
