@@ -31,9 +31,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+<<<<<<< HEAD
+    }
+  }
+}
+=======
     },
     "sdkVersion": "45.0.0",
     "entryPoint": ".vscode\\exponentIndex.js"
   },
   "name": "point"
 }
+>>>>>>> ccd0aedb5f67ff777eec088595f05283e25858cb
