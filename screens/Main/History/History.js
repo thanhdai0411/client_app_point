@@ -78,11 +78,9 @@ const History = ({ navigation }) => {
                         )}
                     </View>
                 </View>
-                <LinearGradient
-                    colors={['#ccc', '#eee']}
-                    start={{ x: 0.3, y: 0.6 }}
+                <View
                     style={{
-                        // backgroundColor: 'white',
+                        backgroundColor: '#FCF8E8',
                         borderWidth: 0.5,
                         borderColor: '#ccc',
                         borderRadius: 5,
@@ -101,7 +99,7 @@ const History = ({ navigation }) => {
                         </Text>
                         Điểm
                     </Text>
-                </LinearGradient>
+                </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ color: 'white', fontSize: 16 }}>
@@ -164,6 +162,7 @@ const History = ({ navigation }) => {
                     }}>
                     <CardHistory
                         name="Lịch sử giao dịch điểm"
+                        imgLink={require('../../../assets/img/h2.jpg')}
                         onPress={() => navigation.navigate('HistoryPoint')}
                     />
                     {/* <CardHistory
@@ -172,13 +171,18 @@ const History = ({ navigation }) => {
                     /> */}
                     <CardHistory
                         name="Đổi điểm"
+                        imgLink={require('../../../assets/img/e22.png')}
                         onPress={() => navigation.navigate('GiftExchange')}
                     />
                     <CardHistory
                         name="Điểm AWPoint là gì ?"
+                        imgLink={require('../../../assets/img/logo_coin.png')}
                         onPress={() => navigation.navigate('WhatAWPoint')}
                     />
-                    <CardHistory name="Đang cập nhật..." />
+                    <CardHistory
+                        name="Đang cập nhật..."
+                        imgLink={require('../../../assets/img/delivery.webp')}
+                    />
                 </View>
                 {/* end */}
             </View>

@@ -64,20 +64,27 @@ const Otp = ({ route, navigation }) => {
                                 if (res.data.success && res_1.data.success) {
                                     await saveUserStore('phone_number', result);
                                     dispatch(getUserDB(result));
+
                                     Alert.alert(
                                         'Thông báo',
                                         'Bạn hãy đi tới Tài khoản để cập nhật đầy đủ thông tin cá nhân để chúng tôi hiểu bạn hơn',
                                         [
                                             {
-                                                text: 'Để sau',
+                                                text: 'Đồng ý',
                                                 onPress: () =>
-                                                    console.log('Cancel Pressed'),
-                                                style: 'cancel',
-                                            },
-                                            {
-                                                text: 'Đi ngay',
-                                                onPress: () =>
-                                                    navigation.navigate('InfoUser'),
+                                                    Alert.alert(
+                                                        'Thông báo',
+                                                        'Bạn hãy đi tới Tài khoản để cập nhật đầy đủ thông tin cá nhân để chúng tôi hiểu bạn hơn',
+                                                        [
+                                                            {
+                                                                text: 'Đi ngay',
+                                                                onPress: () =>
+                                                                    navigation.navigate(
+                                                                        'InfoUser'
+                                                                    ),
+                                                            },
+                                                        ]
+                                                    ),
                                             },
                                         ]
                                     );

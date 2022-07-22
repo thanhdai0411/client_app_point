@@ -38,6 +38,7 @@ import Coin from '../../../components/Coin';
 //
 import { box_shadow } from '../../../components/GlobalStyles';
 import Fireworks from '../../../components/FireWork';
+import ModalLoading from '../../../components/ModalLoading';
 
 //
 const { width, height } = Dimensions.get('window');

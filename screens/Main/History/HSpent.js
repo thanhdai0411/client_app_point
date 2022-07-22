@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import HistoryCard from '../../../components/HistoryCard';
 
 import { useSelector } from 'react-redux';
@@ -14,19 +14,25 @@ const HSpent = () => {
     const { info_user } = useSelector(userSelector);
     const { isLoading, dataFetch } = useFetch(`user/get_id/${info_user._id}`);
 
-    let isYes = false;
+    const isYesRef = useRef(false);
     return (
         <View style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator
+                        size="large"
+                        style={{ marginTop: 50 }}
+                        color="orange"
+                    />
                 ) : (
                     <>
                         <View style={{ paddingBottom: 150 }}>
                             {dataFetch.history_point &&
                                 dataFetch.history_point.length > 0 &&
                                 dataFetch.history_point.reverse().map((htr) => {
+                                    isYesRef.current = false;
                                     if (htr.exchange_point) {
+                                        isYes = true;
                                         return (
                                             <Fragment key={htr._id}>
                                                 <HistoryCard
@@ -44,6 +50,8 @@ const HSpent = () => {
                                                 />
                                             </Fragment>
                                         );
+                                    } else {
+                                        isYesRef.current = true;
                                     }
                                 })}
                         </View>

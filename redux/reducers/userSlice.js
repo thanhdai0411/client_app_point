@@ -9,6 +9,7 @@ const initialState = {
         info_user: {
             phone_number: '',
         },
+        loadingRedux: false,
     },
 };
 
@@ -52,6 +53,7 @@ const userSlide = createSlice({
     extraReducers: {
         [getPhoneNumber.pending]: (state, action) => {
             console.log('Fetching loading...');
+            state.user.loadingRedux = true;
         },
         [getPhoneNumber.fulfilled]: (state, action) => {
             console.log('Fetching done ...');
@@ -63,14 +65,16 @@ const userSlide = createSlice({
                     info_user: {
                         phone_number: action.payload,
                     },
+                    loadingRedux: false,
                 };
             } else {
                 state.user = {
                     login: false,
-                    intro: false,
+                    intro: true,
                     info_user: {
                         phone_number: '',
                     },
+                    loadingRedux: false,
                 };
             }
         },
@@ -82,12 +86,14 @@ const userSlide = createSlice({
                 info_user: {
                     phone_number: action.payload,
                 },
+                loadingRedux: false,
             };
         },
 
         // getUserDB
         [getUserDB.pending]: (state, action) => {
             console.log('Fetching getDB loading...');
+            state.user.loadingRedux = true;
         },
         [getUserDB.fulfilled]: (state, action) => {
             console.log('Fetching getDB done ...');
@@ -113,10 +119,12 @@ const userSlide = createSlice({
                     login: true,
                     intro: false,
                     info_user: action.payload,
+                    loadingRedux: false,
                 };
             }
         },
         [getUserDB.rejected]: (state, action) => {
+            state.user.loadingRedux = false;
             console.log('Fetching getDB fail ...');
         },
     },

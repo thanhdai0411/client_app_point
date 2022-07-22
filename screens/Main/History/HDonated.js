@@ -17,7 +17,11 @@ const HDonated = () => {
         <View style={{ backgroundColor: 'white' }}>
             <ScrollView style={{ height: '100%' }}>
                 {isLoading ? (
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator
+                        size="large"
+                        style={{ marginTop: 50 }}
+                        color="orange"
+                    />
                 ) : (
                     <>
                         <View style={{ paddingBottom: 150 }}>

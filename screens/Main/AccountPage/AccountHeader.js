@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import React from 'react';
 import { useSelector } from 'react-redux';
 // import
@@ -12,17 +12,23 @@ const AccountHeader = () => {
     return (
         <View style={styles.ac_header}>
             {/* <SimpleLineIcons name="user" size={50} color="blue" /> */}
-            {info_user.avatar ? (
-                <Image
-                    source={{ uri: info_user.avatar }}
-                    style={{ width: 80, height: 80, borderRadius: 10 }}
-                />
-            ) : (
-                <Image
-                    source={require('../../../assets/img/non_user.jpg')}
-                    style={{ width: 80, height: 80, borderRadius: 10 }}
-                />
-            )}
+            <View style={{ paddingLeft: 10 }}>
+                {info_user.avatar ? (
+                    <Image
+                        source={{ uri: info_user.avatar }}
+                        style={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 10,
+                        }}
+                    />
+                ) : (
+                    <Image
+                        source={require('../../../assets/img/non_user.jpg')}
+                        style={{ width: 80, height: 80, borderRadius: 10 }}
+                    />
+                )}
+            </View>
             <View style={styles.ac_info}>
                 <Text style={styles.ac_user_name}>
                     {info_user.username ? info_user.username : info_user.phone_number}
@@ -36,10 +42,12 @@ const AccountHeader = () => {
 const styles = StyleSheet.create({
     ac_header: {
         width: '100%',
-        height: 125,
+        height: 165,
         flexDirection: 'row',
-        paddingLeft: 15,
-        paddingTop: 30,
+        paddingLeft: -15,
+        // marginLeft: 15,
+        paddingTop: 60,
+        // marginTop: 30,
         // backgroundColor: 'red',
     },
     ac_avatar: {

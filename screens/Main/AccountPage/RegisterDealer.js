@@ -231,7 +231,10 @@ export default function RegisterDealer() {
                     dispatch(getUserDB());
                 }
             } catch (err) {
+                setLoading(false);
+
                 console.log('info_dealer_err: ', err.message);
+                Alert.alert('Thông báo', 'Đăng kí làm đại lý thất bại. Xin thử lại sau');
             }
         })();
     };
@@ -348,6 +351,7 @@ export default function RegisterDealer() {
             } catch (err) {
                 setLoading(false);
                 console.log('info_dealer_err: ', err.message);
+                Alert.alert('Thông báo', 'Cập nhật thông tin thất bại. Xin thử lại sau');
             }
         })();
     };
@@ -923,30 +927,34 @@ export default function RegisterDealer() {
                     flexDirection: 'row',
                     paddingHorizontal: 10,
                 }}>
-                <ButtonCustom
-                    sizeText={18}
-                    disabled={info_user.info_dealer ? true : false}
-                    name={'Gửi yêu cầu'}
-                    backgroundColor={info_user.info_dealer ? '#ccc' : 'blue'}
-                    marginHorizontal={null}
-                    borderRadius={10}
-                    flex={1}
-                    opacityBtn={0.7}
-                    onPress={handleSubmit(submitForm)}
-                />
-                <ButtonCustom
-                    disabled={info_user.info_dealer ? false : true}
-                    sizeText={18}
-                    name={'Cập nhật thông tin'}
-                    marginHorizontal={null}
-                    backgroundColor={info_user.info_dealer ? 'orange' : '#ccc'}
-                    borderRadius={10}
-                    opacityBtn={0.9}
-                    marginLeft={10}
-                    onPress={handleSubmit(updateForm)}
-                />
+                {info_user.role == 'User' && (
+                    <ButtonCustom
+                        sizeText={18}
+                        disabled={info_user.info_dealer ? true : false}
+                        name={'Gửi yêu cầu'}
+                        marginHorizontal={null}
+                        borderRadius={10}
+                        flex={1}
+                        opacityBtn={0.7}
+                        onPress={handleSubmit(submitForm)}
+                    />
+                )}
+
+                {info_user.role == 'Dealer' && (
+                    <ButtonCustom
+                        sizeText={18}
+                        name={'Cập nhật thông tin'}
+                        marginHorizontal={null}
+                        borderRadius={10}
+                        opacityBtn={0.9}
+                        flex={1}
+                        marginLeft={10}
+                        onPress={handleSubmit(updateForm)}
+                    />
+                )}
             </View>
             {/* end btn submit */}
+
             {/* modal */}
             <Modal animationType="fade" transparent={true} visible={loading}>
                 <View

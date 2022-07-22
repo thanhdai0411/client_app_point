@@ -2,6 +2,7 @@
   "expo": {
     "name": "Point",
     "slug": "Point",
+    "description": "",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,18 +19,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.Awaco.Point"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#cccccc"
-      }
+      },
+      "package": "com.Awaco.Point"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-    
-   
-  }
+    },
+    "sdkVersion": "45.0.0",
+    "entryPoint": ".vscode\\exponentIndex.js"
+  },
+  "name": "point"
 }

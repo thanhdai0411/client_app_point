@@ -42,16 +42,20 @@ import HistorySpinGame from '../screens/Main/Game/HistorySpinGame';
 
 import Otp from '../screens/Authentication/Otp';
 
+import ModalLoading from '../components/ModalLoading';
+
 // redux
 
 import { userSelector, getPhoneNumber, getUserDB } from '../redux/reducers/userSlice';
 import { getGiftDB } from '../redux/reducers/giftSlice';
+import { Alert } from 'react-native';
 
 const Navigation = () => {
     const dispatch = useDispatch();
     // const [loginSuccess, setLoginSuccess] = useState(false);
     let header_color = '#178dde';
-    const { login, intro, info_user } = useSelector(userSelector);
+    const { login, intro, info_user, loadingRedux } = useSelector(userSelector);
+    console.log({ loadingRedux });
 
     useEffect(() => {
         (async () => {

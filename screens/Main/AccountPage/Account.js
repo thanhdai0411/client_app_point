@@ -5,14 +5,14 @@ import AccountBody from './AccountBody';
 
 const Account = ({ navigation }) => {
     return (
-        <SafeAreaView style={styles.account_container}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.account_container}>
+            <View showsVerticalScrollIndicator={false}>
                 <View style={styles.account_wrap}>
                     <AccountHeader />
                     <AccountBody navigation={navigation} />
                 </View>
-            </ScrollView>
-        </SafeAreaView>
+            </View>
+        </View>
     );
 };
 

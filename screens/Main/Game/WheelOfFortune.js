@@ -38,11 +38,11 @@ const participants = [
     '2000',
     'Nothing',
     'Chia 2',
-    '100000',
+    '10000',
     'Chia 2',
     'Nhân 2',
 ];
-const number = [0, 5, 10, 15, 20];
+const number = [0, 10, 20, 30, 40, 50];
 
 const { width, height } = Dimensions.get('screen');
 
@@ -53,7 +53,6 @@ const WheelOfFortune1 = ({ navigation }) => {
 
     const [loadingBuy, setLoadingBuy] = useState(false);
     const [saveAmountBuy, setSaveAmountBuy] = useState(0);
-
     const [isValue, setIsValue] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [modalAmountSpin, setModalAmountSpin] = useState(false);
@@ -68,9 +67,9 @@ const WheelOfFortune1 = ({ navigation }) => {
     const [started, setStarted] = useState(false);
     const childRef = useRef();
     const inputRef_1 = useRef(null);
-
     let already_spin = info_user.game.already_spin;
-    let maxProcess = 20;
+
+    let maxProcess = 50;
 
     let border_color = '#EDE6DB';
     const wheelOptions = {
@@ -167,8 +166,8 @@ const WheelOfFortune1 = ({ navigation }) => {
         if (!amount_spin || amount_spin <= 0) {
             return Alert.alert('Thông báo', 'Vui lòng nhập số lần quay muốn mua');
         }
+        setLoadingBuy(true);
         (async () => {
-            setLoadingBuy(true);
             setModalAmountSpin(false);
             const res = await request.post('/transfer/amount_spin', {
                 buy_amount: amount_spin,
@@ -201,9 +200,11 @@ const WheelOfFortune1 = ({ navigation }) => {
 
                     dispatch(getUserDB());
                 } else {
+                    setLoadingBuy(false);
                     Alert.alert('Thông báo', 'Lưu lịch sử thất bại');
                 }
             } else {
+                setLoadingBuy(false);
                 Alert.alert('Thông báo', `${res.data.message}`);
             }
         })();
@@ -218,7 +219,7 @@ const WheelOfFortune1 = ({ navigation }) => {
         let amount_plus;
         let htrUserSpin = {};
         if (value == 'Chia 2') {
-            amount_plus = -info_user.number_point / 2;
+            amount_plus = -(info_user.number_point / 2);
             htrUserSpin = {
                 user_id: info_user._id,
                 game_spin: amount_plus,
@@ -255,7 +256,7 @@ const WheelOfFortune1 = ({ navigation }) => {
             const htr_user = await request.post('history_point/add_id', htrUserSpin);
 
             if (plusNumberPoint.data.success && htr_user.data.success) {
-                dispatch(getUserDB());
+                await dispatch(getUserDB());
             }
         })();
     };
@@ -272,17 +273,45 @@ const WheelOfFortune1 = ({ navigation }) => {
     };
 
     // kiểm tra nếu đủ số làn random quà
-    const giftWhenEnoughAMount = [
-        'Cong thêm 10 lượt',
-        'Cộng thêm 10k điểm',
-        'Cộng thêm 1k điểm',
-    ];
     const pressGift = () => {
         setModalGift(true);
         if (already_spin == maxProcess) {
-            let gift = Math.floor(Math.random() * giftWhenEnoughAMount.length);
+            (async () => {
+                setGiftRandomEnough('Cộng thêm 20.000đ');
 
-            setGiftRandomEnough(giftWhenEnoughAMount[gift]);
+                let amount_plus = 20000;
+
+                const htrUserSpin = {
+                    user_id: info_user._id,
+                    game_spin: amount_plus,
+                    info_game_spin: `Bạn được cộng thêm ${amount_plus} vì mở quà khi quay đủ mốc ${maxProcess} lần quay`,
+                };
+                const plusNumberPoint = await request.patch('user/update_number_point', {
+                    phone_number: info_user.phone_number,
+                    amount_plus,
+                });
+
+                const htr_user = await request.post('history_point/add_id', htrUserSpin);
+
+                if (plusNumberPoint.data.success && htr_user.data.success) {
+                    (async () => {
+                        const res = await request.put(
+                            `game/_update/${info_user.game._id}`,
+                            {
+                                already_spin: 0,
+                            }
+                        );
+                        if (res.data.success) {
+                            setModalGift(false);
+                            Alert.alert(
+                                'Chúc mừng bạn',
+                                `Đạt cột mốc ${maxProcess} lần quay. Mở quà nhận được ${amount_plus}`
+                            );
+                            dispatch(getUserDB());
+                        }
+                    })();
+                }
+            })();
         } else {
             setGiftRandomEnough(null);
         }
@@ -386,7 +415,7 @@ const WheelOfFortune1 = ({ navigation }) => {
             {/* end title */}
 
             {/* wheel */}
-            <View style={{ paddingTop: 150 }}>
+            <View style={{ paddingTop: 160 }}>
                 <WheelOfFortune
                     options={wheelOptions}
                     getWinner={(value, index) => handleWinnerValue(value, index)}
@@ -395,7 +424,7 @@ const WheelOfFortune1 = ({ navigation }) => {
             {/* end wheel */}
 
             {/*  */}
-            <View style={{ marginTop: 170, paddingHorizontal: 15 }}>
+            <View style={{ marginTop: 165, paddingHorizontal: 15 }}>
                 <View
                     style={{
                         flexDirection: 'row',

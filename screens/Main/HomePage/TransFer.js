@@ -21,11 +21,14 @@ import CustomLabelInput from '../../../components/CustomLabelInput';
 import ButtonCustom from '../../../components/Button';
 import request from '../../../utils/request';
 import useFetch from '../../../hooks/useFetch';
+import ModalLoading from '../../../components/ModalLoading';
 
 const color = '#CEE5D0';
 const TransFer = () => {
     const { info_user } = useSelector(userSelector);
     const { control, handleSubmit } = useForm();
+    const [loadingTransfer, setLoadingTransfer] = useState(false);
+
     const inputRef = useRef();
     const inputRef_1 = useRef();
     const inputRef_2 = useRef();
@@ -62,7 +65,9 @@ const TransFer = () => {
         number_point_transfer,
         phone_number_transfer,
     }) => {
+        console.log({ phone_number_transfer });
         if (phone_number_transfer != phoneNumberUser) {
+            setLoadingTransfer(true);
             (async () => {
                 const res = await request(`user/get_phone/${phone_number_transfer}`);
                 const data = res && res.data.data ? res.data.data : null;
@@ -93,12 +98,12 @@ const TransFer = () => {
                             const htrUser = {
                                 user_id: idUser,
                                 transfer_points: number_point_transfer,
-                                info_transfer_points: `do chuyển điểm cho ${phone_number_transfer} với nối dung chuyển "${note_transfer}"`,
+                                info_transfer_points: ` do chuyển điểm cho ${phone_number_transfer} với nối dung chuyển "${note_transfer}"`,
                             };
                             const htrFriend = {
                                 phone_number: phone_number_transfer,
                                 donate_points: number_point_transfer,
-                                info_donate_points: `từ ${phoneNumberUser} chuyển với nội dung "${note_transfer}"`,
+                                info_donate_points: ` từ ${phoneNumberUser} chuyển với nội dung "${note_transfer}"`,
                             };
                             const htr_user = await request.post(
                                 'history_point/add_id',
@@ -127,11 +132,12 @@ const TransFer = () => {
                                     `Bạn đã chuyển ${number_point_transfer}đ không thành công cho ${phone_number_transfer}`
                                 );
                             }
+                            setLoadingTransfer(false);
                         };
 
                         Alert.alert(
                             'Thông báo',
-                            `Bạn chắn chắn chuyển ${number_point_transfer}đ cho ${phone_number_transfer} số điểm còn lại của bạn sẽ là ${pointRemain}đ`,
+                            `Bạn chắc chắn chuyển ${number_point_transfer}đ cho ${phone_number_transfer} số điểm còn lại của bạn sẽ là ${pointRemain}đ`,
                             [
                                 {
                                     text: 'Trở lại',
@@ -144,12 +150,16 @@ const TransFer = () => {
                             ]
                         );
                     } else {
+                        setLoadingTransfer(false);
+
                         Alert.alert(
                             'Thông báo',
                             `Bạn hiện có ${presentNumberPont}đ không đủ ${number_point_transfer}đ để chuyển`
                         );
                     }
                 } else {
+                    setLoadingTransfer(false);
+
                     Alert.alert(
                         'Cảnh báo',
                         'Vui lòng nhập người giới thiệu là người đã sử dụng App'
@@ -326,6 +336,7 @@ const TransFer = () => {
                         onPress={handleSubmit(handleTransferPoint)}
                     />
                 </View>
+                {loadingTransfer && <ModalLoading />}
             </View>
         </View>
     );

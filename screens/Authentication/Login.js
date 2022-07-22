@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     Button,
     Alert,
+    ImageBackground,
 } from 'react-native';
 import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,6 +23,8 @@ import ButtonCustom from '../../components/Button';
 import CustomInput from '../../components/CustomInput';
 import CustomLabelInput from '../../components/CustomLabelInput';
 import request from '../../utils/request';
+import ModalLoading from '../../components/ModalLoading';
+
 import { getUserDB } from '../../redux/reducers/userSlice';
 import { getGiftDB } from '../../redux/reducers/giftSlice';
 
@@ -29,12 +32,13 @@ const Login = ({ navigation }) => {
     const { control, handleSubmit } = useForm();
     const recaptchaVerifier = useRef(null);
     const dispatch = useDispatch();
+    const [loadingCheckUser, setLoadingCheckUser] = useState(false);
 
     const submitNumberPhone = ({ phone_number }) => {
         let string = phone_number.split('');
         string.splice(0, 1, '+84');
         let result = string.join('');
-
+        setLoadingCheckUser(true);
         (async () => {
             try {
                 const res = await request.get(`user/get_phone/${phone_number}`);
@@ -45,7 +49,9 @@ const Login = ({ navigation }) => {
 
                     dispatch(getUserDB(data.phone_number));
                     dispatch(getGiftDB());
+                    setLoadingCheckUser(false);
                 } else {
+                    setLoadingCheckUser(false);
                     const phoneProvider = new firebase.auth.PhoneAuthProvider();
                     phoneProvider
                         .verifyPhoneNumber(result, recaptchaVerifier.current)
@@ -60,26 +66,26 @@ const Login = ({ navigation }) => {
                 }
             } catch (err) {
                 console.log({ get_login_err: err.message });
+                setLoadingCheckUser(false);
             }
         })();
     };
+    const attemptInvisibleVerification = true;
 
     return (
-        <View>
+        <View style={{ backgroundColor: '#EEEEEE', height: '100%' }}>
             <FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
                 firebaseConfig={firebaseConfig}
-                attemptInvisibleVerification={true}
+                attemptInvisibleVerification={attemptInvisibleVerification}
             />
-            <View style={styles.login_container}>
+            <ImageBackground
+                style={styles.login_container}
+                source={require('../../assets/img/wall.jpg')}>
                 <View style={styles.login_container_1}>
-                    <Image
-                        source={require('../../assets/img/logo.png')}
-                        style={{ width: 80, height: 80 }}
-                    />
                     <Text style={styles.login_title}>Đăng nhập</Text>
                 </View>
-            </View>
+            </ImageBackground>
 
             <View style={styles.login_info_number}>
                 <Text style={styles.login_number}>Số điện thoại</Text>
@@ -97,7 +103,6 @@ const Login = ({ navigation }) => {
                 name="Tiếp tục"
                 sizeText={20}
                 weightText="bold"
-                backgroundColor={'orange'}
                 borderWidth={1}
                 borderColor="white"
                 marginTop={30}
@@ -105,10 +110,11 @@ const Login = ({ navigation }) => {
                 marginHorizontal={60}
                 onPress={handleSubmit(submitNumberPhone)}
             />
+            {loadingCheckUser && <ModalLoading loading={loadingCheckUser} />}
         </View>
     );
 };
-let primary_color = '#ff9300';
+let primary_color = '#E2703A';
 
 const styles = StyleSheet.create({
     login_container: {
@@ -119,8 +125,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 20,
-        marginBottom: 30,
+        // justifyContent: 'center',
+        marginBottom: 50,
     },
 
     login_title: {

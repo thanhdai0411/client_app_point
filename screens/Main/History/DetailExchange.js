@@ -233,146 +233,157 @@ const DetailExchange = ({ navigation, route }) => {
     return (
         <>
             {isFocused && <CustomStatusBar />}
-
-            <ImageHeaderScrollView
-                maxHeight={220}
-                minHeight={100}
-                headerImage={{ uri: dataFetch.image }}
-                renderFixedForeground={() => (
-                    <TouchableOpacity
-                        activeOpacity={0.7}
-                        onPress={() => navigation.goBack()}
-                        style={{
-                            backgroundColor: 'white',
-                            width: 35,
-                            height: 35,
-                            position: 'absolute',
-                            zIndex: 1,
-                            top: 45,
-                            left: 15,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            borderRadius: 50,
-                        }}>
-                        <AntDesign name="left" size={20} color="black" />
-                    </TouchableOpacity>
-                )}>
-                {/* </Text> */}
-                <View style={{ backgroundColor: '#eee' }}>
-                    <Ticket
-                        title={dataFetch.title}
-                        dead_time={dataFetch.deadline}
-                        number_coin={dataFetch.number_point_buy}
-                        sub_title={`Đôi điềm thành ${dataFetch.type_gift}`}
-                    />
-                    <View
-                        style={{
-                            backgroundColor: 'white',
-                            top: -50,
-                            padding: 15,
-                            height: '100%',
-                        }}>
-                        <DetailDescription dataFetch={dataFetch} />
-                    </View>
+            {isLoading ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" />
                 </View>
-            </ImageHeaderScrollView>
-            <View style={{ backgroundColor: 'white', flexDirection: 'row' }}>
-                <ButtonCustom
-                    name="Đổi ngay"
-                    borderRadius={10}
-                    marginBottom={30}
-                    marginTop={10}
-                    flex={1}
-                    // paddingHorizontal={30}
-                    marginHorizontal={10}
-                    backgroundColor="#006db6"
-                    onPress={handleExchange}
-                />
-            </View>
-
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
-                }}>
-                <View
-                    style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    }}>
-                    <View
-                        style={{
-                            backgroundColor: 'white',
-                            borderRadius: 10,
-                            padding: 20,
-                            alignItems: 'center',
-                            shadowColor: '#000',
-                            shadowOffset: {
-                                width: 0,
-                                height: 2,
-                            },
-                            shadowOpacity: 0.25,
-                            shadowRadius: 4,
-                            elevation: 5,
-                            width: 300,
-                            marginBottom: 100,
-                        }}>
-                        <Text style={{ fontSize: 18 }}>Nhập số lượng quà muốn đổi</Text>
-                        <CustomInput
-                            control={control}
-                            keyboardType={'number-pad'}
-                            rules={{ required: 'Bạn phải nhập số lượng muốn dổi' }}
-                            placeholder={'Nhập số lượng quà muốn đổi'}
-                            name={'amount_gift'}
-                            marginVertical={15}
-                            padding={null}
-                            textAlign={'center'}
+            ) : (
+                <>
+                    <ImageHeaderScrollView
+                        maxHeight={220}
+                        minHeight={100}
+                        headerImage={{ uri: dataFetch.image }}
+                        renderFixedForeground={() => (
+                            <TouchableOpacity
+                                activeOpacity={0.7}
+                                onPress={() => navigation.goBack()}
+                                style={{
+                                    backgroundColor: 'white',
+                                    width: 35,
+                                    height: 35,
+                                    position: 'absolute',
+                                    zIndex: 1,
+                                    top: 45,
+                                    left: 15,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    borderRadius: 50,
+                                }}>
+                                <AntDesign name="left" size={20} color="black" />
+                            </TouchableOpacity>
+                        )}>
+                        {/* </Text> */}
+                        <View style={{ backgroundColor: '#eee' }}>
+                            <Ticket
+                                title={dataFetch.title}
+                                dead_time={dataFetch.deadline}
+                                number_coin={dataFetch.number_point_buy}
+                                sub_title={`Đôi điềm thành ${dataFetch.type_gift}`}
+                            />
+                            <View
+                                style={{
+                                    backgroundColor: 'white',
+                                    top: -50,
+                                    padding: 15,
+                                    height: '100%',
+                                }}>
+                                <DetailDescription dataFetch={dataFetch} />
+                            </View>
+                        </View>
+                    </ImageHeaderScrollView>
+                    <View style={{ backgroundColor: 'white', flexDirection: 'row' }}>
+                        <ButtonCustom
+                            name="Đổi ngay"
+                            borderRadius={10}
+                            marginBottom={30}
+                            marginTop={10}
+                            flex={1}
+                            // paddingHorizontal={30}
+                            marginHorizontal={10}
+                            backgroundColor="#006db6"
+                            onPress={handleExchange}
                         />
+                    </View>
+
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            Alert.alert('Modal has been closed.');
+                            setModalVisible(!modalVisible);
+                        }}>
                         <View
                             style={{
-                                flexDirection: 'row',
+                                flex: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: 'rgba(0, 0, 0, 0.4)',
                             }}>
-                            <ButtonCustom
-                                name="Xác nhận"
-                                marginHorizontal={null}
-                                borderRadius={5}
-                                padding={10}
-                                marginRight={10}
-                                onPress={handleSubmit(handleConfirmExchange)}
-                            />
-                            <ButtonCustom
-                                name="Quay lại"
-                                marginHorizontal={null}
-                                borderRadius={5}
-                                padding={10}
-                                backgroundColor={'orange'}
-                                onPress={() => setModalVisible(false)}
-                            />
+                            <View
+                                style={{
+                                    backgroundColor: 'white',
+                                    borderRadius: 10,
+                                    padding: 20,
+                                    alignItems: 'center',
+                                    shadowColor: '#000',
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2,
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 4,
+                                    elevation: 5,
+                                    width: 300,
+                                    marginBottom: 100,
+                                }}>
+                                <Text style={{ fontSize: 18 }}>
+                                    Nhập số lượng quà muốn đổi
+                                </Text>
+                                <CustomInput
+                                    control={control}
+                                    keyboardType={'number-pad'}
+                                    rules={{
+                                        required: 'Bạn phải nhập số lượng muốn dổi',
+                                    }}
+                                    placeholder={'Nhập số lượng quà muốn đổi'}
+                                    name={'amount_gift'}
+                                    marginVertical={15}
+                                    padding={null}
+                                    textAlign={'center'}
+                                />
+                                <View
+                                    style={{
+                                        flexDirection: 'row',
+                                    }}>
+                                    <ButtonCustom
+                                        name="Xác nhận"
+                                        marginHorizontal={null}
+                                        borderRadius={5}
+                                        padding={10}
+                                        marginRight={10}
+                                        onPress={handleSubmit(handleConfirmExchange)}
+                                    />
+                                    <ButtonCustom
+                                        name="Quay lại"
+                                        marginHorizontal={null}
+                                        borderRadius={5}
+                                        padding={10}
+                                        backgroundColor={'orange'}
+                                        onPress={() => setModalVisible(false)}
+                                    />
+                                </View>
+                            </View>
                         </View>
-                    </View>
-                </View>
-            </Modal>
+                    </Modal>
 
-            {/* loading */}
-            <Modal animationType="fade" transparent={true} visible={loading}>
-                <View
-                    style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    }}>
-                    <ActivityIndicator size={'large'} color="orange" />
-                    <Text style={{ fontSize: 24, color: 'white' }}>
-                        Vui lòng chờ xíu ạ ...
-                    </Text>
-                </View>
-            </Modal>
+                    {/* loading */}
+                    <Modal animationType="fade" transparent={true} visible={loading}>
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                            }}>
+                            <ActivityIndicator size={'large'} color="orange" />
+                            <Text style={{ fontSize: 24, color: 'white' }}>
+                                Vui lòng chờ xíu ạ ...
+                            </Text>
+                        </View>
+                    </Modal>
+                </>
+            )}
         </>
     );
 };

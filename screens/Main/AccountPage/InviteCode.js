@@ -31,27 +31,41 @@ const InviteCode = () => {
 
         if (number_phone_presenter != info_user.phone_number)
             (async () => {
-                setIsLoading(true);
                 const res = await request(`user/get_phone/${number_phone_presenter}`);
-                const data = res && res.data.data ? res.data.data : null;
-                setIsLoading(false);
+                const introducer = res && res.data.data ? res.data.data : null;
 
-                if (data) {
-                    const res_1 = await request.put(
-                        `user/update_user_phone/${info_user.phone_number}`,
-                        { number_phone_presenter }
-                    );
+                if (introducer) {
+                    if (introducer.role == info_user.role) {
+                        const res_1 = await request.put(
+                            `user/update_user_phone/${info_user.phone_number}`,
+                            { number_phone_presenter }
+                        );
 
-                    if (res_1.data.success) {
-                        dispatch(getUserDB());
-                        Alert.alert('Nhập số điện thoại người giới thiệu thành công');
+                        if (res_1.data.success) {
+                            dispatch(getUserDB());
+                            Alert.alert(
+                                'Thông báo',
+                                'Nhập số điện thoại người giới thiệu thành công'
+                            );
+                        }
+                    } else {
+                        Alert.alert(
+                            'Thông báo',
+                            'Vui lòng nhập người giới thiệu là người cùng chức danh với bản thân'
+                        );
                     }
                 } else {
-                    Alert.alert('Vui lòng nhập người giới thiệu là người đã sử dụng App');
+                    Alert.alert(
+                        'Thông báo',
+                        'Vui lòng nhập người giới thiệu là người đã sử dụng App'
+                    );
                 }
             })();
         else {
-            Alert.alert('Không được nhập chính bản thân là người giới thiệu');
+            Alert.alert(
+                'Thông báo',
+                'Không được nhập chính bản thân là người giới thiệu'
+            );
         }
     };
     return (

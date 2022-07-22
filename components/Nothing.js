@@ -15,12 +15,10 @@ const Nothing = ({ text = 'Nothing', button = buttonDefault, ...styleProps }) =>
                 ...styleProps,
             }}>
             <Image
-                source={require('../assets/img/nothing.jpg')}
-                style={{ width: 160, height: 160 }}
+                source={require('../assets/img/btri.jpg')}
+                style={{ width: 250, height: 250 }}
             />
-            <Text style={{ fontSize: 20, marginTop: 10, textAlign: 'center' }}>
-                {text}
-            </Text>
+            <Text style={{ fontSize: 20, textAlign: 'center' }}>{text}</Text>
             {button}
         </View>
     );

@@ -23,6 +23,7 @@ import CustomLabelInput from '../../components/CustomLabelInput';
 import ButtonCustom from '../../components/Button';
 import { pointSelector, globalPoint } from '../../redux/reducers/pointSlice';
 import { userSelector, getUserDB } from '../../redux/reducers/userSlice';
+import ModalLoading from '../../components/ModalLoading';
 
 const Accumulate = ({ navigation }) => {
     const [hasPermission, setHasPermission] = useState(null);
@@ -33,7 +34,7 @@ const Accumulate = ({ navigation }) => {
     const [scoreUserIntroduce, setScoreNumberUserIntroduce] = useState(0);
 
     const [number, setNumber] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [isSettingAccumulate, setSettingAccumulate] = useState([]);
     const isFocused = useIsFocused();
@@ -86,6 +87,7 @@ const Accumulate = ({ navigation }) => {
                 code_scanner: data,
                 prefix_scan: result,
             };
+            setIsLoading(true);
             (async () => {
                 const res = await request.post('point/add', codeScan);
                 const { success, user, point, message } = res.data;
@@ -100,7 +102,7 @@ const Accumulate = ({ navigation }) => {
                         const htrIntroducer = {
                             phone_number: phoneUserIntroduce,
                             donate_points: point.introducer,
-                            info_donate_points: `từ ${info_user.phone_number}`,
+                            info_donate_points: ` từ ${info_user.phone_number}`,
                         };
 
                         const htr_user = await request.post(
@@ -124,7 +126,9 @@ const Accumulate = ({ navigation }) => {
 
                     Alert.alert('Thông báo', `${message}`);
                     dispatch(getUserDB());
+                    setIsLoading(false);
                 } else {
+                    setIsLoading(false);
                     Alert.alert('Thông báo', `${message}`);
                 }
             })();
@@ -252,6 +256,8 @@ const Accumulate = ({ navigation }) => {
                         </Text>
                     </TouchableOpacity>
                 )}
+
+                {isLoading && <ModalLoading />}
             </View>
         </>
     );
